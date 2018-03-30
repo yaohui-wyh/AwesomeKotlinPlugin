@@ -1,0 +1,15 @@
+.idea/
+out/
+build/
+target/
+
+*.swp
+*.swa
+*.iml
+*.zip
+*-dev.md
+
+idea-sandbox/
+.gradle/
+gradle/
+gradlew*
