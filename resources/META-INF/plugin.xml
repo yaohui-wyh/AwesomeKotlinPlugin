@@ -1,8 +1,8 @@
 <idea-plugin>
-    <id>com.madfish.ide.awesomeKotlin</id>
+    <id>AwesomeKotlin</id>
     <name>Awesome Kotlin</name>
     <idea-version since-build="162.0"/>
-    <vendor email="alex.yh99@gmail.com" url="https://github.com/roger-yh99">Roger</vendor>
+    <vendor email="alex.yh99@gmail.com" url="https://github.com/alex-yh99">Roger</vendor>
 
     <description><![CDATA[
       <b>Awesome Kotlin</b> - A Collection of awesome Kotlin related stuff<br/>
@@ -27,21 +27,23 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="AwesomeKotlin" icon="/images/kotlinToolWindow.png" anchor="bottom" factoryClass="com.madfish.ide.view.AwesomeKtToolWindow"/>
-        <errorHandler implementation="com.madfish.ide.util.MyErrorReportSubmitter"/>
-        <applicationService serviceImplementation="com.madfish.ide.configurable.AwesomeKtData"/>
-        <applicationService serviceImplementation="com.madfish.ide.configurable.AwesomeKtSettings"/>
-        <applicationConfigurable id="Readhub.Configurable" provider="com.madfish.ide.configurable.AwesomeKtConfProvider"/>
+        <toolWindow id="AwesomeKotlin" icon="/images/kotlinToolWindow.png" anchor="right"
+                    factoryClass="com.intellij.awesomeKt.view.AwesomeKtToolWindow"/>
+        <applicationService serviceImplementation="com.intellij.awesomeKt.configurable.AwesomeKtData"/>
+        <applicationService serviceImplementation="com.intellij.awesomeKt.configurable.AwesomeKtSettings"/>
+        <applicationService serviceImplementation="com.intellij.awesomeKt.view.MyUISettings"/>
+        <applicationConfigurable id="AwesomeKotlin.Configurable"
+                                 provider="com.intellij.awesomeKt.configurable.AwesomeKtConfProvider"/>
     </extensions>
 
     <application-components>
         <component>
-            <implementation-class>com.madfish.ide.component.AwesomeKtComponent</implementation-class>
+            <implementation-class>com.intellij.awesomeKt.component.AwesomeKtComponent</implementation-class>
         </component>
     </application-components>
 
     <actions>
-        <group id="Podcast.Toolbar"/>
+        <group id="AwesomeKotlin.Toolbar"/>
     </actions>
 
 </idea-plugin>

@@ -1,15 +1,11 @@
 buildscript {
     repositories {
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots"
-        }
-        maven {
-            url "http://dl.bintray.com/jetbrains/intellij-plugin-service"
-        }
-        mavenCentral()
+        jcenter { url "http://jcenter.bintray.com" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "http://dl.bintray.com/jetbrains/intellij-plugin-service" }
     }
     dependencies {
-        classpath "org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.2.0-SNAPSHOT"
+        classpath "org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.0-SNAPSHOT"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
@@ -40,19 +36,30 @@ intellij {
 }
 
 repositories {
-    jcenter()
-    mavenCentral()
+    jcenter { url "http://jcenter.bintray.com" }
 }
 
 dependencies {
-    compile "com.mashape.unirest:unirest-java:1.4.9",
-            "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
+
+    compile "com.squareup.okhttp3:okhttp:3.8.1"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2"
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.3"
+//  compile "org.jetbrains.kotlin:kotlin-script-runtime:$kotlinVersion"
+//  compile "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion"
+//  compile "org.jetbrains.kotlin:kotlin-script-util:${kotlinVersion}"
 }
 
-group "com.madfish.ide"
+group "com.intellij.awesomeKt"
 version "$pluginVersion"
 
 wrapper {
     gradleVersion "4.5"
+}
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
