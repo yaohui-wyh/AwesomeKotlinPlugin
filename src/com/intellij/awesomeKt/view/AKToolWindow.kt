@@ -10,11 +10,11 @@ import com.intellij.ui.content.ContentFactory
 /**
  * Created by Roger™
  */
-class AwesomeKtToolWindow : ToolWindowFactory, DumbAware {
+class AKToolWindow : ToolWindowFactory, DumbAware {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val contentFactory = ContentFactory.SERVICE.getInstance()
-        val content = AwesomeKtToolWindowContent()
+        val content = AKToolWindowContent()
         content.init(project)
         val contentObj = contentFactory.createContent(content.createToolWindow(), "", false)
         toolWindow.contentManager.addContent(contentObj)

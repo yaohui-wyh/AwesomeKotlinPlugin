@@ -1,6 +1,6 @@
 package com.intellij.awesomeKt.model
 
-import com.intellij.awesomeKt.util.IdeUtil
+import com.intellij.awesomeKt.util.AKIntelliJUtil
 
 /**
  * Created by Roger™
@@ -15,5 +15,5 @@ class ApiResult<T>(
 }
 
 enum class ErrMessage(var text: String) {
-    API_NETWORK_ERROR(IdeUtil.message("ErrMessage.API_NETWORK_ERROR"))
+    API_NETWORK_ERROR(AKIntelliJUtil.message("ErrMessage.API_NETWORK_ERROR"))
 }

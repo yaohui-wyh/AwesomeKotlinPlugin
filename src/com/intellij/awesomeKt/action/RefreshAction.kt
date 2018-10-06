@@ -1,6 +1,6 @@
 package com.intellij.awesomeKt.action
 
-import com.intellij.awesomeKt.util.IdeUtil
+import com.intellij.awesomeKt.util.AKIntelliJUtil
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.DumbAwareAction
@@ -9,8 +9,8 @@ import com.intellij.openapi.project.DumbAwareAction
  * Created by Roger™
  */
 class RefreshAction : DumbAwareAction(
-        IdeUtil.message("RefreshAction.text"),
-        IdeUtil.message("RefreshAction.description"),
+        AKIntelliJUtil.message("RefreshAction.text"),
+        AKIntelliJUtil.message("RefreshAction.description"),
         AllIcons.Actions.Refresh
 ) {
     override fun actionPerformed(e: AnActionEvent?) {
@@ -19,8 +19,8 @@ class RefreshAction : DumbAwareAction(
 
     override fun update(e: AnActionEvent?) {
         e?.presentation?.let { p ->
-            p.text = IdeUtil.message("RefreshAction.text")
-            p.description = IdeUtil.message("RefreshAction.description")
+            p.text = AKIntelliJUtil.message("RefreshAction.text")
+            p.description = AKIntelliJUtil.message("RefreshAction.description")
         }
     }
 }

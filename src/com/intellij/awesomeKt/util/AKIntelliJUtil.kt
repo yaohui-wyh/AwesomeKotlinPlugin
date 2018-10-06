@@ -1,13 +1,10 @@
 package com.intellij.awesomeKt.util
 
 import com.intellij.CommonBundle
-import com.intellij.awesomeKt.configurable.AwesomeKtSettings
-import com.intellij.ide.plugins.PluginManager
+import com.intellij.awesomeKt.configurable.AKSettings
 import com.intellij.notification.NotificationGroup
 import com.intellij.notification.NotificationListener
 import com.intellij.notification.NotificationType
-import com.intellij.openapi.application.ApplicationInfo
-import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.project.Project
 import java.io.IOException
 import java.io.InputStream
@@ -17,7 +14,7 @@ import java.util.*
 /**
  * Created by Roger™
  */
-class IdeUtil {
+class AKIntelliJUtil {
 
     companion object {
 
@@ -36,7 +33,7 @@ class IdeUtil {
         }
 
         fun message(key: String, vararg params: Any): String {
-            val filename = "messages.lang-${AwesomeKtSettings.instance.lang.locale}"
+            val filename = "messages.lang-${AKSettings.instance.lang.locale}"
             return CommonBundle.message(ResourceBundle.getBundle(filename, UTF8Control()), key, params)
         }
     }

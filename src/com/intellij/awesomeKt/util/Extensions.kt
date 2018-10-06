@@ -15,7 +15,7 @@ fun Logger.d(message: String, t: Throwable? = null) {
     }
 }
 
-object AwesomeKtDebug{
+object AwesomeKtDebug {
 
     val isInternal: Boolean = System.getProperty("AwesomeKotlin.is.internal") == "true"
 }

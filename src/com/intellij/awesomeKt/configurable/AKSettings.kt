@@ -5,21 +5,19 @@ import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
 import link.kotlin.scripts.DefaultStarsGenerator
-import link.kotlin.scripts.Links
 import link.kotlin.scripts.ProjectLinks
 
 /**
  * Created by Roger™
  */
-@State(name = "awesomeKtSettings", storages = [(Storage("awesomeKt/settings.xml"))])
-class AwesomeKtSettings : PersistentStateComponent<AwesomeKtSettings.State> {
+@State(name = "AwesomeKotlinSettings", storages = [(Storage("awesome-kotlin/settings.xml"))])
+class AKSettings : PersistentStateComponent<AKSettings.State> {
     private var myState = State()
 
     companion object {
-        val instance: AwesomeKtSettings
-            get() = ServiceManager.getService(AwesomeKtSettings::class.java)
+        val instance: AKSettings
+            get() = ServiceManager.getService(AKSettings::class.java)
     }
 
     var lang: LanguageItem

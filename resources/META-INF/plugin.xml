@@ -28,17 +28,17 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="AwesomeKotlin" icon="/images/kotlinToolWindow.png" anchor="right"
-                    factoryClass="com.intellij.awesomeKt.view.AwesomeKtToolWindow"/>
-        <applicationService serviceImplementation="com.intellij.awesomeKt.configurable.AwesomeKtData"/>
-        <applicationService serviceImplementation="com.intellij.awesomeKt.configurable.AwesomeKtSettings"/>
-        <applicationService serviceImplementation="com.intellij.awesomeKt.view.MyUISettings"/>
+                    factoryClass="com.intellij.awesomeKt.view.AKToolWindow"/>
+        <applicationService serviceImplementation="com.intellij.awesomeKt.configurable.AKData"/>
+        <applicationService serviceImplementation="com.intellij.awesomeKt.configurable.AKSettings"/>
+        <applicationService serviceImplementation="com.intellij.awesomeKt.view.AKUISettings"/>
         <applicationConfigurable id="AwesomeKotlin.Configurable"
                                  provider="com.intellij.awesomeKt.configurable.AwesomeKtConfProvider"/>
     </extensions>
 
     <application-components>
         <component>
-            <implementation-class>com.intellij.awesomeKt.component.AwesomeKtComponent</implementation-class>
+            <implementation-class>com.intellij.awesomeKt.component.AKComponent</implementation-class>
         </component>
     </application-components>
 

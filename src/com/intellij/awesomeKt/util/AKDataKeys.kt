@@ -6,7 +6,7 @@ import link.kotlin.scripts.Link
 /**
  * Created by Roger™
  */
-object MyDataKeys {
+object AKDataKeys {
 
     val tableItem: DataKey<Link> = DataKey.create<Link>("AwesomeKotlin.TreeItem")
 }

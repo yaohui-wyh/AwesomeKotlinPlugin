@@ -10,13 +10,13 @@ import javax.swing.text.BadLocationException
 /**
  * Created by Roger™
  */
-class MyHtmlPanel : JEditorPane("text/html", "") {
+class AKHtmlPanel : JEditorPane("text/html", "") {
 
     init {
         isEditable = false
         isOpaque = false
         putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true)
-        addHyperlinkListener({ BrowserHyperlinkListener.INSTANCE.hyperlinkUpdate(it) })
+        addHyperlinkListener { BrowserHyperlinkListener.INSTANCE.hyperlinkUpdate(it) }
     }
 
     override fun getSelectedText(): String {

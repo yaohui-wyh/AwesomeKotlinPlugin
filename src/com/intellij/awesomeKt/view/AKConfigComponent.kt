@@ -1,9 +1,9 @@
 package com.intellij.awesomeKt.view
 
-import com.intellij.awesomeKt.configurable.AwesomeKtSettings
+import com.intellij.awesomeKt.configurable.AKSettings
 import com.intellij.awesomeKt.configurable.LanguageItem
 import com.intellij.awesomeKt.util.Constants
-import com.intellij.awesomeKt.util.IdeUtil
+import com.intellij.awesomeKt.util.AKIntelliJUtil
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.HyperlinkLabel
@@ -22,7 +22,7 @@ import javax.swing.JPanel
 /**
  * Created by Roger™
  */
-class AwesomeKtConfigComponent {
+class AKConfigComponent {
 
     val mainPanel = JPanel()
     private val comboBox = ComboBox(LanguageItem.values())
@@ -30,19 +30,19 @@ class AwesomeKtConfigComponent {
     init {
         val settingsPanel = JPanel()
         settingsPanel.layout = BoxLayout(settingsPanel, BoxLayout.Y_AXIS)
-        settingsPanel.border = IdeBorderFactory.createTitledBorder(IdeUtil.message("Config.settings"), true)
+        settingsPanel.border = IdeBorderFactory.createTitledBorder(AKIntelliJUtil.message("Config.settings"), true)
 
         val languagePanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 5))
-        val languageLabel = JBLabel(IdeUtil.message("Config.language"))
+        val languageLabel = JBLabel(AKIntelliJUtil.message("Config.language"))
 
         languageLabel.border = IdeBorderFactory.createEmptyBorder(0, 0, 0, 15)
         languagePanel.add(languageLabel)
         languagePanel.add(comboBox)
 
-        comboBox.selectedItem = AwesomeKtSettings.instance.lang
+        comboBox.selectedItem = AKSettings.instance.lang
         comboBox.renderer = object : ListCellRendererWrapper<LanguageItem>() {
             override fun customize(list: JList<*>?, item: LanguageItem?, index: Int, selected: Boolean, hasFocus: Boolean) {
-                setText(IdeUtil.message(item?.messageKey.orEmpty()))
+                setText(AKIntelliJUtil.message(item?.messageKey.orEmpty()))
             }
         }
 
@@ -50,7 +50,7 @@ class AwesomeKtConfigComponent {
 
         val aboutPanel = JPanel()
         aboutPanel.layout = BoxLayout(aboutPanel, BoxLayout.Y_AXIS)
-        aboutPanel.border = IdeBorderFactory.createTitledBorder(IdeUtil.message("Config.about"), true)
+        aboutPanel.border = IdeBorderFactory.createTitledBorder(AKIntelliJUtil.message("Config.about"), true)
 
         // ========= Info Panel ============
         val infoPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 5))
@@ -58,13 +58,13 @@ class AwesomeKtConfigComponent {
         val issueLabel = HyperlinkLabel()
         infoPanel.add(issueLabel)
 
-        issueLabel.setHtmlText("${IdeUtil.message("Config.feedback")}: <a href=\"#feedback\">Github Issue</a>")
+        issueLabel.setHtmlText("${AKIntelliJUtil.message("Config.feedback")}: <a href=\"#feedback\">Github Issue</a>")
         issueLabel.setHyperlinkTarget(Constants.BUG_REPORTER_WEB_URL)
 
         // ========= Extra Panel ============
         val extraPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 5))
 
-        val feedbackLabel = JBLabel(IdeUtil.message("Config.feedbackText"), UIUtil.ComponentStyle.SMALL, UIUtil.FontColor.BRIGHTER)
+        val feedbackLabel = JBLabel(AKIntelliJUtil.message("Config.feedbackText"), UIUtil.ComponentStyle.SMALL, UIUtil.FontColor.BRIGHTER)
         feedbackLabel.border = IdeBorderFactory.createEmptyBorder(0, 2, 0, 8)
         extraPanel.add(feedbackLabel)
         setRateLabel(extraPanel)
@@ -85,7 +85,7 @@ class AwesomeKtConfigComponent {
         val label = HyperlinkLabel()
         parent.add(label)
 
-        label.setHtmlText(" <a href=\"#rate\">${IdeUtil.message("Config.rate")}</a>")
+        label.setHtmlText(" <a href=\"#rate\">${AKIntelliJUtil.message("Config.rate")}</a>")
         label.font = UIUtil.getLabelFont(UIUtil.FontSize.SMALL)
         label.setIcon(AllIcons.Toolwindows.ToolWindowFavorites)
         label.setHyperlinkTarget(Constants.PLUGIN_RATE_URL)
@@ -93,15 +93,15 @@ class AwesomeKtConfigComponent {
     }
 
     fun isModified(): Boolean {
-        return comboBox.selectedItem != AwesomeKtSettings.instance.lang
+        return comboBox.selectedItem != AKSettings.instance.lang
     }
 
     fun reset() {
-        comboBox.selectedItem = AwesomeKtSettings.instance.lang
+        comboBox.selectedItem = AKSettings.instance.lang
     }
 
     fun apply() {
-        AwesomeKtSettings.instance.lang = comboBox.selectedItem as LanguageItem
+        AKSettings.instance.lang = comboBox.selectedItem as LanguageItem
     }
 }
 

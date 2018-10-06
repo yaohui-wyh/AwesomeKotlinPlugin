@@ -5,7 +5,7 @@ import com.intellij.awesomeKt.action.VcsCheckoutAction
 import com.intellij.awesomeKt.action.WebAction
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_VIEW_TOPIC
 import com.intellij.awesomeKt.messages.TableViewListener
-import com.intellij.awesomeKt.util.MyDataKeys
+import com.intellij.awesomeKt.util.AKDataKeys
 import com.intellij.icons.AllIcons
 import com.intellij.ide.CommonActionsManager
 import com.intellij.ide.DataManager
@@ -46,7 +46,7 @@ import javax.swing.tree.TreeSelectionModel
 /**
  * Created by Roger™
  */
-class AwesomeKtToolWindowContent: DataProvider {
+class AKToolWindowContent: DataProvider {
 
     private var rootPanel: JPanel = JPanel(BorderLayout())
     private var myTree: Tree = Tree()
@@ -91,12 +91,12 @@ class AwesomeKtToolWindowContent: DataProvider {
 
                     if (it.update.isNotBlank()) {
                         val updateLabel = JBLabel("Last update: ${it.update}")
-                        updateLabel.foreground = MyUISettings.instance.passedColor
+                        updateLabel.foreground = AKUISettings.instance.passedColor
                         updateLabel.border = IdeBorderFactory.createEmptyBorder(0, 2, 0, 0)
                         myDetailPanel.add(updateLabel)
                     }
 
-                    val desc = MyHtmlPanel()
+                    val desc = AKHtmlPanel()
                     desc.text = it.desc
                     desc.background = UIUtil.getTableBackground()
                     desc.border = IdeBorderFactory.createEmptyBorder(0, 2, 0, 0)
@@ -130,7 +130,7 @@ class AwesomeKtToolWindowContent: DataProvider {
         myTree.model = model
         myTree.isRootVisible = false
         myTree.selectionModel.selectionMode = TreeSelectionModel.SINGLE_TREE_SELECTION
-        myTree.cellRenderer = MyTreeRenderer(myTree)
+        myTree.cellRenderer = AKTreeRenderer(myTree)
         myTree.rowHeight = 0
         UIUtil.setLineStyleAngled(myTree)
         model.root?.let {
@@ -222,7 +222,7 @@ class AwesomeKtToolWindowContent: DataProvider {
     }
 
     override fun getData(dataId: String?): Any? {
-        if (MyDataKeys.tableItem.`is`(dataId)) {
+        if (AKDataKeys.tableItem.`is`(dataId)) {
             return currentLink
         }
         return null

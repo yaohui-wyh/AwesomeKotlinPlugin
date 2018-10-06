@@ -58,8 +58,13 @@ version "$pluginVersion"
 wrapper {
     gradleVersion "4.5"
 }
+
 kotlin {
     experimental {
         coroutines "enable"
     }
+}
+
+runIde {
+    systemProperty("AwesomeKotlin.is.internal", true)
 }

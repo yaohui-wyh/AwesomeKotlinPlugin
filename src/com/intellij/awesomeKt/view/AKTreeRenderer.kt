@@ -9,7 +9,6 @@ import link.kotlin.scripts.Link
 import link.kotlin.scripts.LinkType
 import link.kotlin.scripts.Subcategory
 import java.awt.Component
-import java.awt.Dimension
 import java.awt.Font
 import javax.swing.JLabel
 import javax.swing.JTree
@@ -18,7 +17,7 @@ import javax.swing.tree.DefaultMutableTreeNode
 /**
  * Created by Roger™
  */
-class MyTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
+class AKTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
 
     override fun getTreeCellRendererComponent(tree: JTree?, value: Any?, sel: Boolean, expanded: Boolean,
                                               leaf: Boolean, row: Int, hasFocus: Boolean): Component {
@@ -30,7 +29,7 @@ class MyTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
                 is Category -> {
                     label.text = obj.name
                     label.font = Font(JLabel().font.fontName, Font.BOLD, JBUI.scale(14))
-                    label.icon = MyIcons.KOTLIN_ICON
+                    label.icon = AKIcons.KOTLIN_ICON
                     label.border = IdeBorderFactory.createEmptyBorder(8, 0, 4, 0)
                 }
                 is Subcategory -> {
@@ -40,8 +39,8 @@ class MyTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
                 }
                 is Link -> {
                     when (obj.type) {
-                        LinkType.github -> label.icon = MyIcons.GITHUB_ICON
-                        LinkType.bitbucket -> label.icon = MyIcons.BITBUCKET_ICON
+                        LinkType.github -> label.icon = AKIcons.GITHUB_ICON
+                        LinkType.bitbucket -> label.icon = AKIcons.BITBUCKET_ICON
                         else -> {
                         }
                     }
