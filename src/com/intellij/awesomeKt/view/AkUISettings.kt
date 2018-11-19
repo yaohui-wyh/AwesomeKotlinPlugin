@@ -16,7 +16,7 @@ import kotlin.reflect.KProperty
 /**
  * Created by jetbrains on 12/08/16.
  */
-class AKUISettings {
+class AkUISettings {
 
     // GENERAL UI SETTINGS
     val width: Int by lazy { JBUI.scale(350) }
@@ -81,7 +81,7 @@ class AKUISettings {
 
     companion object {
 
-        val instance: AKUISettings = ServiceManager.getService(AKUISettings::class.java)
+        val instance: AkUISettings = ServiceManager.getService(AkUISettings::class.java)
 
         fun rigidGap(gapName: String, gapSize: Int, isVertical: Boolean = true): Box.Filler {
             val rigidArea = if (isVertical) Box.createRigidArea(Dimension(0, gapSize)) else Box.createRigidArea(Dimension(gapSize, 0))

@@ -4,7 +4,7 @@ import link.kotlin.scripts.category
 import link.kotlin.scripts.link
 import link.kotlin.scripts.subcategory
 
-val ProjectCategories = category("Projects") {
+category("Projects") {
     subcategory("Web") {
         link {
             name = "sdeleuze/spring-boot-kotlin-demo"
@@ -33,6 +33,20 @@ val ProjectCategories = category("Projects") {
             href = "https://github.com/mariomac/codebuilder"
             type = github
             tags = Tags["vertx.io", "async", "example"]
+        }
+        link {
+            name = "cbedoy/DYUM"
+            desc = "Basic Kotlin Implementation following MVP, and using Third Party library by Natural Analytics Language"
+            href = "https://github.com/cbedoy/DYUM"
+            type = github
+            tags = Tags["natural language", "third_party", "mvp", "demo", "basic kotlin", "retrofit"]
+        }
+        link {
+            name = "eddywm/KTFLITE"
+            desc = "Computer Vision on Android with Kotlin and Tensorflow Lite."
+            href = "https://github.com/eddywm/KTFLITE"
+            type = github
+            tags = Tags["tensorflow", "deep-learning", "computer-vision", "android", "machine-learning"]
         }
         link {
             name = "rocketraman/kotlin-web-hello-world"
@@ -84,6 +98,21 @@ val ProjectCategories = category("Projects") {
             type = github
             tags = Tags["spring", "reactive", "web"]
         }
+        link {
+            name = "yyunikov/spring-boot-2-kotlin-starter"
+            desc = "Spring Boot 2.0 Kotlin application starter with configurations for Gradle, Mongo, JUnit 5 tests, logging, CircleCI and Docker compose."
+            href = "https://github.com/yyunikov/spring-boot-2-kotlin-starter"
+            type = github
+            tags = Tags["spring", "gradle", "reactive", "web", "spring-boot", "docker", "junit-test"]
+        }
+        link{
+            name = "viniciusccarvalho/kodein-cloud-functions"
+            desc = "Provides adapters to different cloud functions providers (AWS, Azure) to run vanilla kotlin functions defined as kodein modules"
+            href = "https://github.com/viniciusccarvalho/kodein-cloud-functions"
+            type = github
+            tags = Tags["kodein", "cloud", "serverless"]
+
+        }
     }
     subcategory("Build tools") {
         link {
@@ -115,6 +144,13 @@ val ProjectCategories = category("Projects") {
         }
     }
     subcategory("Misc") {
+        link {
+            name = "quicktype/quicktype"
+            desc = "Generate Kotlin types and converters from JSON, Schema, TypeScript, and GraphQL"
+            href = "https://github.com/quicktype/quicktype"
+            type = github
+            tags = Tags["json", "api", "web"]
+        }
         link {
             name = "brikk/brikk"
             desc = "Brikk dependency manager (Kotlin, KotlinJS, Java, ...)."
@@ -171,6 +207,27 @@ val ProjectCategories = category("Projects") {
             type = github
             tags = Tags["Emulator", "Kotlin/JS", "Kotlin/JVM"]
         }
+        link {
+            name = "sourcerer-io/sourcerer-app"
+            desc = "Visual profile for software engineers written in Kotlin."
+            href = "https://github.com/sourcerer-io/sourcerer-app"
+            type = github
+            tags = Tags["code analysis", "visualization", "resume", "profile"]
+        }
+        link {
+            name = "chrislo27/RhythmHeavenRemixEditor"
+            desc = "An audio custom remix editor designed for the Rhythm Heaven series, using libGDX and Kotlin."
+            href = "https://github.com/chrislo27/RhythmHeavenRemixEditor"
+            type = github
+            tags = Tags["libgdx", "Rhythm Heaven", "custom remix"]
+        }
+        link {
+            name = "Poweranimal/PowerCollections"
+            desc = "Powerfull Collections, Sets, Lists and Maps."
+            href = "https://github.com/Poweranimal/PowerCollections"
+            type = github
+            tags = Tags["collections", "maps", "lists", "sets", "weakreference", "observable", "bounded"]
+        }
     }
     subcategory("Desktop") {
         link {
@@ -179,6 +236,13 @@ val ProjectCategories = category("Projects") {
             href = "https://github.com/ice1000/Dekoder"
             type = github
             tags = Tags["JavaFX", "Desktop", "Player"]
+        }
+        link {
+            name = "ruslanys/vkmusic"
+            desc = "JavaFX and Spring-Boot based application for grabbing music from VK.com."
+            href = "https://github.com/ruslanys/vkmusic"
+            type = github
+            tags = Tags["javafx", "spring", "spring-boot"]
         }
 
     }
@@ -285,7 +349,14 @@ val ProjectCategories = category("Projects") {
             desc = "Kotlin TodoMVC – full-stack Kotlin application demo"
             href = "https://github.com/gyulavoros/kotlin-todomvc"
             type = github
-            tags = Tags["examples", "javascript", "web", "gradle"]
+            tags = Tags["examples", "javascript", "web", "gradle", "todomvc"]
+        }
+        link {
+            name = "mkraynov/todomvc-react-kotlin"
+            desc = "React Kotlin TodoMVC – example based on create-react-kotlin-app and todomvc-react"
+            href = "https://github.com/mkraynov/todomvc-react-kotlin"
+            type = github
+            tags = Tags["examples", "javascript", "web", "react", "todomvc"]
         }
     }
     subcategory("Idea Plugins") {
@@ -307,6 +378,13 @@ val ProjectCategories = category("Projects") {
             name = "dkandalov/activity-tracker"
             desc = "Plugin for IntelliJ IDEs to track and record user activity."
             href = "https://github.com/dkandalov/activity-tracker"
+            type = github
+            tags = Tags["idea", "plugin"]
+        }
+        link {
+            name = "izhangzhihao/intellij-rainbow-brackets"
+            desc = "Rainbow Brackets / Rainbow Parentheses for IntelliJ IDEA based IDEs."
+            href = "https://github.com/izhangzhihao/intellij-rainbow-brackets"
             type = github
             tags = Tags["idea", "plugin"]
         }

@@ -4,7 +4,7 @@ import link.kotlin.scripts.category
 import link.kotlin.scripts.link
 import link.kotlin.scripts.subcategory
 
-val AndroidCategories = category("Android") {
+category("Android") {
     subcategory("Libraries") {
         link {
             name = "Kotlin/anko"
@@ -17,6 +17,13 @@ val AndroidCategories = category("Android") {
             name = "JakeWharton/kotterknife"
             desc = "View injection library for Android."
             href = "https://github.com/JakeWharton/kotterknife"
+            type = github
+            tags = Tags["android"]
+        }
+        link {
+            name = "0xe1f/KotX"
+            desc = "Kotlin extension and tool library for Android"
+            href = "https://github.com/0xe1f/KotX"
             type = github
             tags = Tags["android"]
         }
@@ -252,6 +259,69 @@ val AndroidCategories = category("Android") {
             type = github
             tags = Tags["diffutil", "googlemaps", "mapbox", "maps", "kotlin", "kotlin-android", "recyclerview", "markers"]
         }
+        link {
+            name = "iglaweb/Ferris-Wheel"
+            desc = "Simple android library to present an animated ferris wheel"
+            href = "https://github.com/iglaweb/Ferris-Wheel"
+            type = github
+            tags = Tags["kotlin", "android", "android-library", "animation", "ferris-wheel", "kotlin-android", "customview"]
+        }
+        link {
+            name = "ehsunshine/colored-time-selector"
+            desc = "A smart colored time selector. Users can select just free time with a handy colorful range selector."
+            href = "https://github.com/ehsunshine/colored-time-selector"
+            type = github
+            tags = Tags["selector", "range", "time", "timebar", "kotlin", "kotlin-android", "rangebar", "market"]
+        }
+        link {
+            name = "yundom/kache"
+            desc = "A lightweight cache library written in Kotlin."
+            href = "https://github.com/yundom/kache"
+            type = github
+            tags = Tags["cache", "kotlin"]
+        }
+        link {
+            name = "adrielcafe/KBus"
+            desc = "Dead simple EventBus for Android made with Kotlin and RxJava 2"
+            href = "https://github.com/adrielcafe/KBus"
+            type = github
+            tags = Tags["android", "eventbus", "rxjava"]
+        }
+        link {
+            name = "Jintin/MixAdapter"
+            desc = "Compose multiple Adapter for RecyclerView in Android."
+            href = "https://github.com/Jintin/MixAdapter"
+            type = github
+            tags = Tags["RecyclerView", "Adapter", "kotlin", "kotlin-android"]
+        }
+        link {
+            name = "yundom/RxVan"
+            desc = "A lightweight event bus written in Kotlin and RxJava."
+            href = "https://github.com/yundom/RxVan"
+            type = github
+            tags = Tags["android", "eventbus", "rxjava", "kotlin"]
+        }
+        link {
+            name = "duanhong169/DrawableToolbox"
+            desc = "The missing drawable toolbox for Android."
+            href = "https://github.com/duanhong169/DrawableToolbox"
+            type = github
+            tags = Tags["android", "android-drawables", "kotlin", "kotlin-android"]
+        }
+        link {
+            name = "adrielcafe/AndroidCoroutineScopes"
+            desc = "This lib implements the most common CoroutineScopes used in Android apps."
+            href = "https://github.com/adrielcafe/AndroidCoroutineScopes"
+            type = github
+            tags = Tags["android", "kotlin",  "coroutines", "coroutinescopes"]
+        }
+        link {
+            name = "WindSekirun/RxSocialLogin"
+            desc = "This Android library is a library that provides social login for 15 platforms powered by RxJava2, Kotlin and Firebase Authentication. "
+            href = "https://github.com/WindSekirun/RxSocialLogin"
+            type = github
+            tags = Tags["android", "sociallogin", "rxjava", "kotlin"]
+        }
     }
     subcategory("Frameworks") {
         link {
@@ -326,7 +396,7 @@ val AndroidCategories = category("Android") {
         }
         link {
             name = "RxKotlin/Pocket"
-            desc = "This app help user to save link.kotlin.scripts.links easily, and can export to Evernote as weekly."
+            desc = "This app help user to save links easily, and can export to Evernote as weekly."
             href = "https://github.com/RxKotlin/Pocket"
             type = github
             tags = Tags["android", "application", "rx"]
@@ -478,6 +548,34 @@ val AndroidCategories = category("Android") {
             type = github
             tags = Tags["android", "application", "password-manager", "password-strength"]
         }
+        link {
+            name = "WilderPereira/lmgtfyGen"
+            desc = "Simple Android App to generate Let Me Google That For You urls."
+            href = "https://github.com/WilderPereira/lmgtfyGen"
+            type = github
+            tags = Tags["android", "application", "rx", "MVP"]
+        }
+        link {
+            name = "WilderPereira/ftwfy"
+            desc = "The real life Command/Ctrl + F - Android App that uses the Mobile Vision API to allow you to search for any occurrence of a text in a digital document."
+            href = "https://github.com/WilderPereira/ftwfy"
+            type = github
+            tags = Tags["android", "application", "ocr", "android-vision", "computer-vision"]
+        }
+        link {
+            name = "hanjoongcho/aaf-easydiary"
+            desc = "This is a diary application optimized to user experience."
+            href = "https://github.com/hanjoongcho/aaf-easydiary"
+            type = github
+            tags = Tags["diary-application", "diary", "realm", "android-diary", "calendar", "material", "android"]
+        }
+        link {
+            name = "adrielcafe/GreenHellCompanionApp"
+            desc = "Unofficial companion app for the game Green Hell."
+            href = "https://github.com/adrielcafe/GreenHellCompanionApp"
+            type = github
+            tags = Tags["android", "app", "companion-app", "kotlin", "mvvm", "android-architecture-components", "kotlin-coroutines", "dependency-injection", "fastadapter"]
+        }
     }
     subcategory("Extensions") {
         link {
@@ -486,6 +584,13 @@ val AndroidCategories = category("Android") {
             href = "https://github.com/ajalt/timberkt"
             type = github
             tags = Tags["android", "logging"]
+        }
+        link {
+            name = "rosariopfernandes/fireXtensions"
+            desc = "Unofficial Kotlin Extensions for the Firebase Android SDK."
+            href = "https://github.com/rosariopfernandes/fireXtensions"
+            type = github
+            tags = Tags["android", "firebase", "kotlin", "firebase-database", "firestore"]
         }
     }
     subcategory("Tools") {

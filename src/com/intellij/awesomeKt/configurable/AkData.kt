@@ -9,13 +9,13 @@ import com.intellij.openapi.components.Storage
  * Created by Roger™
  */
 @State(name = "AwesomeKotlinData", storages = [(Storage("awesome-kotlin/data.xml"))])
-class AKData(
-) : PersistentStateComponent<AKData.State> {
+class AkData(
+) : PersistentStateComponent<AkData.State> {
     private var myState = State()
 
     companion object {
-        val instance: AKData
-            get() = ServiceManager.getService(AKData::class.java)
+        val instance: AkData
+            get() = ServiceManager.getService(AkData::class.java)
     }
 
     override fun getState() = myState

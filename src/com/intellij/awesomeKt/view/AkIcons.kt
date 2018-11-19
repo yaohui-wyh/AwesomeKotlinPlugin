@@ -5,7 +5,7 @@ import com.intellij.openapi.util.IconLoader
 /**
  * Created by Roger™
  */
-interface AKIcons {
+interface AkIcons {
 
     companion object {
         val KOTLIN = IconLoader.getIcon("/images/kotlin.png")

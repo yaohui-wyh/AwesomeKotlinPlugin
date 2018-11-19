@@ -1,11 +1,12 @@
 package com.intellij.awesomeKt.view
 
+import com.intellij.awesomeKt.action.RefreshAction
 import com.intellij.awesomeKt.action.SettingsAction
 import com.intellij.awesomeKt.action.VcsCheckoutAction
 import com.intellij.awesomeKt.action.WebAction
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_VIEW_TOPIC
 import com.intellij.awesomeKt.messages.TableViewListener
-import com.intellij.awesomeKt.util.AKDataKeys
+import com.intellij.awesomeKt.util.AkDataKeys
 import com.intellij.icons.AllIcons
 import com.intellij.ide.CommonActionsManager
 import com.intellij.ide.DataManager
@@ -26,8 +27,8 @@ import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.table.ComponentsListFocusTraversalPolicy
 import com.intellij.util.ui.tree.TreeUtil
 import link.kotlin.scripts.Category
-import link.kotlin.scripts.Link
 import link.kotlin.scripts.ProjectLinks
+import link.kotlin.scripts.model.Link
 import net.miginfocom.swing.MigLayout
 import java.awt.BorderLayout
 import java.awt.Component
@@ -46,7 +47,7 @@ import javax.swing.tree.TreeSelectionModel
 /**
  * Created by Roger™
  */
-class AKToolWindowContent: DataProvider {
+class AkToolWindowContent : DataProvider {
 
     private var rootPanel: JPanel = JPanel(BorderLayout())
     private var myTree: Tree = Tree()
@@ -61,7 +62,7 @@ class AKToolWindowContent: DataProvider {
         DataManager.registerDataProvider(rootPanel, this)
     }
 
-    fun subscribeEvents() {
+    private fun subscribeEvents() {
         val busConnection = myProject.messageBus.connect(myProject)
         busConnection.subscribe(AWESOME_KOTLIN_VIEW_TOPIC, object : TableViewListener {
             override fun onLinkItemClicked(link: Link?) {
@@ -77,7 +78,7 @@ class AKToolWindowContent: DataProvider {
                     }
                     linkLabel.font = Font(JLabel().font.fontName, Font.BOLD, JBUI.scale(13))
 
-                    if (it.star > 0) {
+                    if (it.star != null && it.star!! > 0) {
                         val starLabel = JBLabel(it.star.toString())
                         starLabel.icon = AllIcons.Ide.Rating
                         starLabel.horizontalTextPosition = SwingConstants.LEFT
@@ -89,14 +90,14 @@ class AKToolWindowContent: DataProvider {
                     headerPanel.background = UIUtil.getLabelBackground()
                     myDetailPanel.add(headerPanel)
 
-                    if (it.update.isNotBlank()) {
+                    if (!it.update.isNullOrBlank()) {
                         val updateLabel = JBLabel("Last update: ${it.update}")
-                        updateLabel.foreground = AKUISettings.instance.passedColor
+                        updateLabel.foreground = AkUISettings.instance.passedColor
                         updateLabel.border = IdeBorderFactory.createEmptyBorder(0, 2, 0, 0)
                         myDetailPanel.add(updateLabel)
                     }
 
-                    val desc = AKHtmlPanel()
+                    val desc = AkHtmlPanel()
                     desc.text = it.desc
                     desc.background = UIUtil.getTableBackground()
                     desc.border = IdeBorderFactory.createEmptyBorder(0, 2, 0, 0)
@@ -125,12 +126,12 @@ class AKToolWindowContent: DataProvider {
         return DefaultTreeModel(root)
     }
 
-    fun setTreeView() {
-        val model = setTreeModel(ProjectLinks.categories)
+    private fun setTreeView() {
+        val model = setTreeModel(ProjectLinks.links)
         myTree.model = model
         myTree.isRootVisible = false
         myTree.selectionModel.selectionMode = TreeSelectionModel.SINGLE_TREE_SELECTION
-        myTree.cellRenderer = AKTreeRenderer(myTree)
+        myTree.cellRenderer = AkTreeRenderer(myTree)
         myTree.rowHeight = 0
         UIUtil.setLineStyleAngled(myTree)
         model.root?.let {
@@ -184,6 +185,7 @@ class AKToolWindowContent: DataProvider {
         val group = DefaultActionGroup()
         group.add(VcsCheckoutAction())
         group.addSeparator()
+        group.add(RefreshAction())
         group.add(collapseAction)
         group.add(WebAction())
         group.add(SettingsAction())
@@ -222,7 +224,7 @@ class AKToolWindowContent: DataProvider {
     }
 
     override fun getData(dataId: String?): Any? {
-        if (AKDataKeys.tableItem.`is`(dataId)) {
+        if (AkDataKeys.tableItem.`is`(dataId)) {
             return currentLink
         }
         return null

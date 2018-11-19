@@ -7,7 +7,7 @@ import com.intellij.openapi.components.ApplicationComponent
 /**
  * Created by Roger™
  */
-class AKComponent : ApplicationComponent {
+class AkComponent : ApplicationComponent {
     override fun getComponentName() = Constants.COMPONENT_NAME
 
     override fun disposeComponent() {}

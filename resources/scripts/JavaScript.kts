@@ -4,7 +4,7 @@ import link.kotlin.scripts.category
 import link.kotlin.scripts.link
 import link.kotlin.scripts.subcategory
 
-val JavascriptCategories = category("Kotlin JavaScript") {
+category("Kotlin JavaScript") {
     subcategory("JavaScript") {
         link {
             name = "andrewoma/reakt"
@@ -61,6 +61,27 @@ val JavascriptCategories = category("Kotlin JavaScript") {
             href = "https://github.com/markaren/three.kt"
             type = github
             tags = Tags["web", "javascript", "kotlin-js", "three-js"]
+        }
+        link {
+            name = "rjaros/kvision"
+            desc = "Object oriented Web UI framework for Kotlin/JS"
+            href = "https://github.com/rjaros/kvision"
+            type = github
+            tags = Tags["web", "javascript", "kotlin-js", "framework"]
+        }
+        link {
+            name = "nosix/vue-kotlin"
+            desc = "Libraries and tools supporting the use of Vue.js in Kotlin"
+            href = "https://github.com/nosix/vue-kotlin"
+            type = github
+            tags = Tags["vuejs2", "javascript", "kotlin-js", "gradle-plugin", "ui"]
+        }
+        link {
+            name = "Kabbura/Kunafa"
+            desc = "Easy to use, high level framework in Kotlin for front-end web-development and creating web apps without using HTML, CSS, or JavaScript."
+            href = "https://github.com/Kabbura/Kunafa"
+            type = github
+            tags = Tags["web", "javascript", "kotlin-js"]
         }
     }
     subcategory("Frontend") {

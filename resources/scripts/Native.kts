@@ -4,7 +4,7 @@ import link.kotlin.scripts.category
 import link.kotlin.scripts.link
 import link.kotlin.scripts.subcategory
 
-val NativeCategories = category("Kotlin Native") {
+category("Kotlin Native") {
     subcategory("Projects") {
         link {
             name = "JetBrains/kotlin-native"

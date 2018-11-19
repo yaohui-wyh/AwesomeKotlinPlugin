@@ -1,16 +1,21 @@
 import link.kotlin.scripts.LinkType.bitbucket
 import link.kotlin.scripts.LinkType.github
 import link.kotlin.scripts.Tags
+import link.kotlin.scripts.TargetType.ANDROID
+import link.kotlin.scripts.TargetType.IOS
+import link.kotlin.scripts.TargetType.JVM
+import link.kotlin.scripts.TargetType.NATIVE
 import link.kotlin.scripts.category
 import link.kotlin.scripts.link
 import link.kotlin.scripts.subcategory
 
-val LibraryCategories = category("Libraries/Frameworks") {
+category("Libraries/Frameworks") {
     subcategory("Web") {
         link {
             name = "ktorio/ktor"
             desc = "Web backend framework for Kotlin. Easy to use, fun and asynchronous."
             href = "https://github.com/ktorio/ktor"
+            platforms = arrayOf(JVM, ANDROID, NATIVE, IOS)
             type = github
             tags = Tags["web"]
         }
@@ -64,13 +69,6 @@ val LibraryCategories = category("Libraries/Frameworks") {
             tags = Tags["web", "http", "rest", "vert.x", "undertow"]
         }
         link {
-            name = "sdeleuze/spring-kotlin"
-            desc = "Kotlin extensions for Spring projects."
-            href = "https://github.com/sdeleuze/spring-kotlin"
-            type = github
-            tags = Tags["spring", "extensions"]
-        }
-        link {
             name = "pgutkowski/KGraphQL"
             desc = "A GraphQL implementation written in Kotlin"
             href = "https://github.com/pgutkowski/KGraphQL"
@@ -99,10 +97,11 @@ val LibraryCategories = category("Libraries/Frameworks") {
             tags = Tags["web", "vert.x"]
         }
         link {
-            name = "jooby/kotlin"
-            desc = "Kotlin idioms for Jooby microframework"
-            href = "http://jooby.org/doc/lang-kotlin"
-            tags = Tags["web", "jooby", "microframework"]
+            name = "jooby-project/jooby"
+            desc = "Modular micro web framework for Java and Kotlin"
+            href = "https://github.com/jooby-project/jooby/"
+            type = github
+            tags = Tags["web", "jooby", "microframework", "http", "rest"]
         }
         link {
             name = "gimlet2/kottpd"
@@ -113,7 +112,7 @@ val LibraryCategories = category("Libraries/Frameworks") {
         }
         link {
             name = "kwebio/core"
-            desc = " A Kotlin interface to one or more remote web-browsers."
+            desc = "[kweb.io](http://kweb.io/) Build rich live-updating web apps in pure server-side Kotlin."
             href = "https://github.com/kwebio/core"
             type = github
             tags = Tags["web", "rest", "http", "fullstack"]
@@ -141,7 +140,7 @@ val LibraryCategories = category("Libraries/Frameworks") {
         }
         link {
             name = "hexagonkt/hexagon"
-            desc = "A Microservices framework that takes care of HTTP, serializtion and storage."
+            desc = "A Microservices framework that takes care of HTTP, serialization and storage."
             href = "https://github.com/hexagonkt/hexagon"
             type = github
             tags = Tags["web", "rest", "http"]
@@ -180,6 +179,27 @@ val LibraryCategories = category("Libraries/Frameworks") {
             href = "https://github.com/phenax/h"
             type = github
             tags = Tags["kotlin", "http", "web", "html", "template"]
+        }
+        link {
+            name = "bootique/bootique-kotlin"
+            desc = "Provides extension function and features for smooth development with Bootique and Kotlin."
+            href = "https://github.com/bootique/bootique-kotlin"
+            type = github
+            tags = Tags["kotlin", "web-framework", "undertow", "jetty"]
+        }
+        link {
+            name = "SeunAdelekan/Kanary"
+            desc = "A micro webframework for Kotlin"
+            href = "https://github.com/SeunAdelekan/Kanary"
+            type = github
+            tags = Tags["web"]
+        }
+        link {
+            name = "ExpediaDotCom/graphql-kotlin"
+            desc = "Code-only GraphQL schema generation for Kotlin"
+            href = "https://github.com/ExpediaDotCom/graphql-kotlin"
+            type = github
+            tags = Tags["graphql", "web"]
         }
     }
     subcategory("Tests") {
@@ -240,13 +260,6 @@ val LibraryCategories = category("Libraries/Frameworks") {
             tags = Tags["test", "bdd", "gherkin"]
         }
         link {
-            name = "raniejade/kspec"
-            desc = "Kotlin Specification Framework."
-            href = "https://github.com/raniejade/kspec"
-            type = github
-            tags = Tags["test", "bdd"]
-        }
-        link {
             name = "EPadronU/balin"
             desc = "Balin is a browser automation library for Kotlin. It's basically a Selenium-WebDriver wrapper library inspired by Geb."
             href = "https://github.com/EPadronU/balin"
@@ -275,25 +288,46 @@ val LibraryCategories = category("Libraries/Frameworks") {
             tags = Tags["selenium", "test"]
         }
         link {
-            name = "oleksiyp/mockk"
+            name = "mockk/mockk"
             desc = "Pure Kotlin mocking library."
-            href = "https://github.com/oleksiyp/mockk"
+            href = "https://github.com/mockk/mockk"
             type = github
             tags = Tags["test", "mock"]
+        }
+        link {
+            name = "mvysny/DynaTest"
+            desc = "Write your tests in DSL way. Runs on JUnit5 Platform."
+            href = "https://github.com/mvysny/dynatest"
+            type = github
+            tags = Tags["test", "assert", "dsl"]
+        }
+        link {
+            name = "tyro/arbitrater"
+            desc = "Arbitrater is a library for creating arbitrary (randomized) instances of classes by reflection for use in testing."
+            href = "https://github.com/tyro/arbitrater"
+            type = github
+            tags = Tags["test", "random", "random-generation"]
+        }
+        link {
+            name = "neworld/kupiter"
+            desc = "Kotlin DSL for Junit5"
+            href = "https://github.com/neworld/kupiter"
+            type = github
+            tags = Tags["test", "junit5", "dsl"]
+        }
+        link {
+            name = "karumi/KotlinSnapshot"
+            desc = "Verify your data with snapshot testing."
+            href = "https://github.com/Karumi/KotlinSnapshot"
+            type = github
+            tags = Tags["snapshot", "test", "assert"]
         }
     }
     subcategory("Dependency Injection") {
         link {
-            name = "SalomonBrys/Kodein"
-            desc = "Painless Kotlin Dependency Injection ."
-            href = "https://github.com/SalomonBrys/Kodein"
-            type = github
-            tags = Tags["di", "dependency injection"]
-        }
-        link {
-            name = "kohesive/injekt"
-            desc = "(Deprecated, @see Kodein) Dependency Injection / Object Factory for Kotlin."
-            href = "https://github.com/kohesive/injekt"
+            name = "Kodein-Framework/Kodein-DI"
+            desc = "Painless Kotlin Dependency Injection."
+            href = "https://github.com/Kodein-Framework/Kodein-DI"
             type = github
             tags = Tags["di", "dependency injection"]
         }
@@ -317,6 +351,13 @@ val LibraryCategories = category("Libraries/Frameworks") {
             href = "https://github.com/JLLeitschuh/kotlin-guiced"
             type = github
             tags = Tags["Dependency Injection", "Guice"]
+        }
+        link {
+            name = "authzee/kotlin-guice"
+            desc = "Guice DSL extensions for Kotlin"
+            href = "https://github.com/authzee/kotlin-guice"
+            type = github
+            tags = Tags["guice", "dependency injection", "di"]
         }
         link {
             name = "Ekito/koin"
@@ -369,12 +410,19 @@ val LibraryCategories = category("Libraries/Frameworks") {
             type = github
             tags = Tags["coroutines", "spring"]
         }
+        link {
+            name = "cloudoptlab/cloudopt-next"
+            desc = "A next-generation Java web lightweight framework based on vertx and kotlin. "
+            href = "https://github.com/cloudoptlab/cloudopt-next"
+            type = github
+            tags = Tags["web", "vertx", "spring", "restful", "springboot", "springboot", "cloudopt", "next"]
+        }
     }
     subcategory("Functional Programming") {
         link {
-            name = "MarioAriasC/funKTionale"
-            desc = "Functional constructs for Kotlin."
-            href = "https://github.com/MarioAriasC/funKTionale"
+            name = "arrow-kt/arrow"
+            desc = "Functional companion to Kotlin's Standard Library."
+            href = "https://github.com/arrow-kt/arrow"
             type = github
             tags = Tags["fp", "functional"]
         }
@@ -435,13 +483,6 @@ val LibraryCategories = category("Libraries/Frameworks") {
             tags = Tags["fp", "functional", "monads"]
         }
         link {
-            name = "Kategory/Kategory"
-            desc = "Functional datatypes & abstractions for Kotlin."
-            href = "https://github.com/Kategory/Kategory"
-            type = github
-            tags = Tags["fp", "functional", "typeclasses", "comprehensions", "lenses", "optics"]
-        }
-        link {
             name = "poetix/klenses"
             desc = "Lenses for Kotlin."
             href = "https://github.com/poetix/klenses"
@@ -449,11 +490,11 @@ val LibraryCategories = category("Libraries/Frameworks") {
             tags = Tags["fp", "functional", "lenses"]
         }
         link {
-            name = "reactor/reactor-kotlin-extensions"
-            desc = "Kotlin extensions for Reactor."
-            href = "https://github.com/reactor/reactor-kotlin-extensions/"
+            name = "reactor/reactor-core"
+            desc = "Non-Blocking Reactive Streams Foundation for the JVM. Natively supports Kotlin, since 3.1.0.M3."
+            href = "https://github.com/reactor/reactor-core"
             type = github
-            tags = Tags["reactor", "extensions"]
+            tags = Tags["reactive", "stream", "functional"]
         }
         link {
             name = "UrbanCompass/Snail-Kotlin"
@@ -486,6 +527,13 @@ val LibraryCategories = category("Libraries/Frameworks") {
             tags = Tags["json", "jakson"]
         }
         link {
+            name = "Shengaero/kotlin-json"
+            desc = "A lightweight, stylistic, optimized, and multiplatform JSON library for Kotlin-JVM and Kotlin-JS"
+            href = "https://github.com/Shengaero/kotlin-json"
+            type = github
+            tags = Tags["json", "multiplatform"]
+        }
+        link {
             name = "fboldog/ext4klaxon"
             desc = "Type Extensions (Long, Int, Enum, Date) for Klaxon."
             href = "https://github.com/fboldog/ext4klaxon"
@@ -505,6 +553,13 @@ val LibraryCategories = category("Libraries/Frameworks") {
             href = "https://github.com/fluidsonic/fluid-json"
             type = github
             tags = Tags["json"]
+        }
+        link {
+            name = "s4kibs4mi/kotlin-jsonq"
+            desc = "A simple Kotlin library to Query over Json Data."
+            href = "https://github.com/s4kibs4mi/kotlin-jsonq"
+            type = github
+            tags = Tags["json", "json-query", "json-manager", "kotlin-library", "kotlin-android"]
         }
     }
     subcategory("Database") {
@@ -619,6 +674,34 @@ val LibraryCategories = category("Libraries/Frameworks") {
             type = github
             tags = Tags["orm", "postgres", "mysql", "mssql", "sqlite", "oracle"]
         }
+        link {
+            name = "dizitart/potassium-nitrite"
+            desc = "Potassium Nitrite is a kotlin extension of nitrite database, an open source nosql embedded document store with mongodb like api."
+            href = "https://github.com/dizitart/nitrite-database/tree/master/potassium-nitrite"
+            type = github
+            tags = Tags["nosql", "embedded", "documentdb", "object-storage"]
+        }
+        link {
+            name = "pm-dev/kotlin-gremlin-ogm"
+            desc = "Kotlin-gremlin-ogm is a type-safe object/graph mapping library for Gremlin enabled graph databases."
+            href = "https://github.com/pm-dev/awesome-kotlin"
+            type = github
+            tags = Tags["nosql", "graph", "database", "gremlin", "janusgraph", "orm"]
+        }
+        link {
+            name = "fluidsonic/fluid-mongo"
+            desc = "Coroutine support for MongoDB built on top of the official MongoDB Asynchronous Java Driver."
+            href = "https://github.com/fluidsonic/fluid-mongo"
+            type = github
+            tags = Tags["database", "mongodb", "nosql", "coroutines"]
+        }
+        link {
+            name = "jasync-sql/jasync-sql"
+            desc = "Kotlin port of mauricio's async driver for postgres/mysql."
+            href = "https://github.com/jasync-sql/jasync-sql"
+            type = github
+            tags = Tags["postgres", "mysql", "database driver"]
+        }
     }
     subcategory("Tools") {
         link {
@@ -628,9 +711,15 @@ val LibraryCategories = category("Libraries/Frameworks") {
             type = github
         }
         link {
-            name = "Levelmoney/kbuilders"
-            desc = "KBuilders turns your Java builders into beautiful Type-Safe Builders."
-            href = "https://github.com/Levelmoney/kbuilders"
+            name = "Vorlonsoft/EasyDokkaPlugin"
+            desc = "Gradle Script plugin to generate documentation by Dokka for Kotlin and Java, Android and non-Android projects."
+            href = "https://github.com/Vorlonsoft/EasyDokkaPlugin"
+            type = github
+        }
+        link {
+            name = "Vorlonsoft/GradleMavenPush"
+            desc = "Gradle Script plugin to upload Gradle Android/Kotlin/Java Artifacts to Maven repositories (JCenter, Maven Central, ...)."
+            href = "https://github.com/Vorlonsoft/GradleMavenPush"
             type = github
         }
         link {
@@ -675,6 +764,13 @@ val LibraryCategories = category("Libraries/Frameworks") {
             type = github
             tags = Tags["wrapper", "scripting"]
         }
+        link {
+            name = "s1monw1/KtsRunner"
+            desc = "Library for executing .kts files from regular Kotlin code using Java Scripting Engines API"
+            href = "https://github.com/s1monw1/KtsRunner"
+            type = github
+            tags = Tags["dsl", "scripting"]
+        }
     }
     subcategory("Desktop") {
         link {
@@ -706,6 +802,13 @@ val LibraryCategories = category("Libraries/Frameworks") {
             href = "https://github.com/egorzhdan/networkinkt"
             type = github
             tags = Tags["http", "http client", "coroutines"]
+        }
+        link {
+            name = "rybalkinsd/kohttp"
+            desc = "Kotlin DSL-based HTTP client."
+            href = "https://github.com/rybalkinsd/kohttp"
+            type = github
+            tags = Tags["http", "http client", "dsl", "okhttp"]
         }
     }
     subcategory("Editors") {
@@ -1076,6 +1179,62 @@ val LibraryCategories = category("Libraries/Frameworks") {
             type = github
             tags = Tags["dsl", "logging", "android", "slf4j"]
         }
+        link {
+            name = "evoasm/kasm"
+            desc = "x64/x86-64 assembler and execution library"
+            href = "https://github.com/evoasm/kasm"
+            type = github
+            tags = Tags["x64", "x86", "assembly", "assembler"]
+        }
+        link {
+            name = "korlibs/kds"
+            desc = "Optimized Kotlin Data Structures for JVM, JS and Common"
+            href = "https://github.com/korlibs/kds"
+            type = github
+            tags = Tags["ds"]
+        }
+        link {
+            name = "s1monw1/TLSLibrary"
+            desc = "Simple TlsLibrary written in Kotlin - Provides DSL for creating TLS connections"
+            href = "https://github.com/s1monw1/TLSLibrary"
+            type = github
+            tags = Tags["dsl", "tls", "ssl", "jsse"]
+        }
+        link {
+            name = "KotlinNLP/SimpleDNN"
+            desc = "SimpleDNN is a machine learning lightweight open-source library part of KotlinNLP and has been designed to support relevant neural network architectures in natural language processing tasks."
+            href = "https://github.com/KotlinNLP/SimpleDNN"
+            type = github
+            tags = Tags["machine-learning", "recurrent-neural-networks", "feedforward-neural-network", "natural-language-processing"]
+        }
+        link {
+            name = "nickhristov/krakdown"
+            desc = "A native markdown parser written in Kotlin."
+            href = "https://github.com/nickhristov/krakdown"
+            type = github
+            tags = Tags["markdown", "parser"]
+        }
+        link {
+            name = "ziggy42/kolor"
+            desc = "A library to print colored strings, with Kotlin."
+            href = "https://github.com/ziggy42/kolor"
+            type = github
+            tags = Tags["ansi-colors", "colors", "shell"]
+        }
+        link {
+            name = "holgerbrandl/kravis"
+            desc = "A Kotlin grammar for scientific data visualization"
+            href = "https://github.com/holgerbrandl/kravis"
+            type = github
+            tags = Tags["Data Science"]
+        }
+        link {
+            name = "MiloszKrajewski/stateful4k"
+            desc = "State Machine Construction Kit for Kotlin"
+            href = "https://github.com/MiloszKrajewski/stateful4k"
+            type = github
+            tags = Tags["state machine"]
+        }
     }
     subcategory("Extensions") {
         link {
@@ -1091,6 +1250,13 @@ val LibraryCategories = category("Libraries/Frameworks") {
             href = "https://github.com/vanshg/KrazyKotlin"
             type = github
             tags = Tags["extensions"]
+        }
+        link {
+            name = "hankdavidson/ktime"
+            desc = "Extensions to the java8 time library"
+            href = "https://github.com/hankdavidson/ktime"
+            type = github
+            tags = Tags["extensions", "jdk8", "time", "date", "range"]
         }
     }
     subcategory("Configuration") {
@@ -1157,7 +1323,7 @@ val LibraryCategories = category("Libraries/Frameworks") {
             desc = "g-truck glm port, opengl mathematics library"
             href = "https://github.com/kotlin-graphics/glm"
             type = github
-            tags = Tags["glm", "opengl", "vulkan"]
+            tags = Tags["glm", "opengl", "vulkan", "matrices", "vectors", "math-library"]
         }
         link {
             name = "kotlin-graphics/kotlin-unsigned"
@@ -1171,7 +1337,7 @@ val LibraryCategories = category("Libraries/Frameworks") {
             desc = "g-truck gli port, image library"
             href = "https://github.com/kotlin-graphics/gli"
             type = github
-            tags = Tags["gli", "opengl", "vulkan"]
+            tags = Tags["gli", "opengl", "vulkan", "texture"]
         }
         link {
             name = "kotlin-graphics/uno-sdk"
@@ -1192,14 +1358,28 @@ val LibraryCategories = category("Libraries/Frameworks") {
             desc = "OpenVR binding"
             href = "https://github.com/kotlin-graphics/openvr"
             type = github
-            tags = Tags["vr", "openvr", "opengl", "vulkan"]
+            tags = Tags["vr", "openvr", "steamvr", "opengl", "vulkan"]
         }
         link {
             name = "kotlin-graphics/assimp"
             desc = "Open Asset Import Library port"
             href = "https://github.com/kotlin-graphics/assimp"
             type = github
-            tags = Tags["assimp", "stl", "md2", "ply", "obj", "collada", "opengl", "vulkan"]
+            tags = Tags["assimp", "stl", "md2", "ply", "obj", "collada", "fbx", "opengl", "vulkan"]
+        }
+        link {
+            name = "kotlin-graphics/imgui"
+            desc = "jvm port of imgui"
+            href = "https://github.com/kotlin-graphics/imgui"
+            type = github
+            tags = Tags["opengl", "gui", "gamedev", "dear-imgui"]
+        }
+        link {
+            name = "kotlin-graphics/bullet"
+            desc = "bullet port"
+            href = "https://github.com/kotlin-graphics/bullet"
+            type = github
+            tags = Tags["opengl", "vulkan", "gamedev", "physics", "simulation", "robotics", "kinematics"]
         }
         link {
             name = "GlimpseFramework/glimpse-framework"
@@ -1223,11 +1403,11 @@ val LibraryCategories = category("Libraries/Frameworks") {
             tags = Tags["opengl", "tutorial", "lwjgl"]
         }
         link {
-            name = "kotlin-graphics/imgui"
-            desc = "jvm port of imgui"
-            href = "https://github.com/kotlin-graphics/imgui"
+            name = "java-opengl-labs/Vulkan"
+            desc = "port of https://github.com/SaschaWillems/Vulkan"
+            href = "https://github.com/java-opengl-labs/Vulkan"
             type = github
-            tags = Tags["opengl", "gui", "gamedev"]
+            tags = Tags["vulkan", "tutorial", "lwjgl"]
         }
         link {
             name = "Jonatino/JOGL2D"
@@ -1297,6 +1477,13 @@ val LibraryCategories = category("Libraries/Frameworks") {
     }
     subcategory("Command Line Interface") {
         link {
+            name = "ajalt/clikt"
+            desc = "Clikt - Intuitive command line interface parsing for Kotlin."
+            href = "https://github.com/ajalt/clikt"
+            type = github
+            tags = Tags["cli", "command line parser", "argument parser", "option parser"]
+        }
+        link {
             name = "leprosus/kotlin-cli"
             desc = "Kotlin-CLI - command line interface options parser for Kotlin."
             href = "https://github.com/leprosus/kotlin-cli"
@@ -1316,6 +1503,20 @@ val LibraryCategories = category("Libraries/Frameworks") {
             href = "https://github.com/xenomachina/kotlin-argparser"
             type = github
             tags = Tags["command-line-parser", "argument-parser", "option-parser"]
+        }
+        link {
+            name = "ajalt/mordant"
+            desc = "Mordant - Full-featured text styling for Kotlin command line applications."
+            href = "https://github.com/ajalt/mordant"
+            type = github
+            tags = Tags["cli", "ansi", "color"]
+        }
+        link {
+            name = "aPureBase/arkenv"
+            desc = "Fully fledged command line arguments / environment variables parser via simple Kotlin delegates"
+            href = "https://github.com/aPureBase/arkenv"
+            type = github
+            tags = Tags["cli", "argument", "env", "environment", "variables", "parser"]
         }
     }
     subcategory("Browsers") {

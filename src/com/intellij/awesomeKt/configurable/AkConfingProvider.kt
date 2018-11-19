@@ -1,7 +1,7 @@
 package com.intellij.awesomeKt.configurable
 
 import com.intellij.awesomeKt.util.Constants
-import com.intellij.awesomeKt.view.AKConfigComponent
+import com.intellij.awesomeKt.view.AkConfigComponent
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.ConfigurableProvider
 import javax.swing.JComponent
@@ -15,7 +15,7 @@ class AwesomeKtConfProvider : ConfigurableProvider() {
 
 class AwesomeKtConfigurable : Configurable {
 
-    private val component = AKConfigComponent()
+    private val component = AkConfigComponent()
 
     override fun disposeUIResources() {}
 

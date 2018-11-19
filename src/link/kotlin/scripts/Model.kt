@@ -1,15 +1,15 @@
 package link.kotlin.scripts
 
-data class Link(
-        val name: String = "",
-        val href: String = "",
-        val desc: String = "",
-        val type: LinkType = LinkType.none,
-        val tags: Array<String> = arrayOf(),
-        val whitelisted: Boolean = false,
-        var star: Int = 0,
-        var update: String = ""
-)
+import link.kotlin.scripts.LinkType.article
+import link.kotlin.scripts.LinkType.slides
+import link.kotlin.scripts.LinkType.video
+import link.kotlin.scripts.LinkType.webinar
+import link.kotlin.scripts.model.Link
+
+/**
+ * Content of this file should be same with
+ * https://github.com/KotlinBy/awesome-kotlin/blob/master/src/main/kotlin/link/kotlin/scripts/Model.kt
+ */
 
 enum class LinkType {
     none,
@@ -23,71 +23,43 @@ enum class LinkType {
     webinar
 }
 
+enum class TargetType {
+    ANDROID,
+    COMMON,
+    IOS,
+    JS,
+    JVM,
+    NATIVE,
+    WASM
+}
+
 fun LinkType.toView() = when (this) {
-    LinkType.article -> "Articles, Blog Posts"
-    LinkType.video -> "Videos"
-    LinkType.slides -> "Slides"
-    LinkType.webinar -> "Webinars"
+    article -> "Articles, Blog Posts"
+    video -> "Videos"
+    slides -> "Slides"
+    webinar -> "Webinars"
     else -> ""
 }
 
 data class Subcategory(
-        val id: String = "",
-        val name: String = "",
-        val links: MutableList<Link> = mutableListOf()
+        val id: String? = null,
+        val name: String,
+        val links: MutableList<Link>
 ) {
     operator fun Link.unaryPlus() = links.add(this)
 }
 
 data class Category(
-        val id: String = "",
-        val name: String = "",
-        val subcategories: MutableList<Subcategory> = mutableListOf()
+        val id: String? = null,
+        val name: String,
+        val subcategories: MutableList<Subcategory>
 ) {
     operator fun Subcategory.unaryPlus() = subcategories.add(this)
 }
 
-
-fun category(name: String, config: Category.() -> Unit): Category {
-    return Category(name = name, subcategories = mutableListOf()).apply {
-        config(this)
-    }
-}
-
-fun Category.subcategory(name: String, config: Subcategory.() -> Unit) {
-    val subcategory = Subcategory(name = name, links = mutableListOf())
-    config(subcategory)
-    this.subcategories.add(subcategory)
-}
-
-fun Subcategory.link(config: LinkBuilder.() -> Unit) {
-    val linkBuilder = LinkBuilder()
-    config(linkBuilder)
-    this.links.add(linkBuilder.toLink())
-}
-
-class LinkBuilder {
-    var name: String = ""
-    var href: String = ""
-    var desc: String = ""
-    var type: LinkType = LinkType.none
-    var tags: Array<String> = arrayOf()
-
-    var whitelisted: Boolean = false
-    fun toLink(): Link {
-        return Link(
-                name = name,
-                href = href,
-                desc = desc,
-                type = type,
-                tags = tags,
-                whitelisted = whitelisted
-        )
-    }
-}
-
-object Tags {
-    inline operator fun <reified K> get(vararg items: K) = arrayOf(*items)
+enum class ArticleFeature {
+    mathjax,
+    highlightjs
 }
 
 typealias Links = List<Category>

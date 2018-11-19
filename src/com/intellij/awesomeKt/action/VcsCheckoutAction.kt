@@ -1,7 +1,7 @@
 package com.intellij.awesomeKt.action
 
-import com.intellij.awesomeKt.util.AKDataKeys
-import com.intellij.awesomeKt.util.AKIntelliJUtil
+import com.intellij.awesomeKt.util.AkDataKeys
+import com.intellij.awesomeKt.util.AkIntelliJUtil
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.ProjectManager
@@ -9,17 +9,18 @@ import com.intellij.openapi.vcs.CheckoutProvider
 import com.intellij.openapi.vcs.CheckoutProviderEx
 import com.intellij.openapi.vcs.ProjectLevelVcsManager
 import com.intellij.ui.AppIcon
+import link.kotlin.scripts.LinkType
 
 /**
  * Created by Roger™
  */
 class VcsCheckoutAction : LanguageAwareAction(
-        AKIntelliJUtil.message("VcsCheckoutAction.text"),
-        AKIntelliJUtil.message("VcsCheckoutAction.description"),
+        AkIntelliJUtil.message("VcsCheckoutAction.text"),
+        AkIntelliJUtil.message("VcsCheckoutAction.description"),
         AllIcons.Actions.CheckOut
 ) {
     override fun actionPerformed(e: AnActionEvent?) {
-        e?.getData(AKDataKeys.tableItem)?.let { link ->
+        e?.getData(AkDataKeys.tableItem)?.let { link ->
             CheckoutProvider.EXTENSION_POINT_NAME.extensions.forEach { provider ->
                 if (provider is CheckoutProviderEx && provider.vcsId.equals("git", true)) {
                     val project = ProjectManager.getInstance().defaultProject
@@ -34,6 +35,11 @@ class VcsCheckoutAction : LanguageAwareAction(
 
     override fun update(e: AnActionEvent?) {
         super.update(e)
-        e?.presentation?.isEnabledAndVisible = e?.getData(AKDataKeys.tableItem) != null
+        e?.presentation?.isEnabledAndVisible = false
+        e?.getData(AkDataKeys.tableItem)?.let {
+            if ((it.type == LinkType.github || it.type == LinkType.bitbucket) && it.href.isNotBlank()) {
+                e.presentation.isEnabledAndVisible = true
+            }
+        }
     }
 }

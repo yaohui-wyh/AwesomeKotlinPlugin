@@ -14,7 +14,7 @@ import java.util.*
 /**
  * Created by Roger™
  */
-class AKIntelliJUtil {
+class AkIntelliJUtil {
 
     companion object {
 

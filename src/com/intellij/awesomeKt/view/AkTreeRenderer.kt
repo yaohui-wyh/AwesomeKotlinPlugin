@@ -5,9 +5,9 @@ import com.intellij.ui.JBDefaultTreeCellRenderer
 import com.intellij.ui.components.JBLabel
 import com.intellij.util.ui.JBUI
 import link.kotlin.scripts.Category
-import link.kotlin.scripts.Link
 import link.kotlin.scripts.LinkType
 import link.kotlin.scripts.Subcategory
+import link.kotlin.scripts.model.Link
 import java.awt.Component
 import java.awt.Font
 import javax.swing.JLabel
@@ -17,7 +17,7 @@ import javax.swing.tree.DefaultMutableTreeNode
 /**
  * Created by Roger™
  */
-class AKTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
+class AkTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
 
     override fun getTreeCellRendererComponent(tree: JTree?, value: Any?, sel: Boolean, expanded: Boolean,
                                               leaf: Boolean, row: Int, hasFocus: Boolean): Component {
@@ -29,7 +29,7 @@ class AKTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
                 is Category -> {
                     label.text = obj.name
                     label.font = Font(JLabel().font.fontName, Font.BOLD, JBUI.scale(14))
-                    label.icon = AKIcons.KOTLIN_ICON
+                    label.icon = AkIcons.KOTLIN_ICON
                     label.border = IdeBorderFactory.createEmptyBorder(8, 0, 4, 0)
                 }
                 is Subcategory -> {
@@ -39,8 +39,8 @@ class AKTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
                 }
                 is Link -> {
                     when (obj.type) {
-                        LinkType.github -> label.icon = AKIcons.GITHUB_ICON
-                        LinkType.bitbucket -> label.icon = AKIcons.BITBUCKET_ICON
+                        LinkType.github -> label.icon = AkIcons.GITHUB_ICON
+                        LinkType.bitbucket -> label.icon = AkIcons.BITBUCKET_ICON
                         else -> {
                         }
                     }

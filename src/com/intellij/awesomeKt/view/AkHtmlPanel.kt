@@ -10,7 +10,7 @@ import javax.swing.text.BadLocationException
 /**
  * Created by Roger™
  */
-class AKHtmlPanel : JEditorPane("text/html", "") {
+class AkHtmlPanel : JEditorPane("text/html", "") {
 
     init {
         isEditable = false

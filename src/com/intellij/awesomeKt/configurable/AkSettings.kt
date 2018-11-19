@@ -4,9 +4,6 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
-import kotlinx.coroutines.experimental.async
-import link.kotlin.scripts.DefaultStarsGenerator
-import link.kotlin.scripts.ProjectLinks
 
 /**
  * Created by Roger™
@@ -33,9 +30,7 @@ class AKSettings : PersistentStateComponent<AKSettings.State> {
     }
 
     fun init() {
-        async {
-            ProjectLinks.categories = DefaultStarsGenerator().generate(ProjectLinks.categories).toMutableList()
-        }
+        // TODO
     }
 
     class State {
