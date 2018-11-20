@@ -3,6 +3,7 @@ package link.kotlin.scripts
 import com.intellij.awesomeKt.util.KotlinScriptCompiler
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.util.ResourceUtil
+import link.kotlin.scripts.resources.links.*
 
 private val files = listOf(
         "Links.kts",
@@ -19,7 +20,8 @@ class ProjectLinks {
     companion object {
 
         private val logger = Logger.getInstance(this::class.java)
-        val links by lazy { files.mapNotNull(this::linksFromFile) }
+
+        val links by lazy { linksFromPlugin() }
 
         fun search(text: String): List<Category> {
             return links.mapNotNull {
@@ -43,9 +45,13 @@ class ProjectLinks {
             }
         }
 
+        private fun linksFromPlugin(): List<Category> {
+            return listOf(AkLinks, AkLibraries, AkProjects, AkAndroid, AkJavaScript, AkNative, AkUserGroups, AkArchive)
+        }
+
         private fun linksFromFile(path: String): Category? {
             return try {
-                val text = ResourceUtil.loadText(ResourceUtil.getResource(this::class.java, "/scripts/", path))
+                val text = ResourceUtil.loadText(ResourceUtil.getResource(this::class.java, "/link/kotlin/scripts/resources/links/", path))
                 KotlinScriptCompiler.execute(text)
             } catch (e: Exception) {
                 logger.error("Error while processing file $path.", e)

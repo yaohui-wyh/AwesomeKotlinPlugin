@@ -61,4 +61,5 @@ kotlin {
 
 runIde {
     systemProperty("AwesomeKotlin.is.internal", true)
+    systemProperty("jdk.util.zip.ensureTrailingSlash", true)
 }

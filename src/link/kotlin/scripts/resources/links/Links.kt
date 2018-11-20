@@ -1,3 +1,5 @@
+package link.kotlin.scripts.resources.links
+
 import link.kotlin.scripts.LinkType
 import link.kotlin.scripts.LinkType.github
 import link.kotlin.scripts.Tags
@@ -5,7 +7,7 @@ import link.kotlin.scripts.category
 import link.kotlin.scripts.link
 import link.kotlin.scripts.subcategory
 
-category("Links") {
+val AkLinks = category("Links") {
     subcategory("Official Links") {
         link {
             name = "JetBrains/kotlin"

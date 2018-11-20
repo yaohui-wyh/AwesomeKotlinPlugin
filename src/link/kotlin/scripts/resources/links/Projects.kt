@@ -1,10 +1,12 @@
+package link.kotlin.scripts.resources.links
+
 import link.kotlin.scripts.LinkType.github
 import link.kotlin.scripts.Tags
 import link.kotlin.scripts.category
 import link.kotlin.scripts.link
 import link.kotlin.scripts.subcategory
 
-category("Projects") {
+val AkProjects = category("Projects") {
     subcategory("Web") {
         link {
             name = "sdeleuze/spring-boot-kotlin-demo"

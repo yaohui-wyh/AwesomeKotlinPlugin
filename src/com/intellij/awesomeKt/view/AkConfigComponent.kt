@@ -10,14 +10,15 @@ import com.intellij.ui.HyperlinkLabel
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.ListCellRendererWrapper
 import com.intellij.ui.components.JBLabel
+import com.intellij.ui.components.JBRadioButton
 import com.intellij.util.ui.UIUtil
 import java.awt.FlowLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.Insets
-import javax.swing.BoxLayout
-import javax.swing.JList
-import javax.swing.JPanel
+import java.awt.event.ActionEvent
+import java.awt.event.ActionListener
+import javax.swing.*
 
 /**
  * Created by Roger™
@@ -30,7 +31,8 @@ class AkConfigComponent {
     init {
         mainPanel.layout = GridBagLayout()
         mainPanel.add(buildSettingsPanel(), GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
-        mainPanel.add(buildAboutPanel(), GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
+        mainPanel.add(buildUpdatePanel(), GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
+        mainPanel.add(buildAboutPanel(), GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
     }
 
     private fun buildSettingsPanel(): JPanel {
@@ -82,6 +84,36 @@ class AkConfigComponent {
         aboutPanel.add(extraPanel)
 
         return aboutPanel
+    }
+
+    private fun buildUpdatePanel(): JPanel {
+        val updatePanel = JPanel()
+        updatePanel.layout = BoxLayout(updatePanel, BoxLayout.Y_AXIS)
+        updatePanel.border = IdeBorderFactory.createTitledBorder(AkIntelliJUtil.message("Config.updateContent"), true)
+
+        val btnGroupPanel = JPanel()
+        btnGroupPanel.layout = FlowLayout(FlowLayout.LEFT, 0, 5)
+
+        val btnGroup = ButtonGroup()
+        val actionListener = ActionListener {
+        }
+        val pluginVersionBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.pluginVersion"), true)
+        pluginVersionBtn.addActionListener(actionListener)
+        btnGroup.add(pluginVersionBtn)
+        val githubVersionBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.githubVersion"), false)
+        githubVersionBtn.addActionListener(actionListener)
+        btnGroup.add(githubVersionBtn)
+        val customUrlBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.customUrl"), false)
+        customUrlBtn.addActionListener(actionListener)
+        btnGroup.add(customUrlBtn)
+
+        btnGroupPanel.add(pluginVersionBtn)
+        btnGroupPanel.add(githubVersionBtn)
+        btnGroupPanel.add(customUrlBtn)
+
+        updatePanel.add(btnGroupPanel)
+
+        return updatePanel
     }
 
     private fun setRateLabel(parent: JPanel): HyperlinkLabel {

@@ -1,10 +1,12 @@
+package link.kotlin.scripts.resources.links
+
 import link.kotlin.scripts.LinkType.kug
 import link.kotlin.scripts.Tags
 import link.kotlin.scripts.category
 import link.kotlin.scripts.link
 import link.kotlin.scripts.subcategory
 
-category("Kotlin User Groups") {
+val AkUserGroups = category("Kotlin User Groups") {
     subcategory("Europe") {
         link {
             name = "Amsterdam Kotlin User Group"

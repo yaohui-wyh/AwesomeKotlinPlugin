@@ -1,3 +1,5 @@
+package link.kotlin.scripts.resources.links
+
 import link.kotlin.scripts.LinkType.github
 import link.kotlin.scripts.LinkType.kug
 import link.kotlin.scripts.Tags
@@ -8,7 +10,7 @@ import link.kotlin.scripts.subcategory
 /**
  * Instead of deleting links (since they become 404, etc) move them here.
  */
-category("Archive") {
+val AkArchive = category("Archive") {
     subcategory("Libraries/Frameworks") {
         link {
             name = "Kategory/Kategory"

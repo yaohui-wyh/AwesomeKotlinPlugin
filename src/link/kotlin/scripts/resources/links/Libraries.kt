@@ -1,3 +1,5 @@
+package link.kotlin.scripts.resources.links
+
 import link.kotlin.scripts.LinkType.bitbucket
 import link.kotlin.scripts.LinkType.github
 import link.kotlin.scripts.Tags
@@ -9,7 +11,7 @@ import link.kotlin.scripts.category
 import link.kotlin.scripts.link
 import link.kotlin.scripts.subcategory
 
-category("Libraries/Frameworks") {
+val AkLibraries = category("Libraries/Frameworks") {
     subcategory("Web") {
         link {
             name = "ktorio/ktor"

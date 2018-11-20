@@ -20,4 +20,3 @@ abstract class LanguageAwareAction(
         }
     }
 }
-
