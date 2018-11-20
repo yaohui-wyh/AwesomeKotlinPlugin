@@ -3,6 +3,7 @@ package com.intellij.awesomeKt.view
 import com.intellij.awesomeKt.configurable.AkSettings
 import com.intellij.awesomeKt.configurable.ContentSource
 import com.intellij.awesomeKt.configurable.LanguageItem
+import com.intellij.awesomeKt.configurable.githubContentList
 import com.intellij.awesomeKt.util.AkIntelliJUtil
 import com.intellij.awesomeKt.util.Constants
 import com.intellij.icons.AllIcons
@@ -17,7 +18,6 @@ import java.awt.FlowLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.Insets
-import java.awt.event.ActionListener
 import javax.swing.*
 
 /**
@@ -31,11 +31,13 @@ class AkConfigComponent {
     private val fromPluginBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.fromPlugin"))
     private val fromGithubBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.fromGithub"))
     private val fromCustomUrlBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.fromCustomUrl"))
+    private val contentListPanel = AkContentSourceListPanel()
+    private val testUpdateBtn = JButton(AkIntelliJUtil.message("Config.updateBtn"))
 
     init {
         mainPanel.layout = GridBagLayout()
         mainPanel.add(buildSettingsPanel(), GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
-        mainPanel.add(buildUpdatePanel(), GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
+        mainPanel.add(buildContentSourcePanel(), GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
         mainPanel.add(buildAboutPanel(), GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
     }
 
@@ -107,19 +109,14 @@ class AkConfigComponent {
         }
     }
 
-    private fun buildUpdatePanel(): JPanel {
-        val updatePanel = JPanel()
-        updatePanel.layout = BoxLayout(updatePanel, BoxLayout.Y_AXIS)
-        updatePanel.border = IdeBorderFactory.createTitledBorder(AkIntelliJUtil.message("Config.updateContent"), true)
+    private fun buildContentSourcePanel(): JPanel {
+        val contentPanel = JPanel()
+        contentPanel.layout = GridBagLayout()
+        contentPanel.border = IdeBorderFactory.createTitledBorder(AkIntelliJUtil.message("Config.updateContent"), true)
 
+        // ========= Radio Buttons ============
         val btnGroupPanel = JPanel()
-        btnGroupPanel.layout = FlowLayout(FlowLayout.LEFT, 0, 5)
-
-        val actionListener = ActionListener {
-        }
-        fromPluginBtn.addActionListener(actionListener)
-        fromGithubBtn.addActionListener(actionListener)
-        fromCustomUrlBtn.addActionListener(actionListener)
+        btnGroupPanel.layout = BoxLayout(btnGroupPanel, BoxLayout.Y_AXIS)
 
         radioBtnGroup.add(fromPluginBtn)
         radioBtnGroup.add(fromGithubBtn)
@@ -129,9 +126,16 @@ class AkConfigComponent {
         btnGroupPanel.add(fromGithubBtn)
         btnGroupPanel.add(fromCustomUrlBtn)
 
-        updatePanel.add(btnGroupPanel)
+        fromPluginBtn.addActionListener { toggleRadioSelection() }
+        fromGithubBtn.addActionListener { toggleRadioSelection() }
+        fromCustomUrlBtn.addActionListener { toggleRadioSelection() }
 
-        return updatePanel
+        contentPanel.add(btnGroupPanel, GridBagConstraints(0, 0, 0, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
+        contentPanel.add(contentListPanel, GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(8, 10, 0, 0), 0, 0))
+        contentPanel.add(testUpdateBtn, GridBagConstraints(0, 2, 0, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.WEST, Insets(10, 10, 0, 0), 0, 0))
+
+        toggleRadioSelection()
+        return contentPanel
     }
 
     private fun setRateLabel(parent: JPanel): HyperlinkLabel {
@@ -145,18 +149,39 @@ class AkConfigComponent {
         return label
     }
 
-    fun isModified(): Boolean {
-        return comboBox.selectedItem != AkSettings.instance.lang ||
-                getContentSrc(radioBtnGroup.selection) != AkSettings.instance.contentSource
+    private fun toggleRadioSelection() {
+        contentListPanel.isVisible = !fromPluginBtn.isSelected
+        testUpdateBtn.isVisible = !fromPluginBtn.isSelected
+        if (fromGithubBtn.isSelected) {
+            contentListPanel.items = githubContentList
+            contentListPanel.toggleEditable(false)
+        }
+        if (fromCustomUrlBtn.isSelected) {
+            contentListPanel.items = AkSettings.instance.customContentSourceList
+            contentListPanel.toggleEditable(true)
+        }
     }
 
+    fun isModified(): Boolean {
+        val contentSrcSelection = getContentSrc(radioBtnGroup.selection)
+        return comboBox.selectedItem != AkSettings.instance.lang ||
+                contentSrcSelection != AkSettings.instance.contentSource ||
+                (contentSrcSelection == ContentSource.CUSTOM && contentListPanel.items != AkSettings.instance.customContentSourceList)
+    }
+
+    // Reset will be called at init
     fun reset() {
         comboBox.selectedItem = AkSettings.instance.lang
         radioBtnGroup.setSelected(getContentBtn(AkSettings.instance.contentSource).model, true)
+        toggleRadioSelection()
     }
 
     fun apply() {
+        val contentSrcSelection = getContentSrc(radioBtnGroup.selection)
         AkSettings.instance.lang = comboBox.selectedItem as LanguageItem
         AkSettings.instance.contentSource = getContentSrc(radioBtnGroup.selection)
+        if (contentSrcSelection == ContentSource.CUSTOM) {
+            AkSettings.instance.customContentSourceList = contentListPanel.items.toMutableList()
+        }
     }
 }

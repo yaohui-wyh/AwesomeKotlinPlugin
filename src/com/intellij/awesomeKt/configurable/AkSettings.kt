@@ -29,6 +29,12 @@ class AkSettings : PersistentStateComponent<AkSettings.State> {
             myState.contentSource = source
         }
 
+    var customContentSourceList: MutableList<String>
+        get() = myState.customContentSourceList
+        set(list) {
+            myState.customContentSourceList = list
+        }
+
     override fun getState() = myState
 
     override fun loadState(state: State) {
@@ -42,6 +48,7 @@ class AkSettings : PersistentStateComponent<AkSettings.State> {
     class State {
         var lang: LanguageItem = LanguageItem.CHINESE
         var contentSource: ContentSource = ContentSource.PLUGIN
+        var customContentSourceList: MutableList<String> = mutableListOf()
     }
 }
 
@@ -55,3 +62,15 @@ enum class ContentSource {
     GITHUB,
     CUSTOM
 }
+
+val githubPrefix = "https://raw.githubusercontent.com/KotlinBy/awesome-kotlin/master/src/main/resources/links/"
+val githubContentList = listOf(
+        "Links.kts",
+        "Libraries.kts",
+        "Projects.kts",
+        "Android.kts",
+        "JavaScript.kts",
+        "Native.kts",
+        "UserGroups.kts",
+        "Archive.kts"
+)
