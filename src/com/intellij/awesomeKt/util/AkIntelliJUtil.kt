@@ -1,7 +1,7 @@
 package com.intellij.awesomeKt.util
 
 import com.intellij.CommonBundle
-import com.intellij.awesomeKt.configurable.AKSettings
+import com.intellij.awesomeKt.configurable.AkSettings
 import com.intellij.notification.NotificationGroup
 import com.intellij.notification.NotificationListener
 import com.intellij.notification.NotificationType
@@ -33,7 +33,7 @@ class AkIntelliJUtil {
         }
 
         fun message(key: String, vararg params: Any): String {
-            val filename = "messages.lang-${AKSettings.instance.lang.locale}"
+            val filename = "messages.lang-${AkSettings.instance.lang.locale}"
             return CommonBundle.message(ResourceBundle.getBundle(filename, UTF8Control()), key, params)
         }
     }

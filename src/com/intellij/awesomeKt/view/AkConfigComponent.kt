@@ -1,6 +1,7 @@
 package com.intellij.awesomeKt.view
 
-import com.intellij.awesomeKt.configurable.AKSettings
+import com.intellij.awesomeKt.configurable.AkSettings
+import com.intellij.awesomeKt.configurable.ContentSource
 import com.intellij.awesomeKt.configurable.LanguageItem
 import com.intellij.awesomeKt.util.AkIntelliJUtil
 import com.intellij.awesomeKt.util.Constants
@@ -16,7 +17,6 @@ import java.awt.FlowLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.Insets
-import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import javax.swing.*
 
@@ -27,6 +27,10 @@ class AkConfigComponent {
 
     val mainPanel = JPanel()
     private val comboBox = ComboBox(LanguageItem.values())
+    private val radioBtnGroup = ButtonGroup()
+    private val fromPluginBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.fromPlugin"))
+    private val fromGithubBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.fromGithub"))
+    private val fromCustomUrlBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.fromCustomUrl"))
 
     init {
         mainPanel.layout = GridBagLayout()
@@ -47,7 +51,7 @@ class AkConfigComponent {
         languagePanel.add(languageLabel)
         languagePanel.add(comboBox)
 
-        comboBox.selectedItem = AKSettings.instance.lang
+        comboBox.selectedItem = AkSettings.instance.lang
         comboBox.renderer = object : ListCellRendererWrapper<LanguageItem>() {
             override fun customize(list: JList<*>?, item: LanguageItem?, index: Int, selected: Boolean, hasFocus: Boolean) {
                 setText(AkIntelliJUtil.message(item?.messageKey.orEmpty()))
@@ -86,6 +90,23 @@ class AkConfigComponent {
         return aboutPanel
     }
 
+    private fun getContentBtn(src: ContentSource): JBRadioButton {
+        return when (src) {
+            ContentSource.PLUGIN -> fromPluginBtn
+            ContentSource.GITHUB -> fromGithubBtn
+            ContentSource.CUSTOM -> fromCustomUrlBtn
+        }
+    }
+
+    private fun getContentSrc(btnModel: ButtonModel): ContentSource {
+        return when (btnModel) {
+            fromPluginBtn.model -> ContentSource.PLUGIN
+            fromGithubBtn.model -> ContentSource.GITHUB
+            fromCustomUrlBtn.model -> ContentSource.CUSTOM
+            else -> ContentSource.PLUGIN
+        }
+    }
+
     private fun buildUpdatePanel(): JPanel {
         val updatePanel = JPanel()
         updatePanel.layout = BoxLayout(updatePanel, BoxLayout.Y_AXIS)
@@ -94,22 +115,19 @@ class AkConfigComponent {
         val btnGroupPanel = JPanel()
         btnGroupPanel.layout = FlowLayout(FlowLayout.LEFT, 0, 5)
 
-        val btnGroup = ButtonGroup()
         val actionListener = ActionListener {
         }
-        val pluginVersionBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.pluginVersion"), true)
-        pluginVersionBtn.addActionListener(actionListener)
-        btnGroup.add(pluginVersionBtn)
-        val githubVersionBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.githubVersion"), false)
-        githubVersionBtn.addActionListener(actionListener)
-        btnGroup.add(githubVersionBtn)
-        val customUrlBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.customUrl"), false)
-        customUrlBtn.addActionListener(actionListener)
-        btnGroup.add(customUrlBtn)
+        fromPluginBtn.addActionListener(actionListener)
+        fromGithubBtn.addActionListener(actionListener)
+        fromCustomUrlBtn.addActionListener(actionListener)
 
-        btnGroupPanel.add(pluginVersionBtn)
-        btnGroupPanel.add(githubVersionBtn)
-        btnGroupPanel.add(customUrlBtn)
+        radioBtnGroup.add(fromPluginBtn)
+        radioBtnGroup.add(fromGithubBtn)
+        radioBtnGroup.add(fromCustomUrlBtn)
+
+        btnGroupPanel.add(fromPluginBtn)
+        btnGroupPanel.add(fromGithubBtn)
+        btnGroupPanel.add(fromCustomUrlBtn)
 
         updatePanel.add(btnGroupPanel)
 
@@ -128,15 +146,17 @@ class AkConfigComponent {
     }
 
     fun isModified(): Boolean {
-        return comboBox.selectedItem != AKSettings.instance.lang
+        return comboBox.selectedItem != AkSettings.instance.lang ||
+                getContentSrc(radioBtnGroup.selection) != AkSettings.instance.contentSource
     }
 
     fun reset() {
-        comboBox.selectedItem = AKSettings.instance.lang
+        comboBox.selectedItem = AkSettings.instance.lang
+        radioBtnGroup.setSelected(getContentBtn(AkSettings.instance.contentSource).model, true)
     }
 
     fun apply() {
-        AKSettings.instance.lang = comboBox.selectedItem as LanguageItem
+        AkSettings.instance.lang = comboBox.selectedItem as LanguageItem
+        AkSettings.instance.contentSource = getContentSrc(radioBtnGroup.selection)
     }
 }
-

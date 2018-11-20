@@ -9,18 +9,24 @@ import com.intellij.openapi.components.Storage
  * Created by Roger™
  */
 @State(name = "AwesomeKotlinSettings", storages = [(Storage("awesome-kotlin/settings.xml"))])
-class AKSettings : PersistentStateComponent<AKSettings.State> {
+class AkSettings : PersistentStateComponent<AkSettings.State> {
     private var myState = State()
 
     companion object {
-        val instance: AKSettings
-            get() = ServiceManager.getService(AKSettings::class.java)
+        val instance: AkSettings
+            get() = ServiceManager.getService(AkSettings::class.java)
     }
 
     var lang: LanguageItem
         get() = myState.lang
         set(lang) {
             myState.lang = lang
+        }
+
+    var contentSource: ContentSource
+        get() = myState.contentSource
+        set(source) {
+            myState.contentSource = source
         }
 
     override fun getState() = myState
@@ -35,10 +41,17 @@ class AKSettings : PersistentStateComponent<AKSettings.State> {
 
     class State {
         var lang: LanguageItem = LanguageItem.CHINESE
+        var contentSource: ContentSource = ContentSource.PLUGIN
     }
 }
 
 enum class LanguageItem(val locale: String, val messageKey: String) {
     CHINESE("zh", "Config.language.zh"),
     ENGLISH("en", "Config.language.en");
+}
+
+enum class ContentSource {
+    PLUGIN,
+    GITHUB,
+    CUSTOM
 }
