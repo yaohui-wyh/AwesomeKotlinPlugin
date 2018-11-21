@@ -129,4 +129,4 @@ suspend fun Call.await(): Response = suspendCoroutine { cont: Continuation<Respo
     })
 }
 
-class OkHttpException(val request: Request, val exception: Exception) : RuntimeException(exception)
+class OkHttpException(val request: Request, val exception: Exception): Exception()

@@ -4,17 +4,25 @@ import com.intellij.awesomeKt.action.RefreshAction
 import com.intellij.awesomeKt.action.SettingsAction
 import com.intellij.awesomeKt.action.VcsCheckoutAction
 import com.intellij.awesomeKt.action.WebAction
+import com.intellij.awesomeKt.configurable.AkData
+import com.intellij.awesomeKt.configurable.AkSettings
+import com.intellij.awesomeKt.configurable.ContentSource
+import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_REFRESH_TOPIC
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_VIEW_TOPIC
+import com.intellij.awesomeKt.messages.RefreshItemsListener
 import com.intellij.awesomeKt.messages.TableViewListener
 import com.intellij.awesomeKt.util.AkDataKeys
+import com.intellij.awesomeKt.util.Constants
 import com.intellij.icons.AllIcons
 import com.intellij.ide.CommonActionsManager
 import com.intellij.ide.DataManager
 import com.intellij.ide.TreeExpander
+import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.DataProvider
 import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.ui.VerticalFlowLayout
@@ -26,6 +34,8 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.table.ComponentsListFocusTraversalPolicy
 import com.intellij.util.ui.tree.TreeUtil
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import link.kotlin.scripts.Category
 import link.kotlin.scripts.ProjectLinks
 import link.kotlin.scripts.model.Link
@@ -107,6 +117,28 @@ class AkToolWindowContent : DataProvider {
                 myDetailPanel.revalidate()
             }
         })
+
+        busConnection.subscribe(AWESOME_KOTLIN_REFRESH_TOPIC, object : RefreshItemsListener {
+            override fun onRefresh() {
+                if (AkSettings.instance.contentSource == ContentSource.PLUGIN) {
+                    AkData.instance.links = ProjectLinks.linksFromPlugin()
+                    myTree.model = setTreeModel(AkData.instance.links)
+                }
+                if (AkSettings.instance.contentSource == ContentSource.GITHUB) {
+                    myTree.setPaintBusy(true)
+                    PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, true)
+                    GlobalScope.launch {
+                        val links = ProjectLinks.linksFromGithub()
+                        AkData.instance.links = ProjectLinks.linksFromPlugin()
+                        ApplicationManager.getApplication().invokeLater {
+                            myTree.model = setTreeModel(links)
+                            myTree.setPaintBusy(false)
+                            PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, false)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     fun setTreeModel(links: List<Category>): DefaultTreeModel {
@@ -127,7 +159,7 @@ class AkToolWindowContent : DataProvider {
     }
 
     private fun setTreeView() {
-        val model = setTreeModel(ProjectLinks.links)
+        val model = setTreeModel(AkData.instance.links)
         myTree.model = model
         myTree.isRootVisible = false
         myTree.selectionModel.selectionMode = TreeSelectionModel.SINGLE_TREE_SELECTION

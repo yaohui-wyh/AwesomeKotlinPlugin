@@ -2,7 +2,9 @@ package com.intellij.awesomeKt.action
 
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_REFRESH_TOPIC
 import com.intellij.awesomeKt.util.AkIntelliJUtil
+import com.intellij.awesomeKt.util.Constants
 import com.intellij.icons.AllIcons
+import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.AnActionEvent
 
 /**
@@ -15,5 +17,9 @@ class RefreshAction : LanguageAwareAction(
 ) {
     override fun actionPerformed(e: AnActionEvent?) {
         e?.project?.messageBus?.syncPublisher(AWESOME_KOTLIN_REFRESH_TOPIC)?.onRefresh()
+    }
+
+    override fun update(e: AnActionEvent?) {
+        e?.presentation?.isEnabled = !PropertiesComponent.getInstance().getBoolean(Constants.propRefreshBtnBusy, false)
     }
 }

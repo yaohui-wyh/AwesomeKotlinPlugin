@@ -12,7 +12,7 @@ import com.intellij.openapi.options.ShowSettingsUtil
 class SettingsAction : LanguageAwareAction(
         AkIntelliJUtil.message("SettingsAction.text"),
         AkIntelliJUtil.message("SettingsAction.description"),
-        AllIcons.General.SecondaryGroup
+        AllIcons.General.Settings
 ) {
     override fun actionPerformed(e: AnActionEvent?) {
         ShowSettingsUtil.getInstance().showSettingsDialog(e?.project, Constants.PLUGIN_NAME)

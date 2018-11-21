@@ -4,6 +4,7 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
+import link.kotlin.scripts.Category
 
 /**
  * Created by Roger™
@@ -12,6 +13,8 @@ import com.intellij.openapi.components.Storage
 class AkData(
 ) : PersistentStateComponent<AkData.State> {
     private var myState = State()
+
+    var links: List<Category> = listOf()
 
     companion object {
         val instance: AkData

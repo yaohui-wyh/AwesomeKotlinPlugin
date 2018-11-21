@@ -15,5 +15,8 @@ class Constants {
 
         const val PLUGIN_RATE_URL = ""
         const val BUG_REPORTER_WEB_URL = "https://github.com/roger-yh99/AwesomeKotlinPlugin/issues/new"
+
+        const val propRefreshBtnBusy = "Property.RefreshButtonBusy"
+
     }
 }

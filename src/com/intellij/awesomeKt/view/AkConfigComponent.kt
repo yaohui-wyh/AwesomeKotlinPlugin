@@ -3,7 +3,7 @@ package com.intellij.awesomeKt.view
 import com.intellij.awesomeKt.configurable.AkSettings
 import com.intellij.awesomeKt.configurable.ContentSource
 import com.intellij.awesomeKt.configurable.LanguageItem
-import com.intellij.awesomeKt.configurable.githubContentList
+import link.kotlin.scripts.githubContentList
 import com.intellij.awesomeKt.util.AkIntelliJUtil
 import com.intellij.awesomeKt.util.Constants
 import com.intellij.icons.AllIcons

@@ -11,7 +11,7 @@ fun LocalDateTime?.toStr(pattern: String? = "yyyy-MM-dd HH:mm:ss"): String {
 
 fun Logger.d(message: String, t: Throwable? = null) {
     if (AwesomeKtDebug.isInternal) {
-        this.warn(message, t)
+        this.warn("[AwesomeKt Debug] $message", t)
     }
 }
 
