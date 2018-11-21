@@ -12,5 +12,7 @@ interface AkIcons {
         val KOTLIN_ICON = IconLoader.getIcon("/images/kotlinIcon.png")
         val GITHUB_ICON = IconLoader.getIcon("/images/github.png")
         val BITBUCKET_ICON = IconLoader.getIcon("/images/bitbucket.png")
+        val STAR = IconLoader.getIcon("/images/star.png")
+        val CHANGES = IconLoader.getIcon("/images/changes.png")
     }
 }

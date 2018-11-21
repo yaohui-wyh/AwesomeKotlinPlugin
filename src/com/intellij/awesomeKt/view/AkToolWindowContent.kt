@@ -12,8 +12,9 @@ import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_VIEW_TOPIC
 import com.intellij.awesomeKt.messages.RefreshItemsListener
 import com.intellij.awesomeKt.messages.TableViewListener
 import com.intellij.awesomeKt.util.AkDataKeys
+import com.intellij.awesomeKt.util.AkIntelliJUtil
 import com.intellij.awesomeKt.util.Constants
-import com.intellij.icons.AllIcons
+import com.intellij.ide.BrowserUtil
 import com.intellij.ide.CommonActionsManager
 import com.intellij.ide.DataManager
 import com.intellij.ide.TreeExpander
@@ -37,17 +38,17 @@ import com.intellij.util.ui.tree.TreeUtil
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import link.kotlin.scripts.Category
+import link.kotlin.scripts.LinkType
 import link.kotlin.scripts.ProjectLinks
 import link.kotlin.scripts.model.Link
 import net.miginfocom.swing.MigLayout
 import java.awt.BorderLayout
 import java.awt.Component
-import java.awt.FlowLayout
 import java.awt.Font
+import javax.swing.BoxLayout
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
-import javax.swing.SwingConstants
 import javax.swing.event.DocumentEvent
 import javax.swing.text.BadLocationException
 import javax.swing.tree.DefaultMutableTreeNode
@@ -79,39 +80,20 @@ class AkToolWindowContent : DataProvider {
                 currentLink = link
                 myDetailPanel.removeAll()
                 link?.let {
-                    val headerPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
-                    val linkLabel = HyperlinkLabel()
-                    headerPanel.add(linkLabel)
-                    linkLabel.setHtmlText("<a href=\"#link\"><b>${it.name}</b></a>")
-                    if (it.href.isNotBlank()) {
-                        linkLabel.setHyperlinkTarget(it.href)
+                    val linkLabel = HoverHyperlinkLabel(it.name)
+                    if (link.href.isNotBlank()) {
+                        linkLabel.addHyperlinkListener { BrowserUtil.browse(link.href) }
                     }
                     linkLabel.font = Font(JLabel().font.fontName, Font.BOLD, JBUI.scale(13))
-
-                    if (it.star != null && it.star!! > 0) {
-                        val starLabel = JBLabel(it.star.toString())
-                        starLabel.icon = AllIcons.Ide.Rating
-                        starLabel.horizontalTextPosition = SwingConstants.LEFT
-                        starLabel.border = IdeBorderFactory.createEmptyBorder(0, 8, 0, 15)
-                        headerPanel.add(starLabel)
-                    }
-
-                    headerPanel.border = IdeBorderFactory.createEmptyBorder(5, 2, 5, 0)
-                    headerPanel.background = UIUtil.getLabelBackground()
-                    myDetailPanel.add(headerPanel)
-
-                    if (!it.update.isNullOrBlank()) {
-                        val updateLabel = JBLabel("Last update: ${it.update}")
-                        updateLabel.foreground = AkUISettings.instance.passedColor
-                        updateLabel.border = IdeBorderFactory.createEmptyBorder(0, 2, 0, 0)
-                        myDetailPanel.add(updateLabel)
-                    }
+                    linkLabel.border = IdeBorderFactory.createEmptyBorder(5, 0, 5, 0)
+                    myDetailPanel.add(linkLabel)
 
                     val desc = AkHtmlPanel()
                     desc.text = it.desc
                     desc.background = UIUtil.getTableBackground()
-                    desc.border = IdeBorderFactory.createEmptyBorder(0, 2, 0, 0)
                     myDetailPanel.add(desc)
+
+                    setGithubDetail(link)
                 }
                 myDetailPanel.repaint()
                 myDetailPanel.revalidate()
@@ -141,6 +123,39 @@ class AkToolWindowContent : DataProvider {
         })
     }
 
+    private fun setGithubDetail(link: Link) {
+        if (link.type == LinkType.github) {
+            GlobalScope.launch {
+                val ret = ProjectLinks.getGithubStarCount(link)
+                ApplicationManager.getApplication().invokeLater {
+                    val panel = JPanel()
+                    panel.border = IdeBorderFactory.createEmptyBorder(10, 0, 0, 0)
+                    panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
+                    if (ret.star != null && ret.star!! > 0) {
+                        val starLabel = JBLabel("Star ${ret.star.toString()}")
+                        starLabel.icon = AkIcons.STAR
+                        starLabel.foreground = AkUISettings.instance.passedColor
+                        panel.add(starLabel)
+                    }
+
+                    if (!ret.update.isNullOrBlank()) {
+                        val updateLabel = JBLabel("Last update ${ret.update}")
+                        updateLabel.icon = AkIcons.CHANGES
+                        updateLabel.foreground = AkUISettings.instance.passedColor
+                        panel.add(updateLabel)
+                    }
+
+                    if (panel.componentCount > 0) {
+                        panel.background = UIUtil.getTableBackground()
+                        myDetailPanel.add(panel)
+                        myDetailPanel.repaint()
+                        myDetailPanel.revalidate()
+                    }
+                }
+            }
+        }
+    }
+
     fun setTreeModel(links: List<Category>): DefaultTreeModel {
         val root = DefaultMutableTreeNode()
         links.forEach { category ->
@@ -165,6 +180,7 @@ class AkToolWindowContent : DataProvider {
         myTree.selectionModel.selectionMode = TreeSelectionModel.SINGLE_TREE_SELECTION
         myTree.cellRenderer = AkTreeRenderer(myTree)
         myTree.rowHeight = 0
+        myTree.emptyText.text = AkIntelliJUtil.message("View.emptyTable")
         UIUtil.setLineStyleAngled(myTree)
         model.root?.let {
             TreeUtil.expand(myTree, 0)

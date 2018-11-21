@@ -4,7 +4,9 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
+import com.intellij.util.xmlb.annotations.MapAnnotation
 import link.kotlin.scripts.Category
+import java.time.LocalDateTime
 
 /**
  * Created by Roger™
@@ -28,5 +30,8 @@ class AkData(
     }
 
     class State {
+        @MapAnnotation()
+        var cacheLinks: MutableList<Category> = mutableListOf()
+        var updateAt: LocalDateTime? = null
     }
 }
