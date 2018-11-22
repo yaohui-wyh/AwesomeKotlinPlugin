@@ -6,7 +6,6 @@ package com.intellij.awesomeKt.util
 object Constants {
 
     const val pluginName = "Awesome Kotlin"
-    const val toolWindowId = "AwesomeKotlin"
     const val componentName = "AwesomeKotlin Application Component"
 
     // FIXME

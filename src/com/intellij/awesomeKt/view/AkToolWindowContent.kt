@@ -106,36 +106,35 @@ class AkToolWindowContent : DataProvider {
 
         busConnection.subscribe(AWESOME_KOTLIN_REFRESH_TOPIC, object : RefreshItemsListener {
             override fun onRefresh() {
-                updateRemoteContents()
-            }
-        })
-    }
+                // Avoid multi refresh call [TODO]
+                if (PropertiesComponent.getInstance().getBoolean(Constants.propRefreshBtnBusy, false)) return
 
-    private fun updateRemoteContents() {
-        myTree.setPaintBusy(true)
-        PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, true)
-        ProgressManager.getInstance().run(object : Task.Backgroundable(myProject, "Update Content...", false, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
-            override fun run(indicator: ProgressIndicator) {
-                val results = when {
-                    AkSettings.instance.contentSource == ContentSource.GITHUB -> runBlocking { ProjectLinks.linksFromGithub() }
-                    AkSettings.instance.contentSource == ContentSource.CUSTOM -> runBlocking { ProjectLinks.linksFromCustomUrls() }
-                    else -> ProjectLinks.linksFromPlugin()
-                }
-                AkData.instance.links = results.mapNotNull { it.category }
-                ApplicationManager.getApplication().invokeLater {
-                    if (results.all { it.success }) {
-                        AkIntelliJUtil.successBalloon(myProject, "Update Success", null)
-                    } else {
-                        val title = "Update Finished: ${results.count { it.success }} success, ${results.count { !it.success }} fail"
-                        val errorContent = results.filter { !it.success }.joinToString("\n") {
-                            "${it.url} : ${it.errMessage}"
+                PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, true)
+                ApplicationManager.getApplication().invokeLater { myTree.setPaintBusy(true) }
+                ProgressManager.getInstance().run(object : Task.Backgroundable(myProject, "Update Content...", false, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
+                    override fun run(indicator: ProgressIndicator) {
+                        val results = when {
+                            AkSettings.instance.contentSource == ContentSource.GITHUB -> runBlocking { ProjectLinks.linksFromGithub() }
+                            AkSettings.instance.contentSource == ContentSource.CUSTOM -> runBlocking { ProjectLinks.linksFromCustomUrls() }
+                            else -> ProjectLinks.linksFromPlugin()
                         }
-                        AkIntelliJUtil.errorBalloon(myProject, errorContent, null, title)
+                        AkData.instance.links = results.mapNotNull { it.category }
+                        ApplicationManager.getApplication().invokeLater {
+                            if (results.all { it.success }) {
+                                AkIntelliJUtil.successBalloon(myProject, "Update Success", null)
+                            } else {
+                                val title = "Update Finished: ${results.count { it.success }} success, ${results.count { !it.success }} fail"
+                                val errorContent = results.filter { !it.success }.joinToString("\n") {
+                                    "${it.url} : ${it.errMessage}"
+                                }
+                                AkIntelliJUtil.errorBalloon(myProject, errorContent, null, title)
+                            }
+                            myTree.model = setTreeModel(AkData.instance.links)
+                            myTree.setPaintBusy(false)
+                            PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, false)
+                        }
                     }
-                    myTree.model = setTreeModel(AkData.instance.links)
-                    myTree.setPaintBusy(false)
-                    PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, false)
-                }
+                })
             }
         })
     }
@@ -153,14 +152,14 @@ class AkToolWindowContent : DataProvider {
                     if (retLink.star != null && retLink.star!! > 0) {
                         val starLabel = JBLabel("Star ${retLink.star.toString()}")
                         starLabel.icon = AkIcons.STAR
-                        starLabel.foreground = AkUISettings.instance.passedColor
+                        starLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
                         panel.add(starLabel)
                     }
 
                     if (!retLink.update.isNullOrBlank()) {
                         val updateLabel = JBLabel("Last update ${retLink.update}")
                         updateLabel.icon = AkIcons.CHANGES
-                        updateLabel.foreground = AkUISettings.instance.passedColor
+                        updateLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
                         panel.add(updateLabel)
                     }
 

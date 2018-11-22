@@ -10,6 +10,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.VerticalFlowLayout
+import com.intellij.openapi.ui.ex.MultiLineLabel
 import com.intellij.ui.HyperlinkLabel
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.ListCellRendererWrapper
@@ -17,6 +18,7 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBRadioButton
 import com.intellij.util.ui.UIUtil
 import link.kotlin.scripts.githubContentList
+import link.kotlin.scripts.githubPrefix
 import java.awt.FlowLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
@@ -35,7 +37,7 @@ class AkConfigComponent {
     private val fromGithubBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.fromGithub"))
     private val fromCustomUrlBtn = JBRadioButton(AkIntelliJUtil.message("Config.updateContent.fromCustomUrl"))
     private val contentListPanel = AkContentSourceListPanel()
-    private val testUpdateBtn = JButton(AkIntelliJUtil.message("Config.updateBtn"))
+    private val contentHintPanel = MultiLineLabel()
 
     init {
         mainPanel.layout = GridBagLayout()
@@ -75,17 +77,17 @@ class AkConfigComponent {
         // ========= Info Panel ============
         val infoPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 5))
 
-        val akWebLabel = HyperlinkLabel()
-        infoPanel.add(akWebLabel)
-
-        akWebLabel.setHtmlText("${AkIntelliJUtil.message("Config.visitWeb")}: <a href=\"#visit\">Awesome Kotlin</a>, ")
-        akWebLabel.setHyperlinkTarget(Constants.awesomeKotlinUrl)
-
         val issueLabel = HyperlinkLabel()
         infoPanel.add(issueLabel)
 
-        issueLabel.setHtmlText("${AkIntelliJUtil.message("Config.feedback")}: <a href=\"#feedback\">Github Issue</a>")
+        issueLabel.setHtmlText("${AkIntelliJUtil.message("Config.feedback")}: <a href=\"#feedback\">Github Issue</a>, ")
         issueLabel.setHyperlinkTarget(Constants.issueUrl)
+
+        val akWebLabel = HyperlinkLabel()
+        infoPanel.add(akWebLabel)
+
+        akWebLabel.setHtmlText("${AkIntelliJUtil.message("Config.visitWeb")}: <a href=\"#visit\">KotlinBy/awesome-kotlin</a>")
+        akWebLabel.setHyperlinkTarget(Constants.awesomeKotlinUrl)
 
         // ========= Extra Panel ============
         val extraPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 5))
@@ -140,11 +142,7 @@ class AkConfigComponent {
 
         contentPanel.add(btnGroupPanel, GridBagConstraints(0, 0, 0, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
         contentPanel.add(contentListPanel, GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(8, 10, 0, 0), 0, 0))
-        contentPanel.add(testUpdateBtn, GridBagConstraints(0, 2, 0, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.WEST, Insets(10, 10, 0, 0), 0, 0))
-
-        testUpdateBtn.addActionListener {
-
-        }
+        contentPanel.add(contentHintPanel, GridBagConstraints(0, 2, 0, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.WEST, Insets(10, 10, 0, 0), 0, 0))
 
         toggleRadioSelection()
         return contentPanel
@@ -163,14 +161,16 @@ class AkConfigComponent {
 
     private fun toggleRadioSelection() {
         contentListPanel.isVisible = !fromPluginBtn.isSelected
-        testUpdateBtn.isVisible = !fromPluginBtn.isSelected
+        contentHintPanel.isVisible = !fromPluginBtn.isSelected
         if (fromGithubBtn.isSelected) {
             contentListPanel.items = githubContentList
             contentListPanel.toggleEditable(false)
+            contentHintPanel.text = AkIntelliJUtil.message("Config.updateContent.fromGithub.hint", githubPrefix + "Links.kts", AkIntelliJUtil.message("Config.feedback"))
         }
         if (fromCustomUrlBtn.isSelected) {
             contentListPanel.items = AkSettings.instance.customContentSourceList
             contentListPanel.toggleEditable(true)
+            contentHintPanel.text = AkIntelliJUtil.message("Config.updateContent.fromCustomUrl.hint")
         }
     }
 
@@ -196,8 +196,6 @@ class AkConfigComponent {
             AkSettings.instance.customContentSourceList = contentListPanel.items.toMutableList()
         }
         // Trigger refresh
-        if (contentSrcSelection == ContentSource.PLUGIN) {
-            ApplicationManager.getApplication().messageBus.syncPublisher(AWESOME_KOTLIN_REFRESH_TOPIC).onRefresh()
-        }
+        ApplicationManager.getApplication().messageBus.syncPublisher(AWESOME_KOTLIN_REFRESH_TOPIC).onRefresh()
     }
 }

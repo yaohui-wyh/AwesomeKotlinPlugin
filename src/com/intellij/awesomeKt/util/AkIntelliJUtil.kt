@@ -36,7 +36,7 @@ class AkIntelliJUtil {
 
         fun message(key: String, vararg params: Any): String {
             val filename = "messages.lang-${AkSettings.instance.lang.locale}"
-            return CommonBundle.message(ResourceBundle.getBundle(filename, UTF8Control()), key, params)
+            return CommonBundle.message(ResourceBundle.getBundle(filename, UTF8Control()), key, *params.map { it.toString() }.toTypedArray())
         }
     }
 

@@ -42,7 +42,7 @@ class AkSettings : PersistentStateComponent<AkSettings.State> {
     }
 
     class State {
-        var lang: LanguageItem = LanguageItem.CHINESE
+        var lang: LanguageItem = LanguageItem.ENGLISH
         var contentSource: ContentSource = ContentSource.PLUGIN
         var customContentSourceList: MutableList<String> = mutableListOf()
     }

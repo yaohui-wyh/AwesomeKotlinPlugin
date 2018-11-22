@@ -52,6 +52,7 @@ class ProjectLinks {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .dispatcher(dispatcher)
                 .build()
+        val pluginBundleLinks = listOf(AkLibraries, AkProjects, AkAndroid, AkJavaScript, AkNative, AkLinks, AkUserGroups, AkArchive)
 
         fun search(text: String): List<Category> {
             // TODO: Change to coroutines
@@ -77,7 +78,7 @@ class ProjectLinks {
         }
 
         fun linksFromPlugin(): List<CategoryKtsResult> {
-            return listOf(AkLibraries, AkProjects, AkAndroid, AkJavaScript, AkNative, AkLinks, AkUserGroups, AkArchive).map { CategoryKtsResult(success = true, category = it) }
+            return pluginBundleLinks.map { CategoryKtsResult(success = true, category = it) }
         }
 
         private fun linksFromKtsScript(url: String, text: String): CategoryKtsResult {

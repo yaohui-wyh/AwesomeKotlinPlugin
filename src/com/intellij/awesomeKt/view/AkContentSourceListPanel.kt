@@ -32,10 +32,16 @@ class AkContentSourceListPanel(myItems: List<String> = listOf()) : JPanel(Border
         list.selectionMode = ListSelectionModel.SINGLE_SELECTION
         val decorator = ToolbarDecorator.createDecorator(list)
                 .setAddAction {
-                    val url = Messages.showInputDialog("Test", AkIntelliJUtil.message("Config.updateContent.addActionName"), null, "", object : InputValidator {
-                        override fun checkInput(inputString: String?) = !inputString.isNullOrBlank()
-                        override fun canClose(inputString: String?) = true
-                    })
+                    val url = Messages.showInputDialog(
+                            AkIntelliJUtil.message("Config.updateContent.addDialog.message"),
+                            AkIntelliJUtil.message("Config.updateContent.addActionName"),
+                            null,
+                            "",
+                            object : InputValidator {
+                                override fun checkInput(inputString: String?) = !inputString.isNullOrBlank()
+                                override fun canClose(inputString: String?) = true
+                            }
+                    )
                     if (!url.isNullOrBlank()) {
                         model.addElement(url)
                     }
@@ -48,7 +54,7 @@ class AkContentSourceListPanel(myItems: List<String> = listOf()) : JPanel(Border
                 .disableUpDownActions()
 
         add(decorator.createPanel(), BorderLayout.CENTER)
-        preferredSize = JBDimension(-1, 180)
+        preferredSize = JBDimension(-1, 120)
     }
 
     fun toggleEditable(enable: Boolean) {
