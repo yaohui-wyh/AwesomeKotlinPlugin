@@ -7,7 +7,6 @@ import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.annotations.MapAnnotation
 import link.kotlin.scripts.Category
 import link.kotlin.scripts.ProjectLinks
-import java.time.LocalDateTime
 
 /**
  * Created by Roger™
@@ -35,7 +34,6 @@ class AkData : PersistentStateComponent<AkData.State> {
 
     class State {
         @MapAnnotation()
-        var cacheLinks: MutableList<Category> = ProjectLinks.linksFromPlugin().toMutableList()
-        var updateAt: LocalDateTime? = null
+        var cacheLinks: MutableList<Category> = ProjectLinks.linksFromPlugin().mapNotNull { it.category }.toMutableList()
     }
 }

@@ -3,17 +3,20 @@ package com.intellij.awesomeKt.view
 import com.intellij.awesomeKt.configurable.AkSettings
 import com.intellij.awesomeKt.configurable.ContentSource
 import com.intellij.awesomeKt.configurable.LanguageItem
-import link.kotlin.scripts.githubContentList
+import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_REFRESH_TOPIC
 import com.intellij.awesomeKt.util.AkIntelliJUtil
 import com.intellij.awesomeKt.util.Constants
 import com.intellij.icons.AllIcons
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.ui.ComboBox
+import com.intellij.openapi.ui.VerticalFlowLayout
 import com.intellij.ui.HyperlinkLabel
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.ListCellRendererWrapper
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBRadioButton
 import com.intellij.util.ui.UIUtil
+import link.kotlin.scripts.githubContentList
 import java.awt.FlowLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
@@ -75,14 +78,14 @@ class AkConfigComponent {
         val akWebLabel = HyperlinkLabel()
         infoPanel.add(akWebLabel)
 
-        akWebLabel.setHtmlText("${AkIntelliJUtil.message("Config.visitWeb")}: <a href=\"#visit\">Awesome Kotlin</a> ")
-        akWebLabel.setHyperlinkTarget(Constants.WEB_URL)
+        akWebLabel.setHtmlText("${AkIntelliJUtil.message("Config.visitWeb")}: <a href=\"#visit\">Awesome Kotlin</a>, ")
+        akWebLabel.setHyperlinkTarget(Constants.awesomeKotlinUrl)
 
         val issueLabel = HyperlinkLabel()
         infoPanel.add(issueLabel)
 
         issueLabel.setHtmlText("${AkIntelliJUtil.message("Config.feedback")}: <a href=\"#feedback\">Github Issue</a>")
-        issueLabel.setHyperlinkTarget(Constants.BUG_REPORTER_WEB_URL)
+        issueLabel.setHyperlinkTarget(Constants.issueUrl)
 
         // ========= Extra Panel ============
         val extraPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 5))
@@ -121,8 +124,7 @@ class AkConfigComponent {
         contentPanel.border = IdeBorderFactory.createTitledBorder(AkIntelliJUtil.message("Config.updateContent"), true)
 
         // ========= Radio Buttons ============
-        val btnGroupPanel = JPanel()
-        btnGroupPanel.layout = BoxLayout(btnGroupPanel, BoxLayout.Y_AXIS)
+        val btnGroupPanel = JPanel(VerticalFlowLayout(VerticalFlowLayout.LEFT, 0, 2, true, false))
 
         radioBtnGroup.add(fromPluginBtn)
         radioBtnGroup.add(fromGithubBtn)
@@ -155,7 +157,7 @@ class AkConfigComponent {
         label.setHtmlText(" <a href=\"#rate\">${AkIntelliJUtil.message("Config.rate")}</a>")
         label.font = UIUtil.getLabelFont(UIUtil.FontSize.SMALL)
         label.setIcon(AllIcons.Toolwindows.ToolWindowFavorites)
-        label.setHyperlinkTarget(Constants.PLUGIN_RATE_URL)
+        label.setHyperlinkTarget(Constants.pluginRateUrl)
         return label
     }
 
@@ -192,6 +194,10 @@ class AkConfigComponent {
         AkSettings.instance.contentSource = getContentSrc(radioBtnGroup.selection)
         if (contentSrcSelection == ContentSource.CUSTOM) {
             AkSettings.instance.customContentSourceList = contentListPanel.items.toMutableList()
+        }
+        // Trigger refresh
+        if (contentSrcSelection == ContentSource.PLUGIN) {
+            ApplicationManager.getApplication().messageBus.syncPublisher(AWESOME_KOTLIN_REFRESH_TOPIC).onRefresh()
         }
     }
 }

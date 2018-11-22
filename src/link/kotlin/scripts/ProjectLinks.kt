@@ -9,6 +9,7 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.util.ResourceUtil
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.newFixedThreadPoolContext
 import link.kotlin.scripts.model.Link
 import link.kotlin.scripts.resources.links.*
 import okhttp3.*
@@ -29,12 +30,12 @@ class ProjectLinks {
     companion object {
 
         private val logger = Logger.getInstance(this::class.java)
-
+        private val applicationContext = newFixedThreadPoolContext(4, "KL")
+        private val mapper = jacksonObjectMapper()
         private val dispatcher = Dispatcher().apply {
-            maxRequests = 200
-            maxRequestsPerHost = 100
+            maxRequests = 50
+            maxRequestsPerHost = 10
         }
-
         private val cacheInterceptor = Interceptor { chain ->
             val request = chain.request()
             val response = chain.proceed(request)
@@ -44,7 +45,6 @@ class ProjectLinks {
                     .header("Cache-Control", "max-age=" + 30 * 60)
                     .build()
         }
-
         private val okHttpClient: OkHttpClient = OkHttpClient
                 .Builder()
                 .addNetworkInterceptor(cacheInterceptor)
@@ -53,9 +53,8 @@ class ProjectLinks {
                 .dispatcher(dispatcher)
                 .build()
 
-        private val mapper = jacksonObjectMapper()
-
         fun search(text: String): List<Category> {
+            // TODO: Change to coroutines
             return AkData.instance.links.mapNotNull { category ->
                 if (category.name.contains(text, true)) {
                     category
@@ -77,22 +76,34 @@ class ProjectLinks {
             }
         }
 
-        fun linksFromPlugin(): List<Category> {
-            return listOf(AkLibraries, AkProjects, AkAndroid, AkJavaScript, AkNative, AkLinks, AkUserGroups, AkArchive)
+        fun linksFromPlugin(): List<CategoryKtsResult> {
+            return listOf(AkLibraries, AkProjects, AkAndroid, AkJavaScript, AkNative, AkLinks, AkUserGroups, AkArchive).map { CategoryKtsResult(success = true, category = it) }
         }
 
-        private fun linksFromKtsScript(text: String): Category? {
+        private fun linksFromKtsScript(url: String, text: String): CategoryKtsResult {
+            val result = CategoryKtsResult(url)
             if (text.isEmpty()) {
                 logger.d("Invalid ktsText")
-                return null
+                result.success = false
+                result.errMessage = "Error fetching KotlinScript, please check network connection"
+            } else {
+                try {
+                    logger.d("Parsing kts text...")
+                    val category = KotlinScriptCompiler.execute<Category>(text)
+                    if (category != null) {
+                        result.success = true
+                        result.category = category
+                    } else {
+                        result.success = false
+                        result.errMessage = "Error parsing Kotlin Script"
+                    }
+                } catch (ex: Exception) {
+                    logger.d("Error while processing text", ex)
+                    result.success = false
+                    result.errMessage = "Error parsing Kotlin Script, ${ex.message}"
+                }
             }
-            return try {
-                logger.d("Parsing kts text...")
-                KotlinScriptCompiler.execute<Category>(text)
-            } catch (ex: Exception) {
-                logger.d("Error while processing text", ex)
-                null
-            }
+            return result
         }
 
         private fun linksFromFile(basePath: String, path: String): Category? {
@@ -117,22 +128,26 @@ class ProjectLinks {
             }
         }
 
-        private suspend fun linksFromUrls(urls: List<String>): List<Category> {
+        private suspend fun linksFromUrls(urls: List<String>): List<CategoryKtsResult> {
             val deferredList = urls.map {
-                GlobalScope.async {
+                GlobalScope.async(applicationContext) {
                     fetchKtsFile(it)?.body()?.string().orEmpty()
                 }
             }
-            return deferredList.mapNotNull { linksFromKtsScript(it.await()) }
+            return deferredList.withIndex().map {
+                val url = urls[it.index]
+                val text = it.value.await()
+                linksFromKtsScript(url, text)
+            }
         }
 
-        suspend fun linksFromCustomUrls(): List<Category> {
+        suspend fun linksFromCustomUrls(): List<CategoryKtsResult> {
             logger.d("Fetching links from custom Urls")
             val urls = AkSettings.instance.customContentSourceList
             return linksFromUrls(urls)
         }
 
-        suspend fun linksFromGithub(): List<Category> {
+        suspend fun linksFromGithub(): List<CategoryKtsResult> {
             logger.d("Fetching links from Github")
             val urls = githubContentList.map { githubPrefix + it }
             return linksFromUrls(urls)
@@ -161,6 +176,13 @@ class ProjectLinks {
         }
     }
 }
+
+data class CategoryKtsResult(
+        var url: String = "",
+        var success: Boolean = false,
+        var category: Category? = null,
+        var errMessage: String = ""
+)
 
 val formatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
 

@@ -11,6 +11,7 @@ import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_VIEW_TOPIC
 import com.intellij.awesomeKt.messages.RefreshItemsListener
 import com.intellij.awesomeKt.messages.TableViewListener
 import com.intellij.awesomeKt.util.AkDataKeys
+import com.intellij.awesomeKt.util.AkIntelliJUtil
 import com.intellij.awesomeKt.util.Constants
 import com.intellij.ide.BrowserUtil
 import com.intellij.ide.CommonActionsManager
@@ -22,6 +23,10 @@ import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.DataProvider
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.progress.PerformInBackgroundOption
+import com.intellij.openapi.progress.ProgressIndicator
+import com.intellij.openapi.progress.ProgressManager
+import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.ui.VerticalFlowLayout
@@ -35,6 +40,7 @@ import com.intellij.util.ui.table.ComponentsListFocusTraversalPolicy
 import com.intellij.util.ui.tree.TreeUtil
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import link.kotlin.scripts.Category
 import link.kotlin.scripts.LinkType
 import link.kotlin.scripts.ProjectLinks
@@ -100,36 +106,35 @@ class AkToolWindowContent : DataProvider {
 
         busConnection.subscribe(AWESOME_KOTLIN_REFRESH_TOPIC, object : RefreshItemsListener {
             override fun onRefresh() {
-                if (AkSettings.instance.contentSource == ContentSource.PLUGIN) {
-                    val links = ProjectLinks.linksFromPlugin()
-                    AkData.instance.links = links
-                    myTree.model = setTreeModel(links)
+                updateRemoteContents()
+            }
+        })
+    }
+
+    private fun updateRemoteContents() {
+        myTree.setPaintBusy(true)
+        PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, true)
+        ProgressManager.getInstance().run(object : Task.Backgroundable(myProject, "Update Content...", false, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
+            override fun run(indicator: ProgressIndicator) {
+                val results = when {
+                    AkSettings.instance.contentSource == ContentSource.GITHUB -> runBlocking { ProjectLinks.linksFromGithub() }
+                    AkSettings.instance.contentSource == ContentSource.CUSTOM -> runBlocking { ProjectLinks.linksFromCustomUrls() }
+                    else -> ProjectLinks.linksFromPlugin()
                 }
-                if (AkSettings.instance.contentSource == ContentSource.GITHUB) {
-                    myTree.setPaintBusy(true)
-                    PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, true)
-                    GlobalScope.launch {
-                        val links = ProjectLinks.linksFromGithub()
-                        AkData.instance.links = links
-                        ApplicationManager.getApplication().invokeLater {
-                            myTree.model = setTreeModel(links)
-                            myTree.setPaintBusy(false)
-                            PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, false)
+                AkData.instance.links = results.mapNotNull { it.category }
+                ApplicationManager.getApplication().invokeLater {
+                    if (results.all { it.success }) {
+                        AkIntelliJUtil.successBalloon(myProject, "Update Success", null)
+                    } else {
+                        val title = "Update Finished: ${results.count { it.success }} success, ${results.count { !it.success }} fail"
+                        val errorContent = results.filter { !it.success }.joinToString("\n") {
+                            "${it.url} : ${it.errMessage}"
                         }
+                        AkIntelliJUtil.errorBalloon(myProject, errorContent, null, title)
                     }
-                }
-                if (AkSettings.instance.contentSource == ContentSource.CUSTOM) {
-                    myTree.setPaintBusy(true)
-                    PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, true)
-                    GlobalScope.launch {
-                        val links = ProjectLinks.linksFromCustomUrls()
-                        AkData.instance.links = links
-                        ApplicationManager.getApplication().invokeLater {
-                            myTree.model = setTreeModel(links)
-                            myTree.setPaintBusy(false)
-                            PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, false)
-                        }
-                    }
+                    myTree.model = setTreeModel(AkData.instance.links)
+                    myTree.setPaintBusy(false)
+                    PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, false)
                 }
             }
         })

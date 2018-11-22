@@ -2,6 +2,8 @@ package com.intellij.awesomeKt.util
 
 import com.intellij.CommonBundle
 import com.intellij.awesomeKt.configurable.AkSettings
+import com.intellij.awesomeKt.view.AkIcons
+import com.intellij.notification.NotificationDisplayType
 import com.intellij.notification.NotificationGroup
 import com.intellij.notification.NotificationListener
 import com.intellij.notification.NotificationType
@@ -18,18 +20,18 @@ class AkIntelliJUtil {
 
     companion object {
 
-        private val NOTIFICATION_TOOLWINDOW_GROUP = NotificationGroup.toolWindowGroup(Constants.PLUGIN_NAME, Constants.TOOL_WINDOW_NAME, false)
+        private val notificationGroup = NotificationGroup(Constants.pluginName, NotificationDisplayType.TOOL_WINDOW, false, "", AkIcons.KOTLIN)
 
         fun successBalloon(project: Project?, content: String, listener: NotificationListener? = null, title: String = "") {
-            NOTIFICATION_TOOLWINDOW_GROUP.createNotification(title, content, NotificationType.INFORMATION, listener).notify(project)
+            notificationGroup.createNotification(title, content, NotificationType.INFORMATION, listener).notify(project)
         }
 
         fun warnBalloon(project: Project?, content: String, listener: NotificationListener? = null, title: String = "") {
-            NOTIFICATION_TOOLWINDOW_GROUP.createNotification(title, content, NotificationType.WARNING, listener).notify(project)
+            notificationGroup.createNotification(title, content, NotificationType.WARNING, listener).notify(project)
         }
 
         fun errorBalloon(project: Project?, content: String, listener: NotificationListener? = null, title: String = "") {
-            NOTIFICATION_TOOLWINDOW_GROUP.createNotification(title, content, NotificationType.ERROR, listener).notify(project)
+            notificationGroup.createNotification(title, content, NotificationType.ERROR, listener).notify(project)
         }
 
         fun message(key: String, vararg params: Any): String {

@@ -37,8 +37,6 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
     compile "com.squareup.okhttp3:okhttp:3.8.1"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.3"
@@ -51,12 +49,6 @@ version "$pluginVersion"
 
 wrapper {
     gradleVersion "4.5"
-}
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
 }
 
 runIde {

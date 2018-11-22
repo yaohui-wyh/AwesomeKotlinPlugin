@@ -6,6 +6,7 @@ import com.intellij.awesomeKt.util.Constants
 import com.intellij.icons.AllIcons
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.application.ApplicationManager
 
 /**
  * Created by Roger™
@@ -16,7 +17,7 @@ class RefreshAction : LanguageAwareAction(
         AllIcons.Actions.Refresh
 ) {
     override fun actionPerformed(e: AnActionEvent?) {
-        e?.project?.messageBus?.syncPublisher(AWESOME_KOTLIN_REFRESH_TOPIC)?.onRefresh()
+        ApplicationManager.getApplication().messageBus.syncPublisher(AWESOME_KOTLIN_REFRESH_TOPIC).onRefresh()
     }
 
     override fun update(e: AnActionEvent?) {

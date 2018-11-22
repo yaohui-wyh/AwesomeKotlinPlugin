@@ -27,7 +27,7 @@ class AwesomeKtConfigurable : Configurable {
 
     override fun isModified() = component.isModified()
 
-    override fun getDisplayName() = Constants.PLUGIN_NAME
+    override fun getDisplayName() = Constants.pluginName
 
     override fun apply() {
         component.apply()
