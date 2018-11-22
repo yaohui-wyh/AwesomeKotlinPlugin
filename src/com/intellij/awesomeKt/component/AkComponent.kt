@@ -1,6 +1,5 @@
 package com.intellij.awesomeKt.component
 
-import com.intellij.awesomeKt.configurable.AkSettings
 import com.intellij.awesomeKt.util.Constants
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.components.ApplicationComponent
@@ -14,7 +13,6 @@ class AkComponent : ApplicationComponent {
     override fun disposeComponent() {}
 
     override fun initComponent() {
-        AkSettings.instance.init()
         PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, false)
     }
 }

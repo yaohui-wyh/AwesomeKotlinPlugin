@@ -32,8 +32,6 @@ data class Link(
         if (!platforms.contentEquals(other.platforms)) return false
         if (!tags.contentEquals(other.tags)) return false
         if (whitelisted != other.whitelisted) return false
-        if (star != other.star) return false
-        if (update != other.update) return false
 
         return true
     }
@@ -46,8 +44,6 @@ data class Link(
         result = 31 * result + platforms.contentHashCode()
         result = 31 * result + tags.contentHashCode()
         result = 31 * result + whitelisted.hashCode()
-        result = 31 * result + (star ?: 0)
-        result = 31 * result + (update?.hashCode() ?: 0)
         return result
     }
 }

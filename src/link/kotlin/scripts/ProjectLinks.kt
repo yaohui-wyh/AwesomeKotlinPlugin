@@ -2,6 +2,7 @@ package link.kotlin.scripts
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.intellij.awesomeKt.configurable.AkData
+import com.intellij.awesomeKt.configurable.AkSettings
 import com.intellij.awesomeKt.util.KotlinScriptCompiler
 import com.intellij.awesomeKt.util.d
 import com.intellij.openapi.diagnostic.Logger
@@ -40,7 +41,7 @@ class ProjectLinks {
             response.newBuilder()
                     .removeHeader("Pragma")
                     .removeHeader("Cache-Control")
-                    .header("Cache-Control", "max-age=" + 20 * 60)
+                    .header("Cache-Control", "max-age=" + 30 * 60)
                     .build()
         }
 
@@ -89,7 +90,7 @@ class ProjectLinks {
                 logger.d("Parsing kts text...")
                 KotlinScriptCompiler.execute<Category>(text)
             } catch (ex: Exception) {
-                logger.warn("Error while processing text", ex)
+                logger.d("Error while processing text", ex)
                 null
             }
         }
@@ -100,7 +101,7 @@ class ProjectLinks {
                 val text = ResourceUtil.loadText(ResourceUtil.getResource(this::class.java, basePath, path))
                 KotlinScriptCompiler.execute(text)
             } catch (ex: Exception) {
-                logger.error("Error while processing file [$basePath/$path]", ex)
+                logger.d("Error while processing file [$basePath/$path]", ex)
                 null
             }
         }
@@ -111,18 +112,30 @@ class ProjectLinks {
                 val request = Request.Builder().url(url).build()
                 okHttpClient.newCall(request).await()
             } catch (ex: Exception) {
+                logger.d("Error while processing ktsFile $url", ex)
                 null
             }
         }
 
-        suspend fun linksFromGithub(): List<Category> {
-            val deferredList = githubContentList.map {
+        private suspend fun linksFromUrls(urls: List<String>): List<Category> {
+            val deferredList = urls.map {
                 GlobalScope.async {
-                    fetchKtsFile(githubPrefix + it)?.body()?.string().orEmpty()
+                    fetchKtsFile(it)?.body()?.string().orEmpty()
                 }
             }
-            // KotlinScriptCompiler should invoke in sync
             return deferredList.mapNotNull { linksFromKtsScript(it.await()) }
+        }
+
+        suspend fun linksFromCustomUrls(): List<Category> {
+            logger.d("Fetching links from custom Urls")
+            val urls = AkSettings.instance.customContentSourceList
+            return linksFromUrls(urls)
+        }
+
+        suspend fun linksFromGithub(): List<Category> {
+            logger.d("Fetching links from Github")
+            val urls = githubContentList.map { githubPrefix + it }
+            return linksFromUrls(urls)
         }
 
         suspend fun getGithubStarCount(link: Link): Link {

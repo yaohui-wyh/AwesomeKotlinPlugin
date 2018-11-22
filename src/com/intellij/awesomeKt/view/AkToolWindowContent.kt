@@ -3,7 +3,6 @@ package com.intellij.awesomeKt.view
 import com.intellij.awesomeKt.action.RefreshAction
 import com.intellij.awesomeKt.action.SettingsAction
 import com.intellij.awesomeKt.action.VcsCheckoutAction
-import com.intellij.awesomeKt.action.WebAction
 import com.intellij.awesomeKt.configurable.AkData
 import com.intellij.awesomeKt.configurable.AkSettings
 import com.intellij.awesomeKt.configurable.ContentSource
@@ -12,7 +11,6 @@ import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_VIEW_TOPIC
 import com.intellij.awesomeKt.messages.RefreshItemsListener
 import com.intellij.awesomeKt.messages.TableViewListener
 import com.intellij.awesomeKt.util.AkDataKeys
-import com.intellij.awesomeKt.util.AkIntelliJUtil
 import com.intellij.awesomeKt.util.Constants
 import com.intellij.ide.BrowserUtil
 import com.intellij.ide.CommonActionsManager
@@ -103,15 +101,29 @@ class AkToolWindowContent : DataProvider {
         busConnection.subscribe(AWESOME_KOTLIN_REFRESH_TOPIC, object : RefreshItemsListener {
             override fun onRefresh() {
                 if (AkSettings.instance.contentSource == ContentSource.PLUGIN) {
-                    AkData.instance.links = ProjectLinks.linksFromPlugin()
-                    myTree.model = setTreeModel(AkData.instance.links)
+                    val links = ProjectLinks.linksFromPlugin()
+                    AkData.instance.links = links
+                    myTree.model = setTreeModel(links)
                 }
                 if (AkSettings.instance.contentSource == ContentSource.GITHUB) {
                     myTree.setPaintBusy(true)
                     PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, true)
                     GlobalScope.launch {
                         val links = ProjectLinks.linksFromGithub()
-                        AkData.instance.links = ProjectLinks.linksFromPlugin()
+                        AkData.instance.links = links
+                        ApplicationManager.getApplication().invokeLater {
+                            myTree.model = setTreeModel(links)
+                            myTree.setPaintBusy(false)
+                            PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, false)
+                        }
+                    }
+                }
+                if (AkSettings.instance.contentSource == ContentSource.CUSTOM) {
+                    myTree.setPaintBusy(true)
+                    PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, true)
+                    GlobalScope.launch {
+                        val links = ProjectLinks.linksFromCustomUrls()
+                        AkData.instance.links = links
                         ApplicationManager.getApplication().invokeLater {
                             myTree.model = setTreeModel(links)
                             myTree.setPaintBusy(false)
@@ -126,20 +138,22 @@ class AkToolWindowContent : DataProvider {
     private fun setGithubDetail(link: Link) {
         if (link.type == LinkType.github) {
             GlobalScope.launch {
-                val ret = ProjectLinks.getGithubStarCount(link)
+                val retLink = ProjectLinks.getGithubStarCount(link)
+                if (retLink != currentLink) return@launch
+
                 ApplicationManager.getApplication().invokeLater {
                     val panel = JPanel()
                     panel.border = IdeBorderFactory.createEmptyBorder(10, 0, 0, 0)
                     panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
-                    if (ret.star != null && ret.star!! > 0) {
-                        val starLabel = JBLabel("Star ${ret.star.toString()}")
+                    if (retLink.star != null && retLink.star!! > 0) {
+                        val starLabel = JBLabel("Star ${retLink.star.toString()}")
                         starLabel.icon = AkIcons.STAR
                         starLabel.foreground = AkUISettings.instance.passedColor
                         panel.add(starLabel)
                     }
 
-                    if (!ret.update.isNullOrBlank()) {
-                        val updateLabel = JBLabel("Last update ${ret.update}")
+                    if (!retLink.update.isNullOrBlank()) {
+                        val updateLabel = JBLabel("Last update ${retLink.update}")
                         updateLabel.icon = AkIcons.CHANGES
                         updateLabel.foreground = AkUISettings.instance.passedColor
                         panel.add(updateLabel)
@@ -180,16 +194,14 @@ class AkToolWindowContent : DataProvider {
         myTree.selectionModel.selectionMode = TreeSelectionModel.SINGLE_TREE_SELECTION
         myTree.cellRenderer = AkTreeRenderer(myTree)
         myTree.rowHeight = 0
-        myTree.emptyText.text = AkIntelliJUtil.message("View.emptyTable")
         UIUtil.setLineStyleAngled(myTree)
         model.root?.let {
             TreeUtil.expand(myTree, 0)
         }
         SmartExpander.installOn(myTree)
         myTree.addTreeSelectionListener {
-            val nodeObj = (it.path.lastPathComponent as DefaultMutableTreeNode).userObject
-            val item = nodeObj as? Link
-            myProject.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(item)
+            val item = (myTree.lastSelectedPathComponent as? DefaultMutableTreeNode)?.userObject
+            myProject.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(item as? Link)
         }
     }
 
@@ -235,7 +247,6 @@ class AkToolWindowContent : DataProvider {
         group.addSeparator()
         group.add(RefreshAction())
         group.add(collapseAction)
-        group.add(WebAction())
         group.add(SettingsAction())
         val toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLBAR, group, true)
         toolbar.setTargetComponent(rootPanel)
@@ -248,6 +259,9 @@ class AkToolWindowContent : DataProvider {
                     myTree.model = setTreeModel(ProjectLinks.search(searchText))
                     if (searchText.isNotBlank()) {
                         TreeUtil.expandAll(myTree)
+                    } else {
+                        // clear selection event triggered
+                        myProject.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(null)
                     }
                 }
             }

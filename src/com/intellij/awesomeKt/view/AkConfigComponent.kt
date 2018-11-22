@@ -72,6 +72,12 @@ class AkConfigComponent {
         // ========= Info Panel ============
         val infoPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 5))
 
+        val akWebLabel = HyperlinkLabel()
+        infoPanel.add(akWebLabel)
+
+        akWebLabel.setHtmlText("${AkIntelliJUtil.message("Config.visitWeb")}: <a href=\"#visit\">Awesome Kotlin</a> ")
+        akWebLabel.setHyperlinkTarget(Constants.WEB_URL)
+
         val issueLabel = HyperlinkLabel()
         infoPanel.add(issueLabel)
 
@@ -133,6 +139,10 @@ class AkConfigComponent {
         contentPanel.add(btnGroupPanel, GridBagConstraints(0, 0, 0, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
         contentPanel.add(contentListPanel, GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(8, 10, 0, 0), 0, 0))
         contentPanel.add(testUpdateBtn, GridBagConstraints(0, 2, 0, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.WEST, Insets(10, 10, 0, 0), 0, 0))
+
+        testUpdateBtn.addActionListener {
+
+        }
 
         toggleRadioSelection()
         return contentPanel

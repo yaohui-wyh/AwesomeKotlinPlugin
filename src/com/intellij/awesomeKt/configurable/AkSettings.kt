@@ -41,10 +41,6 @@ class AkSettings : PersistentStateComponent<AkSettings.State> {
         myState = state
     }
 
-    fun init() {
-        // TODO
-    }
-
     class State {
         var lang: LanguageItem = LanguageItem.CHINESE
         var contentSource: ContentSource = ContentSource.PLUGIN
