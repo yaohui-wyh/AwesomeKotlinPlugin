@@ -23,6 +23,12 @@ class AkSettings : PersistentStateComponent<AkSettings.State> {
             myState.lang = lang
         }
 
+    var uuid: String
+        get() = myState.pluginId
+        set(uuid) {
+            myState.pluginId = uuid
+        }
+
     var contentSource: ContentSource
         get() = myState.contentSource
         set(source) {
@@ -43,7 +49,8 @@ class AkSettings : PersistentStateComponent<AkSettings.State> {
 
     class State {
         var lang: LanguageItem = LanguageItem.ENGLISH
-        var contentSource: ContentSource = ContentSource.PLUGIN
+        var pluginId: String = ""
+        var contentSource: ContentSource = ContentSource.GITHUB
         var customContentSourceList: MutableList<String> = mutableListOf()
     }
 }

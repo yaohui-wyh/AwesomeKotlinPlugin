@@ -2,6 +2,8 @@ package com.intellij.awesomeKt.action
 
 import com.intellij.awesomeKt.util.AkDataKeys
 import com.intellij.awesomeKt.util.AkIntelliJUtil
+import com.intellij.awesomeKt.util.TrackingAction
+import com.intellij.awesomeKt.util.TrackingManager
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.ProjectManager
@@ -21,8 +23,10 @@ class VcsCheckoutAction : LanguageAwareAction(
 ) {
     override fun actionPerformed(e: AnActionEvent?) {
         e?.getData(AkDataKeys.tableItem)?.let { link ->
+            if (link.type != LinkType.github || link.type != LinkType.bitbucket || link.href.isBlank()) return
             CheckoutProvider.EXTENSION_POINT_NAME.extensions.forEach { provider ->
                 if (provider is CheckoutProviderEx && provider.vcsId.equals("git", true)) {
+                    TrackingManager.instance.reportUsage(TrackingAction.CHECKOUT)
                     val project = ProjectManager.getInstance().defaultProject
                     val listener = ProjectLevelVcsManager.getInstance(project).compositeCheckoutListener
                     AppIcon.getInstance().requestAttention(null, true)

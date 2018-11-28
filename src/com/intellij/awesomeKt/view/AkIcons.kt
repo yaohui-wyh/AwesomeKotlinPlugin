@@ -14,5 +14,6 @@ interface AkIcons {
         val BITBUCKET_ICON = IconLoader.getIcon("/images/bitbucket.png")
         val STAR = IconLoader.getIcon("/images/star.png")
         val CHANGES = IconLoader.getIcon("/images/changes.png")
+        val CREATED = IconLoader.getIcon("/images/created.png")
     }
 }

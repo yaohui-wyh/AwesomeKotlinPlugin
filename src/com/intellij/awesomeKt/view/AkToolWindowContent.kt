@@ -10,19 +10,16 @@ import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_REFRESH_TOPIC
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_VIEW_TOPIC
 import com.intellij.awesomeKt.messages.RefreshItemsListener
 import com.intellij.awesomeKt.messages.TableViewListener
-import com.intellij.awesomeKt.util.AkDataKeys
-import com.intellij.awesomeKt.util.AkIntelliJUtil
-import com.intellij.awesomeKt.util.Constants
+import com.intellij.awesomeKt.util.*
+import com.intellij.icons.AllIcons
 import com.intellij.ide.BrowserUtil
 import com.intellij.ide.CommonActionsManager
 import com.intellij.ide.DataManager
 import com.intellij.ide.TreeExpander
 import com.intellij.ide.util.PropertiesComponent
-import com.intellij.openapi.actionSystem.ActionManager
-import com.intellij.openapi.actionSystem.ActionPlaces
-import com.intellij.openapi.actionSystem.DataProvider
-import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.progress.PerformInBackgroundOption
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
@@ -41,18 +38,14 @@ import com.intellij.util.ui.tree.TreeUtil
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import link.kotlin.scripts.Category
-import link.kotlin.scripts.LinkType
-import link.kotlin.scripts.ProjectLinks
+import link.kotlin.scripts.*
 import link.kotlin.scripts.model.Link
 import net.miginfocom.swing.MigLayout
 import java.awt.BorderLayout
 import java.awt.Component
 import java.awt.Font
-import javax.swing.BoxLayout
-import javax.swing.JComponent
-import javax.swing.JLabel
-import javax.swing.JPanel
+import java.awt.event.MouseEvent
+import javax.swing.*
 import javax.swing.event.DocumentEvent
 import javax.swing.text.BadLocationException
 import javax.swing.tree.DefaultMutableTreeNode
@@ -62,31 +55,33 @@ import javax.swing.tree.TreeSelectionModel
 /**
  * Created by Roger™
  */
-class AkToolWindowContent : DataProvider {
+class AkToolWindowContent(val project: Project) : DataProvider {
 
     private var rootPanel: JPanel = JPanel(BorderLayout())
     private var myTree: Tree = Tree()
     private var myDetailPanel: JPanel = JPanel(VerticalFlowLayout(VerticalFlowLayout.LEFT, 0, 2, true, false))
-    private lateinit var myProject: Project
     private var currentLink: Link? = null
 
-    fun init(project: Project) {
-        myProject = project
+    init {
         setTreeView()
         subscribeEvents()
         DataManager.registerDataProvider(rootPanel, this)
     }
 
     private fun subscribeEvents() {
-        val busConnection = myProject.messageBus.connect(myProject)
+        val busConnection = project.messageBus.connect(project)
         busConnection.subscribe(AWESOME_KOTLIN_VIEW_TOPIC, object : TableViewListener {
             override fun onLinkItemClicked(link: Link?) {
                 currentLink = link
                 myDetailPanel.removeAll()
                 link?.let {
+                    TrackingManager.instance.reportUsage(TrackingAction.CLICK_ITEM)
                     val linkLabel = HoverHyperlinkLabel(it.name)
                     if (link.href.isNotBlank()) {
-                        linkLabel.addHyperlinkListener { BrowserUtil.browse(link.href) }
+                        linkLabel.addHyperlinkListener {
+                            TrackingManager.instance.reportUsage(TrackingAction.VISIT_GITHUB)
+                            BrowserUtil.browse(link.href.trim())
+                        }
                     }
                     linkLabel.font = Font(JLabel().font.fontName, Font.BOLD, JBUI.scale(13))
                     linkLabel.border = IdeBorderFactory.createEmptyBorder(5, 0, 5, 0)
@@ -106,32 +101,44 @@ class AkToolWindowContent : DataProvider {
 
         busConnection.subscribe(AWESOME_KOTLIN_REFRESH_TOPIC, object : RefreshItemsListener {
             override fun onRefresh() {
-                // Avoid multi refresh call [TODO]
-                if (PropertiesComponent.getInstance().getBoolean(Constants.propRefreshBtnBusy, false)) return
+                if (PropertiesComponent.getInstance().getBoolean(Constants.Properties.refreshBtnBusyKey, false)) return
+                PropertiesComponent.getInstance().setValue(Constants.Properties.refreshBtnBusyKey, true)
 
-                PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, true)
                 ApplicationManager.getApplication().invokeLater { myTree.setPaintBusy(true) }
-                ProgressManager.getInstance().run(object : Task.Backgroundable(myProject, "Update Content...", false, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
+                ProgressManager.getInstance().run(object : Task.Backgroundable(project, "Update Content...", false, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
                     override fun run(indicator: ProgressIndicator) {
-                        val results = when {
-                            AkSettings.instance.contentSource == ContentSource.GITHUB -> runBlocking { ProjectLinks.linksFromGithub() }
-                            AkSettings.instance.contentSource == ContentSource.CUSTOM -> runBlocking { ProjectLinks.linksFromCustomUrls() }
-                            else -> ProjectLinks.linksFromPlugin()
+                        indicator.fraction = 0.1
+                        indicator.text = "Fetching links..."
+                        val urls = when {
+                            AkSettings.instance.contentSource == ContentSource.GITHUB -> githubContentList.map { githubPrefix + it }
+                            AkSettings.instance.contentSource == ContentSource.CUSTOM -> AkSettings.instance.customContentSourceList
+                            else -> listOf()
+                        }
+                        val results = if (urls.isEmpty()) {
+                            ProjectLinks.instance.linksFromPlugin().toMutableList()
+                        } else {
+                            indicator.fraction = 0.4
+                            val ktsFiles = runBlocking { ProjectLinks.instance.fetchKtsFiles(urls) }
+                            ktsFiles.mapIndexed { idx, ktsFilePair ->
+                                indicator.text = "Parsing KtsScript file ${ktsFilePair.shortName()}..."
+                                indicator.fraction = 0.4 + (idx + 1.0) * 0.6 / ktsFiles.size
+                                ProjectLinks.instance.parseKtsFile(ktsFilePair.url, ktsFilePair.text)
+                            }
                         }
                         AkData.instance.links = results.mapNotNull { it.category }
                         ApplicationManager.getApplication().invokeLater {
                             if (results.all { it.success }) {
-                                AkIntelliJUtil.successBalloon(myProject, "Update Success", null)
+                                AkIntelliJUtil.successNotification(project, "Update Success", null)
                             } else {
                                 val title = "Update Finished: ${results.count { it.success }} success, ${results.count { !it.success }} fail"
                                 val errorContent = results.filter { !it.success }.joinToString("\n") {
                                     "${it.url} : ${it.errMessage}"
                                 }
-                                AkIntelliJUtil.errorBalloon(myProject, errorContent, null, title)
+                                AkIntelliJUtil.errorNotification(project, errorContent, null, title)
                             }
                             myTree.model = setTreeModel(AkData.instance.links)
                             myTree.setPaintBusy(false)
-                            PropertiesComponent.getInstance().setValue(Constants.propRefreshBtnBusy, false)
+                            PropertiesComponent.getInstance().setValue(Constants.Properties.refreshBtnBusyKey, false)
                         }
                     }
                 })
@@ -141,35 +148,64 @@ class AkToolWindowContent : DataProvider {
 
     private fun setGithubDetail(link: Link) {
         if (link.type == LinkType.github) {
-            GlobalScope.launch {
-                val retLink = ProjectLinks.getGithubStarCount(link)
-                if (retLink != currentLink) return@launch
 
-                ApplicationManager.getApplication().invokeLater {
-                    val panel = JPanel()
-                    panel.border = IdeBorderFactory.createEmptyBorder(10, 0, 0, 0)
-                    panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
-                    if (retLink.star != null && retLink.star!! > 0) {
-                        val starLabel = JBLabel("Star ${retLink.star.toString()}")
+            val panel = JPanel()
+            panel.border = IdeBorderFactory.createEmptyBorder(10, 0, 0, 0)
+            panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
+            panel.background = UIUtil.getTableBackground()
+
+            val hintLabel = JBLabel("Updating repository details...")
+            hintLabel.icon = AllIcons.Process.Step_1
+            hintLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
+            panel.add(hintLabel)
+            myDetailPanel.add(panel)
+            myDetailPanel.repaint()
+            myDetailPanel.revalidate()
+
+            GlobalScope.launch {
+                val gitHubLink = ProjectLinks.instance.getGithubStarCount(link)
+                if (gitHubLink.link != currentLink) return@launch
+
+                ApplicationManager.getApplication().invokeAndWait({
+                    panel.remove(hintLabel)
+
+                    if (gitHubLink.homepage.isNotBlank()) {
+                        val homepage = HyperlinkLabel(gitHubLink.homepage)
+                        homepage.setHyperlinkTarget(gitHubLink.homepage)
+                        homepage.alignmentX = Component.LEFT_ALIGNMENT
+                        panel.add(homepage)
+                    }
+
+                    gitHubLink.link?.star?.let {
+                        val starLabel = JBLabel("Star $it, Fork ${gitHubLink.forkCount}, Watch ${gitHubLink.watchCount}")
                         starLabel.icon = AkIcons.STAR
                         starLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
+                        starLabel.alignmentX = Component.LEFT_ALIGNMENT
                         panel.add(starLabel)
                     }
 
-                    if (!retLink.update.isNullOrBlank()) {
-                        val updateLabel = JBLabel("Last update ${retLink.update}")
+                    gitHubLink.link?.update?.let {
+                        val updateLabel = JBLabel("Updated on $it", SwingConstants.LEFT)
                         updateLabel.icon = AkIcons.CHANGES
                         updateLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
+                        updateLabel.alignmentX = Component.LEFT_ALIGNMENT
                         panel.add(updateLabel)
                     }
 
+                    if (gitHubLink.createdAt.isNotBlank()) {
+                        val createLabel = JBLabel("Created on ${gitHubLink.createdAt}", SwingConstants.LEFT)
+                        createLabel.icon = AkIcons.CREATED
+                        createLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
+                        createLabel.alignmentX = Component.LEFT_ALIGNMENT
+                        panel.add(createLabel)
+                    }
+
                     if (panel.componentCount > 0) {
-                        panel.background = UIUtil.getTableBackground()
                         myDetailPanel.add(panel)
                         myDetailPanel.repaint()
                         myDetailPanel.revalidate()
                     }
-                }
+                }, ModalityState.stateForComponent(myDetailPanel))
             }
         }
     }
@@ -205,8 +241,15 @@ class AkToolWindowContent : DataProvider {
         SmartExpander.installOn(myTree)
         myTree.addTreeSelectionListener {
             val item = (myTree.lastSelectedPathComponent as? DefaultMutableTreeNode)?.userObject
-            myProject.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(item as? Link)
+            project.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(item as? Link)
         }
+        object : DoubleClickListener() {
+            override fun onDoubleClick(event: MouseEvent?): Boolean {
+                val action = VcsCheckoutAction()
+                action.actionPerformed(AnActionEvent.createFromAnAction(action, event, ActionPlaces.UNKNOWN, DataManager.getInstance().getDataContext(myTree)))
+                return true
+            }
+        }.installOn(myTree)
     }
 
     fun createToolWindow(): SimpleToolWindowPanel {
@@ -259,13 +302,14 @@ class AkToolWindowContent : DataProvider {
         searchField.addDocumentListener(object : DocumentAdapter() {
             override fun textChanged(e: DocumentEvent?) {
                 e?.let {
+                    TrackingManager.instance.reportUsage(TrackingAction.SEARCH)
                     val searchText = getText(e)
-                    myTree.model = setTreeModel(ProjectLinks.search(searchText))
+                    myTree.model = setTreeModel(ProjectLinks.instance.search(searchText))
                     if (searchText.isNotBlank()) {
                         TreeUtil.expandAll(myTree)
                     } else {
                         // clear selection event triggered
-                        myProject.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(null)
+                        project.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(null)
                     }
                 }
             }

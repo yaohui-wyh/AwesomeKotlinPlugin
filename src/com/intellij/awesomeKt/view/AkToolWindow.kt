@@ -14,8 +14,7 @@ class AkToolWindow : ToolWindowFactory, DumbAware {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val contentFactory = ContentFactory.SERVICE.getInstance()
-        val content = AkToolWindowContent()
-        content.init(project)
+        val content = AkToolWindowContent(project)
         val contentObj = contentFactory.createContent(content.createToolWindow(), "", false)
         toolWindow.contentManager.addContent(contentObj)
         Disposer.register(project, contentObj)

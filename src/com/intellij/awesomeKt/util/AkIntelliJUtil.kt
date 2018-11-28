@@ -2,6 +2,7 @@ package com.intellij.awesomeKt.util
 
 import com.intellij.CommonBundle
 import com.intellij.awesomeKt.configurable.AkSettings
+import com.intellij.awesomeKt.util.Constants.Plugins.name
 import com.intellij.awesomeKt.view.AkIcons
 import com.intellij.notification.NotificationDisplayType
 import com.intellij.notification.NotificationGroup
@@ -20,17 +21,17 @@ class AkIntelliJUtil {
 
     companion object {
 
-        private val notificationGroup = NotificationGroup(Constants.pluginName, NotificationDisplayType.TOOL_WINDOW, false, "", AkIcons.KOTLIN)
+        private val notificationGroup = NotificationGroup(name, NotificationDisplayType.TOOL_WINDOW, false, "", AkIcons.KOTLIN)
 
-        fun successBalloon(project: Project?, content: String, listener: NotificationListener? = null, title: String = "") {
+        fun successNotification(project: Project?, content: String, listener: NotificationListener? = null, title: String = name) {
             notificationGroup.createNotification(title, content, NotificationType.INFORMATION, listener).notify(project)
         }
 
-        fun warnBalloon(project: Project?, content: String, listener: NotificationListener? = null, title: String = "") {
+        fun warnNotification(project: Project?, content: String, listener: NotificationListener? = null, title: String = name) {
             notificationGroup.createNotification(title, content, NotificationType.WARNING, listener).notify(project)
         }
 
-        fun errorBalloon(project: Project?, content: String, listener: NotificationListener? = null, title: String = "") {
+        fun errorNotification(project: Project?, content: String, listener: NotificationListener? = null, title: String = name) {
             notificationGroup.createNotification(title, content, NotificationType.ERROR, listener).notify(project)
         }
 

@@ -5,13 +5,27 @@ package com.intellij.awesomeKt.util
  */
 object Constants {
 
-    const val pluginName = "Awesome Kotlin"
-    const val componentName = "AwesomeKotlin Application Component"
+    object Plugins {
+        const val id = "AwesomeKotlin"
+        const val name = "Awesome Kotlin"
+    }
 
-    // FIXME
-    const val pluginRateUrl = "https://github.com/roger-yh99/AwesomeKotlinPlugin"
-    const val issueUrl = "https://github.com/roger-yh99/AwesomeKotlinPlugin/issues"
-    const val awesomeKotlinUrl = "https://github.com/KotlinBy/awesome-kotlin"
+    object ToolWindows {
+        const val toolWindowId = "AwesomeKotlin"
+    }
 
-    const val propRefreshBtnBusy = "Property.RefreshButtonBusy"
+    object Components {
+        const val appName = "AwesomeKotlin Application Component"
+        const val projectName = "AwesomeKotlin Project Component"
+    }
+
+    object Urls {
+        const val ratePlugin = "https://plugins.jetbrains.com/plugin/11357-awesome-kotlin"
+        const val issues = "https://github.com/roger-yh99/AwesomeKotlinPlugin/issues"
+        const val awesomeKtRepo = "https://github.com/KotlinBy/awesome-kotlin"
+    }
+
+    object Properties {
+        const val refreshBtnBusyKey = "Property.RefreshButtonBusy"
+    }
 }

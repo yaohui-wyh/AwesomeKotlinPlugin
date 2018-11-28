@@ -15,6 +15,6 @@ class SettingsAction : LanguageAwareAction(
         AllIcons.General.Settings
 ) {
     override fun actionPerformed(e: AnActionEvent?) {
-        ShowSettingsUtil.getInstance().showSettingsDialog(e?.project, Constants.pluginName)
+        ShowSettingsUtil.getInstance().showSettingsDialog(e?.project, Constants.Plugins.name)
     }
 }

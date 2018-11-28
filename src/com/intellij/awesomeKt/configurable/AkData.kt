@@ -2,14 +2,14 @@ package com.intellij.awesomeKt.configurable
 
 import com.intellij.openapi.components.ServiceManager
 import link.kotlin.scripts.Category
-import link.kotlin.scripts.ProjectLinks
+import link.kotlin.scripts.pluginBundleLinks
 
 /**
  * Created by Roger™
  */
 class AkData {
 
-    var links: List<Category> = ProjectLinks.pluginBundleLinks
+    var links: List<Category> = pluginBundleLinks
 
     companion object {
         val instance: AkData

@@ -47,3 +47,12 @@ data class Link(
         return result
     }
 }
+
+data class GitHubLink(
+        var link: Link? = null,
+        var createdAt: String = "",
+        var homepage: String = "",
+        var forkCount: Int = 0,
+        var watchCount: Int = 0,
+        var openIssueCount: Int = 0
+)

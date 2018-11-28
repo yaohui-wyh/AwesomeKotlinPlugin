@@ -93,6 +93,13 @@ val AkAndroid = category("Android") {
             tags = Tags["android"]
         }
         link {
+            name = "Stateful"
+            desc = "Stateful helps you delete all the boilerplate code for saving instance state and lets you forget about saving and restoring your fragment's/activity's state."
+            href = "https://github.com/PicsArt/stateful"
+            type = github
+            tags = Tags["android"]
+        }
+        link {
             name = "BennyWang/KBinding"
             desc = "Android View Model binding framework write in kotlin, base on anko, simple but powerful."
             href = "https://github.com/BennyWang/KBinding"
@@ -159,6 +166,13 @@ val AkAndroid = category("Android") {
             name = "zserge/anvil"
             desc = "Minimal UI library for Android inspired by React."
             href = "https://github.com/zserge/anvil"
+            type = github
+            tags = Tags["android", "layout"]
+        }
+        link {
+            name = "robinchew/mvil"
+            desc = "'Virtual DOM' for Android inspired by Anvil."
+            href = "https://github.com/robinchew/mvil"
             type = github
             tags = Tags["android", "layout"]
         }
@@ -324,6 +338,20 @@ val AkAndroid = category("Android") {
             type = github
             tags = Tags["android", "sociallogin", "rxjava", "kotlin"]
         }
+        link {
+            name = "bakhtiyork/gradients"
+            desc = "A curated collection of splendid gradients"
+            href = "https://github.com/bakhtiyork/gradients"
+            type = github
+            tags = Tags["android", "gradient", "drawable"]
+        }
+        link {
+            name = "hpost/RxBrainwaves"
+            desc = "RxJava wrapper for NeuroSky MindWave headsets"
+            href = "https://github.com/hpost/rx-brainwaves"
+            type = github
+            tags = Tags["rxjava2", "rxjava-wrapper", "neurosky-mindwave", "android"]
+        }
     }
     subcategory("Frameworks") {
         link {
@@ -346,6 +374,13 @@ val AkAndroid = category("Android") {
             href = "https://github.com/codenameone/CodenameOne"
             type = github
             tags = Tags["cross-platform", "ikvm", "codenameone", "java", "iphone", "mobile"]
+        }
+        link {
+            name = "hpost/kommon-mvi"
+            desc = "Minimal framework for Model View Intent inspired Android applications written in Kotlin."
+            href = "https://github.com/hpost/kommon-mvi"
+            type = github
+            tags = Tags["rxjava2", "rxjava", "android", "mvi", "mvi-architecture", "android-architecture"]
         }
     }
     subcategory("Projects") {
@@ -488,6 +523,13 @@ val AkAndroid = category("Android") {
             tags = Tags["android", "extensions", "utils", "library", "material", "ui", "sharedpreferences", "media-picker", "searchview", "color-picker", "permission-manager"]
         }
         link {
+            name = "inshiro/Kitvei"
+            desc = "Free and open source Bible for Android"
+            href = "https://github.com/inshiro/Kitvei"
+            type = github
+            tags = Tags["android", "application", "read", "book", "bible"]
+        }
+        link {
             name = "hanjoongcho/aaf-easyphotomap"
             desc = "This is a photomap app that shows photos taken on a map."
             href = "https://github.com/hanjoongcho/aaf-easyphotomap"
@@ -577,6 +619,13 @@ val AkAndroid = category("Android") {
             href = "https://github.com/adrielcafe/GreenHellCompanionApp"
             type = github
             tags = Tags["android", "app", "companion-app", "kotlin", "mvvm", "android-architecture-components", "kotlin-coroutines", "dependency-injection", "fastadapter"]
+        }
+        link {
+            name = "adrielcafe/ChromaAndroidApp"
+            desc = "Chromatic tuner app."
+            href = "https://github.com/adrielcafe/ChromaAndroidApp"
+            type = github
+            tags = Tags["android", "app", "mvvm", "android-architecture-components", "kotlin-coroutines", "music", "tuner", "chromatic-tuner"]
         }
     }
     subcategory("Extensions") {

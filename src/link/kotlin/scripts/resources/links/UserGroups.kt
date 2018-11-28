@@ -156,6 +156,13 @@ val AkUserGroups = category("Kotlin User Groups") {
             tags = Tags["Ukraine"]
         }
         link {
+            name = "Kraków Kotlin User Group"
+            desc = "Poland"
+            href = "https://www.meetup.com/krakow-kotlin/"
+            type = kug
+            tags = Tags["Poland"]
+        }
+        link {
             name = "London Kotlin"
             desc = "United Kingdom"
             href = "http://www.meetup.com/kotlin-london/"
@@ -357,13 +364,6 @@ val AkUserGroups = category("Kotlin User Groups") {
             name = "Bhubaneswar Kotlin User Group"
             desc = "India"
             href = "https://www.facebook.com/groups/1961143800818624/"
-            type = kug
-            tags = Tags["India"]
-        }
-        link {
-            name = "Chennai Kotlin User Group"
-            desc = "India"
-            href = "https://www.meetup.com/Chennai-Kotlin-User-Group/"
             type = kug
             tags = Tags["India"]
         }

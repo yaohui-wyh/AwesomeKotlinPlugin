@@ -81,13 +81,13 @@ class AkConfigComponent {
         infoPanel.add(issueLabel)
 
         issueLabel.setHtmlText("${AkIntelliJUtil.message("Config.feedback")}: <a href=\"#feedback\">Github Issue</a>, ")
-        issueLabel.setHyperlinkTarget(Constants.issueUrl)
+        issueLabel.setHyperlinkTarget(Constants.Urls.issues)
 
         val akWebLabel = HyperlinkLabel()
         infoPanel.add(akWebLabel)
 
         akWebLabel.setHtmlText("${AkIntelliJUtil.message("Config.visitWeb")}: <a href=\"#visit\">KotlinBy/awesome-kotlin</a>")
-        akWebLabel.setHyperlinkTarget(Constants.awesomeKotlinUrl)
+        akWebLabel.setHyperlinkTarget(Constants.Urls.awesomeKtRepo)
 
         // ========= Extra Panel ============
         val extraPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 5))
@@ -155,7 +155,7 @@ class AkConfigComponent {
         label.setHtmlText(" <a href=\"#rate\">${AkIntelliJUtil.message("Config.rate")}</a>")
         label.font = UIUtil.getLabelFont(UIUtil.FontSize.SMALL)
         label.setIcon(AllIcons.Toolwindows.ToolWindowFavorites)
-        label.setHyperlinkTarget(Constants.pluginRateUrl)
+        label.setHyperlinkTarget(Constants.Urls.ratePlugin)
         return label
     }
 

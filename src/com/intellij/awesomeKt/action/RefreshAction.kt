@@ -21,6 +21,6 @@ class RefreshAction : LanguageAwareAction(
     }
 
     override fun update(e: AnActionEvent?) {
-        e?.presentation?.isEnabled = !PropertiesComponent.getInstance().getBoolean(Constants.propRefreshBtnBusy, false)
+        e?.presentation?.isEnabled = !PropertiesComponent.getInstance().getBoolean(Constants.Properties.refreshBtnBusyKey, false)
     }
 }

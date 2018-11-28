@@ -2,14 +2,14 @@ package link.kotlin.scripts
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.intellij.awesomeKt.configurable.AkData
-import com.intellij.awesomeKt.configurable.AkSettings
 import com.intellij.awesomeKt.util.KotlinScriptCompiler
 import com.intellij.awesomeKt.util.d
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.util.ResourceUtil
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.newFixedThreadPoolContext
+import link.kotlin.scripts.model.GitHubLink
 import link.kotlin.scripts.model.Link
 import link.kotlin.scripts.resources.links.*
 import okhttp3.*
@@ -27,157 +27,138 @@ import kotlin.coroutines.suspendCoroutine
 
 class ProjectLinks {
 
-    companion object {
-
-        private val logger = Logger.getInstance(this::class.java)
-        private val applicationContext = newFixedThreadPoolContext(4, "KL")
-        private val mapper = jacksonObjectMapper()
-        private val dispatcher = Dispatcher().apply {
-            maxRequests = 50
-            maxRequestsPerHost = 10
-        }
-        private val cacheInterceptor = Interceptor { chain ->
-            val request = chain.request()
-            val response = chain.proceed(request)
-            response.newBuilder()
-                    .removeHeader("Pragma")
-                    .removeHeader("Cache-Control")
-                    .header("Cache-Control", "max-age=" + 30 * 60)
-                    .build()
-        }
-        private val okHttpClient: OkHttpClient = OkHttpClient
-                .Builder()
-                .addNetworkInterceptor(cacheInterceptor)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .dispatcher(dispatcher)
+    private val logger = Logger.getInstance(this::class.java)
+    private val applicationContext = newFixedThreadPoolContext(4, "KL")
+    private val mapper = jacksonObjectMapper()
+    private val dispatcher = Dispatcher().apply {
+        maxRequests = 50
+        maxRequestsPerHost = 10
+    }
+    private val cacheInterceptor = Interceptor { chain ->
+        val request = chain.request()
+        val response = chain.proceed(request)
+        response.newBuilder()
+                .removeHeader("Pragma")
+                .removeHeader("Cache-Control")
+                .header("Cache-Control", "max-age=" + 30 * 60)
                 .build()
-        val pluginBundleLinks = listOf(AkLibraries, AkProjects, AkAndroid, AkJavaScript, AkNative, AkLinks, AkUserGroups, AkArchive)
+    }
+    private val okHttpClient: OkHttpClient = OkHttpClient
+            .Builder()
+            .addNetworkInterceptor(cacheInterceptor)
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .dispatcher(dispatcher)
+            .build()
 
-        fun search(text: String): List<Category> {
-            // TODO: Change to coroutines
-            return AkData.instance.links.mapNotNull { category ->
-                if (category.name.contains(text, true)) {
-                    category
-                } else {
-                    val subCategoriesMatch = category.subcategories.mapNotNull { subcategory ->
-                        if (subcategory.name.contains(text, true)) {
-                            subcategory
-                        } else {
-                            val linksMatch = subcategory.links.filter {
-                                val sources = mutableListOf(it.name, it.desc, it.href)
-                                sources.addAll(it.tags)
-                                sources.any { s -> s.contains(text, true) }
-                            }
-                            if (linksMatch.isNotEmpty()) Subcategory(subcategory.id, subcategory.name, linksMatch.toMutableList()) else null
-                        }
-                    }
-                    if (subCategoriesMatch.isNotEmpty()) Category(category.id, category.name, subCategoriesMatch.toMutableList()) else null
-                }
-            }
-        }
-
-        fun linksFromPlugin(): List<CategoryKtsResult> {
-            return pluginBundleLinks.map { CategoryKtsResult(success = true, category = it) }
-        }
-
-        private fun linksFromKtsScript(url: String, text: String): CategoryKtsResult {
-            val result = CategoryKtsResult(url)
-            if (text.isEmpty()) {
-                logger.d("Invalid ktsText")
-                result.success = false
-                result.errMessage = "Error fetching KotlinScript, please check network connection"
+    fun search(text: String): List<Category> {
+        return AkData.instance.links.mapNotNull { category ->
+            if (category.name.contains(text, true)) {
+                category
             } else {
-                try {
-                    logger.d("Parsing kts text...")
-                    val category = KotlinScriptCompiler.execute<Category>(text)
-                    if (category != null) {
-                        result.success = true
-                        result.category = category
+                val subCategoriesMatch = category.subcategories.mapNotNull { subcategory ->
+                    if (subcategory.name.contains(text, true)) {
+                        subcategory
                     } else {
-                        result.success = false
-                        result.errMessage = "Error parsing Kotlin Script"
+                        val linksMatch = subcategory.links.filter {
+                            val sources = mutableListOf(it.name, it.desc, it.href)
+                            sources.addAll(it.tags)
+                            sources.any { s -> s.contains(text, true) }
+                        }
+                        if (linksMatch.isNotEmpty()) Subcategory(subcategory.id, subcategory.name, linksMatch.toMutableList()) else null
                     }
-                } catch (ex: Exception) {
-                    logger.d("Error while processing text", ex)
-                    result.success = false
-                    result.errMessage = "Error parsing Kotlin Script, ${ex.message}"
                 }
-            }
-            return result
-        }
-
-        private fun linksFromFile(basePath: String, path: String): Category? {
-            return try {
-                logger.d("Parsing kts File [$basePath/$path]...")
-                val text = ResourceUtil.loadText(ResourceUtil.getResource(this::class.java, basePath, path))
-                KotlinScriptCompiler.execute(text)
-            } catch (ex: Exception) {
-                logger.d("Error while processing file [$basePath/$path]", ex)
-                null
+                if (subCategoriesMatch.isNotEmpty()) Category(category.id, category.name, subCategoriesMatch.toMutableList()) else null
             }
         }
+    }
 
-        private suspend fun fetchKtsFile(url: String): Response? {
-            logger.d("Fetching $url...")
-            return try {
-                val request = Request.Builder().url(url).build()
-                okHttpClient.newCall(request).await()
-            } catch (ex: Exception) {
-                logger.d("Error while processing ktsFile $url", ex)
-                null
-            }
-        }
+    fun linksFromPlugin(): List<CategoryKtsResult> = pluginBundleLinks.map { CategoryKtsResult(success = true, category = it) }
 
-        private suspend fun linksFromUrls(urls: List<String>): List<CategoryKtsResult> {
-            val deferredList = urls.map {
-                GlobalScope.async(applicationContext) {
-                    fetchKtsFile(it)?.body()?.string().orEmpty()
-                }
-            }
-            return deferredList.withIndex().map {
-                val url = urls[it.index]
-                val text = it.value.await()
-                linksFromKtsScript(url, text)
-            }
-        }
-
-        suspend fun linksFromCustomUrls(): List<CategoryKtsResult> {
-            logger.d("Fetching links from custom Urls")
-            val urls = AkSettings.instance.customContentSourceList
-            return linksFromUrls(urls)
-        }
-
-        suspend fun linksFromGithub(): List<CategoryKtsResult> {
-            logger.d("Fetching links from Github")
-            val urls = githubContentList.map { githubPrefix + it }
-            return linksFromUrls(urls)
-        }
-
-        suspend fun getGithubStarCount(link: Link): Link {
-            logger.d("Querying GitHub Api for ${link.name}...")
-            val request = Request.Builder()
-                    .url("https://api.github.com/repos/${link.name}")
-                    .header("Accept", "application/vnd.github.preview")
-                    .build()
+    fun parseKtsFile(url: String, text: String): CategoryKtsResult {
+        val result = CategoryKtsResult(url)
+        if (text.isEmpty()) {
+            logger.d("Invalid ktsText")
+            result.success = false
+            result.errMessage = "Error fetching KotlinScript, please check network connection"
+        } else {
             try {
-                val res = okHttpClient.newCall(request).await()
-                val json = mapper.readTree(res.body()?.string().orEmpty())
-                val stargazersCount = json["stargazers_count"]?.asInt() ?: 0
-                val pushedAt = json["pushed_at"]?.asText().orEmpty()
-
-                if (pushedAt.isNotEmpty()) {
-                    link.star = stargazersCount
-                    link.update = parseInstant(pushedAt).format(formatter)
+                logger.d("Parsing kts text...")
+                val category = KotlinScriptCompiler.execute<Category>(text)
+                if (category != null) {
+                    result.success = true
+                    result.category = category
+                } else {
+                    result.success = false
+                    result.errMessage = "Error parsing Kotlin Script"
                 }
             } catch (ex: Exception) {
-                logger.d("Error while getting Github info for ${link.name}", ex)
+                logger.d("Error while processing text", ex)
+                result.success = false
+                result.errMessage = "Error parsing Kotlin Script, ${ex.message}"
             }
-            return link
         }
+        return result
+    }
+
+    suspend fun fetchKtsFiles(urls: List<String>): List<KtsFilePair> {
+        val list = urls.map {
+            GlobalScope.async(applicationContext) {
+                logger.d("Fetching $it...")
+                try {
+                    val request = Request.Builder().url(it).build()
+                    okHttpClient.newCall(request).await()
+                } catch (ex: Exception) {
+                    logger.d("Error while processing ktsFile $it", ex)
+                    null
+                }
+            }
+        }
+        return list.mapIndexed { idx, deferred ->
+            try {
+                val response = deferred.await()
+                val text = response?.body()?.string().orEmpty()
+                response?.close()
+                KtsFilePair(urls[idx], text)
+            } catch (ex: Exception) {
+                KtsFilePair(urls[idx], "")
+            }
+        }
+    }
+
+    suspend fun getGithubStarCount(link: Link): GitHubLink {
+        val githubLink = GitHubLink(link = link)
+        logger.d("Querying GitHub Api for ${link.name}...")
+        val request = Request.Builder()
+                .url("https://api.github.com/repos/${link.name}")
+                .header("Accept", "application/vnd.github.preview")
+                .build()
+        try {
+            val response = okHttpClient.newCall(request).await()
+            val json = mapper.readTree(response.body()?.string().orEmpty())
+            response.close()
+
+            githubLink.link?.star = json["stargazers_count"]?.asInt() ?: 0
+            githubLink.link?.update = parseDate(json["pushed_at"]?.textValue())
+            githubLink.createdAt = parseDate(json["created_at"]?.asText())
+            githubLink.forkCount = json["forks"]?.asInt() ?: 0
+            githubLink.watchCount = json["subscribers_count"]?.asInt() ?: 0
+            githubLink.openIssueCount = json["open_issues"]?.asInt() ?: 0
+            githubLink.homepage = json["homepage"]?.textValue()?.trim().orEmpty()
+        } catch (ex: Exception) {
+            logger.d("Error while getting Github info for ${link.name}", ex)
+        }
+        return githubLink
+    }
+
+    companion object {
+        val instance: ProjectLinks = ServiceManager.getService(ProjectLinks::class.java)
     }
 }
 
+data class KtsFilePair(val url: String, val text: String) {
+    fun shortName() = url.split("/").lastOrNull().orEmpty()
+}
 data class CategoryKtsResult(
         var url: String = "",
         var success: Boolean = false,
@@ -185,10 +166,10 @@ data class CategoryKtsResult(
         var errMessage: String = ""
 )
 
-val formatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-
-fun parseInstant(date: String): LocalDateTime {
-    return LocalDateTime.ofInstant(Instant.parse(date), ZoneId.of("UTC"))
+fun parseDate(date: String?): String {
+    if (date.isNullOrBlank()) return ""
+    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+    return LocalDateTime.ofInstant(Instant.parse(date), ZoneId.of("UTC")).format(formatter)
 }
 
 suspend fun Call.await(): Response = suspendCoroutine { cont: Continuation<Response> ->
@@ -196,13 +177,13 @@ suspend fun Call.await(): Response = suspendCoroutine { cont: Continuation<Respo
         override fun onResponse(call: Call, response: Response) {
             cont.resume(response)
         }
-
         override fun onFailure(call: Call, ex: IOException) {
             cont.resumeWithException(ex)
         }
     })
 }
 
+const val githubPrefix = "https://raw.githubusercontent.com/KotlinBy/awesome-kotlin/master/src/main/resources/links/"
 val githubContentList = listOf(
         "Libraries.kts",
         "Projects.kts",
@@ -213,4 +194,13 @@ val githubContentList = listOf(
         "UserGroups.kts",
         "Archive.kts"
 )
-const val githubPrefix = "https://raw.githubusercontent.com/KotlinBy/awesome-kotlin/master/src/main/resources/links/"
+val pluginBundleLinks = listOf(
+        AkLibraries,
+        AkProjects,
+        AkAndroid,
+        AkJavaScript,
+        AkNative,
+        AkLinks,
+        AkUserGroups,
+        AkArchive
+)
