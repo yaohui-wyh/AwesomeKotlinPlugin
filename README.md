@@ -1,5 +1,7 @@
 IntelliJ Plugin for [Awesome Kotlin](https://kotlin.link/)
 
+https://plugins.jetbrains.com/plugin/11357-awesome-kotlin
+
 ![](/docs/screenshots.gif)
 
 - Show content from <a href="https://github.com/KotlinBy/awesome-kotlin">Awesome Kotlin</a> inside IDE ToolWindow
