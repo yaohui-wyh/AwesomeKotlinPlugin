@@ -1,11 +1,7 @@
 package link.kotlin.scripts.resources.links
 
-import link.kotlin.scripts.LinkType
+import link.kotlin.scripts.*
 import link.kotlin.scripts.LinkType.github
-import link.kotlin.scripts.Tags
-import link.kotlin.scripts.category
-import link.kotlin.scripts.link
-import link.kotlin.scripts.subcategory
 
 val AkLinks = category("Links") {
     subcategory("Official Links") {
@@ -24,8 +20,8 @@ val AkLinks = category("Links") {
             href = "http://kotlinlang.org/docs/reference/"
         }
         link {
-            name = "Slack (18k+ users)"
-            href = "https://kotlinslack.herokuapp.com/"
+            name = "Slack (21k+ users)"
+            href = "http://slack.kotlinlang.org/"
         }
         link {
             name = "Public chat archive of Kotlin's Slack"
@@ -61,6 +57,11 @@ val AkLinks = category("Links") {
     }
     subcategory("Resources") {
         link {
+            name = "Jobs for Kotlin Developers"
+            desc = "All job listings require Kotlin skills"
+            href = "https://kotlin-jobs.com/"
+        }
+        link {
             name = "Podcast: Talking Kotlin"
             desc = "A Podcast on Kotlin and more"
             href = "http://talkingkotlin.com/kotlin-at-pinterest-with-christina-lee/"
@@ -94,10 +95,6 @@ val AkLinks = category("Links") {
         link {
             name = "LinkedIn: Kotlin Developers (Join!)"
             href = "https://www.linkedin.com/groups/7417237/profile"
-        }
-        link {
-            name = "Kotlin - Google+"
-            href = "https://plus.google.com/communities/104597899765146112928"
         }
         link {
             name = "From Java To Kotlin"
@@ -162,6 +159,10 @@ val AkLinks = category("Links") {
         link {
             name = "Kotlin in Action - Dmitry Jemerov, Svetlana Isakova"
             href = "https://manning.com/books/kotlin-in-action"
+        }
+        link {
+            name = "Functional Programming in Kotlin - Marco Vermeulen, Rúnar Bjarnason, and Paul Chiusano"
+            href = "https://www.manning.com/books/functional-programming-in-kotlin"
         }
         link {
             name = "Kotlin for Android Developers - Antonio Leiva"
@@ -240,6 +241,26 @@ val AkLinks = category("Links") {
             name = "Hands-on Design Patterns with Kotlin - Alexey Soshin"
             desc = "Book that covers building scalable applications using traditional, reactive, and concurrent design patterns in Kotlin"
             href = "https://www.amazon.com/Hands-Design-Patterns-Kotlin-applications/dp/1788998014"
+        }
+        link {
+            name = "Kotlin Bootcamp for Programmers - Google"
+            desc = "Language fundamentals for developers"
+            href = "https://www.udacity.com/course/kotlin-bootcamp-for-programmers--ud9011"
+        }
+        link {
+            name = "Developing Android Apps with Kotlin - Google"
+            desc = "Create concise, secure and performant apps with Kotlin"
+            href = "https://www.udacity.com/course/developing-android-apps-with-kotlin--ud9012"
+        }
+        link {
+            name = "Kotlin for Android Developers"
+            desc = "Convert an Android app from Java to Kotlin"
+            href = "https://www.udacity.com/course/kotlin-for-android-developers--ud888"
+        }
+        link {
+            name = "Kotlin for Java Developers - JetBrains"
+            desc = "Detailed Kotlin introductory course for Java developers"
+            href = "https://www.coursera.org/learn/kotlin-for-java-developers"
         }
     }
 }

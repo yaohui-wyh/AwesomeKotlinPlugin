@@ -346,11 +346,60 @@ val AkAndroid = category("Android") {
             tags = Tags["android", "gradient", "drawable"]
         }
         link {
-            name = "hpost/RxBrainwaves"
+            name = "hpost/rx-brainwaves"
             desc = "RxJava wrapper for NeuroSky MindWave headsets"
             href = "https://github.com/hpost/rx-brainwaves"
             type = github
             tags = Tags["rxjava2", "rxjava-wrapper", "neurosky-mindwave", "android"]
+        }
+        link {
+            name = "adrielcafe/KrumbsView"
+            desc = "The ultimate breadcrumbs view for Android!"
+            href = "https://github.com/adrielcafe/KrumbsView"
+            type = github
+            tags = Tags["android", "breadcrumbs", "breadcrumb-navigation"]
+        }
+        link {
+            name = "inshiro/Skate"
+            desc = "A simple and easy to use Android fragment stack controller"
+            href = "https://github.com/inshiro/skate"
+            type = github
+            tags = Tags["android", "fragment", "controller", "navigation"]
+        }
+        link {
+            name = "cortinico/slidetoact"
+            desc = "A simple 'Slide to Unlock' Material widget for Android, written in Kotlin"
+            href = "https://github.com/cortinico/slidetoact"
+            type = github
+            tags = Tags["android", "ui", "widget", "material", "kotlin", "kotlin-android", "slider"]
+        }
+        link {
+            name = "AppIntro/AppIntro"
+            desc = "Make a cool/material intro for you Android App - Now all in Kotlin!"
+            href = "https://github.com/AppIntro/AppIntro"
+            type = github
+            tags = Tags["android", "fragment", "intro", "material", "kotlin", "kotlin-android", "viewpager"]
+        }
+        link {
+            name = "CuriousNikhil/gossip"
+            desc = "Android TextToSpeech Helper to speak any text you want and handle events."
+            href = "https://github.com/CuriousNikhil/gossip"
+            type = github
+            tags = Tags["android", "kotlin", "coroutines", "TextToSpeech"]
+        }
+        link {
+            name = "adrielcafe/PufferDB"
+            desc = "An Android & JVM key-value storage powered by Protobuf and Coroutines."
+            href = "https://github.com/adrielcafe/pufferdb"
+            type = github
+            tags = Tags["android", "kotlin", "coroutines", "rxjava", "protobuf", "storage", "database", "key-value"]
+        }
+        link {
+            name = "adrielcafe/HAL"
+            desc = "A non-deterministic finite-state machine for Android & JVM that won't let you down."
+            href = "https://github.com/adrielcafe/hal"
+            type = github
+            tags = Tags["android", "kotlin", "coroutines", "livedata", "fsm", "state-machine", "finite-state-machine"]
         }
     }
     subcategory("Frameworks") {
@@ -376,9 +425,9 @@ val AkAndroid = category("Android") {
             tags = Tags["cross-platform", "ikvm", "codenameone", "java", "iphone", "mobile"]
         }
         link {
-            name = "hpost/kommon-mvi"
+            name = "hpost/rx-mvi"
             desc = "Minimal framework for Model View Intent inspired Android applications written in Kotlin."
-            href = "https://github.com/hpost/kommon-mvi"
+            href = "https://github.com/hpost/rx-mvi"
             type = github
             tags = Tags["rxjava2", "rxjava", "android", "mvi", "mvi-architecture", "android-architecture"]
         }
@@ -523,9 +572,9 @@ val AkAndroid = category("Android") {
             tags = Tags["android", "extensions", "utils", "library", "material", "ui", "sharedpreferences", "media-picker", "searchview", "color-picker", "permission-manager"]
         }
         link {
-            name = "inshiro/Kitvei"
+            name = "inshiro/Kodesh"
             desc = "Free and open source Bible for Android"
-            href = "https://github.com/inshiro/Kitvei"
+            href = "https://github.com/inshiro/Kodesh"
             type = github
             tags = Tags["android", "application", "read", "book", "bible"]
         }
@@ -627,6 +676,20 @@ val AkAndroid = category("Android") {
             type = github
             tags = Tags["android", "app", "mvvm", "android-architecture-components", "kotlin-coroutines", "music", "tuner", "chromatic-tuner"]
         }
+        link {
+            name = "cuongpm/youtube-dl-android"
+            desc = "Video downloader for Android - Download videos from Youtube, Facebook, Twitter, Instagram, Dailymotion, Vimeo and more than 1000 other sites."
+            href = "https://github.com/cuongpm/youtube-dl-android"
+            type = github
+            tags = Tags["android", "kotlin", "mvvm", "youtube-dl", "youtube-downloader", "video-downloader", "android-video-downloader"]
+        }
+        link {
+            name = "dgngulcan/droid-feed"
+            desc = "News feed aggregated exclusively for Android Developers."
+            href = "https://github.com/dgngulcan/droid-feed"
+            type = github
+            tags = Tags["android", "kotlin", "mvvm", "kotlin-coroutines", "news", "app"]
+        }
     }
     subcategory("Extensions") {
         link {
@@ -651,6 +714,13 @@ val AkAndroid = category("Android") {
             href = "https://github.com/kiruto/debug-bottle"
             type = github
             tags = Tags["android", "debug"]
+        }
+        link {
+            name = "didi/booster"
+            desc = "Booster is an optimization toolkit for Android applications"
+            href = "https://github.com/didi/booster"
+            type = github
+            tags = Tags["optimizer", "android", "gradle-plugin", "bytecode-manipulation", "static-analysis"]
         }
     }
     subcategory("Tests") {

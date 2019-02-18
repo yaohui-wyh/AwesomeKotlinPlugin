@@ -11,8 +11,8 @@ buildscript {
 }
 
 apply plugin: "java"
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 sourceSets {
     main.java.srcDirs "src"
     main.resources.srcDirs "resources"
@@ -41,7 +41,8 @@ dependencies {
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.3"
     compile "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion"
-    compile "org.jetbrains.kotlin:kotlin-script-util:${kotlinVersion}"
+    compile "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion"
 }
 
 group "com.intellij.awesomeKt"

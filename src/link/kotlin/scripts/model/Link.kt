@@ -56,3 +56,12 @@ data class GitHubLink(
         var watchCount: Int = 0,
         var openIssueCount: Int = 0
 )
+
+data class GitHubReadme(
+        var name: String = "",
+        var size: Int = 0,
+        var url: String = "",
+        var content: String = ""
+) {
+    fun isValid() = name.isNotBlank() && size > 0 && url.isNotBlank() && content.isNotBlank()
+}

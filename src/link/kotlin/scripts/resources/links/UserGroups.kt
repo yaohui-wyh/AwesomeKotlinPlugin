@@ -226,6 +226,13 @@ val AkUserGroups = category("Kotlin User Groups") {
             tags = Tags["Germany"]
         }
         link {
+            name = "Rostov-on-Don Kotlin User Group"
+            desc = "Russia"
+            href = "https://vk.com/rndkotlin"
+            type = kug
+            tags = Tags["Russia"]
+        }
+        link {
             name = "St. Petersburg Kotlin User Group"
             desc = "Russia"
             href = "https://www.meetup.com/St-Petersburg-Kotlin-User-Group/"

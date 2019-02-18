@@ -10,6 +10,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.newFixedThreadPoolContext
 import link.kotlin.scripts.model.GitHubLink
+import link.kotlin.scripts.model.GitHubReadme
 import link.kotlin.scripts.model.Link
 import link.kotlin.scripts.resources.links.*
 import okhttp3.*
@@ -138,17 +139,39 @@ class ProjectLinks {
             val json = mapper.readTree(response.body()?.string().orEmpty())
             response.close()
 
-            githubLink.link?.star = json["stargazers_count"]?.asInt() ?: 0
+            githubLink.link?.star = json["stargazers_count"]?.asInt(0)
             githubLink.link?.update = parseDate(json["pushed_at"]?.textValue())
-            githubLink.createdAt = parseDate(json["created_at"]?.asText())
-            githubLink.forkCount = json["forks"]?.asInt() ?: 0
-            githubLink.watchCount = json["subscribers_count"]?.asInt() ?: 0
-            githubLink.openIssueCount = json["open_issues"]?.asInt() ?: 0
+            githubLink.createdAt = parseDate(json["created_at"]?.textValue())
+            githubLink.forkCount = json["forks"]?.asInt(0) ?: 0
+            githubLink.watchCount = json["subscribers_count"]?.asInt(0) ?: 0
+            githubLink.openIssueCount = json["open_issues"]?.asInt(0) ?: 0
             githubLink.homepage = json["homepage"]?.textValue()?.trim().orEmpty()
         } catch (ex: Exception) {
             logger.d("Error while getting Github info for ${link.name}", ex)
         }
         return githubLink
+    }
+
+    fun getGithubReadme(link: Link): GitHubReadme {
+        logger.d("Querying GitHub readme for ${link.name}...")
+        val request = Request.Builder()
+                .url("https://api.github.com/repos/${link.name}/readme")
+                .header("Accept", "application/vnd.github.preview")
+                .build()
+        val ret = GitHubReadme()
+        try {
+            val response = okHttpClient.newCall(request).execute()
+            val json = mapper.readTree(response.body()?.string().orEmpty())
+            response.close()
+
+            ret.content = json["content"]?.textValue().orEmpty()
+            ret.name = json["name"]?.textValue().orEmpty()
+            ret.url = json["url"]?.textValue().orEmpty()
+            ret.size = json["size"]?.asInt(0) ?: 0
+        } catch (ex: Exception) {
+            logger.d("Error while getting Github info for ${link.name}", ex)
+        }
+        return ret
     }
 
     companion object {

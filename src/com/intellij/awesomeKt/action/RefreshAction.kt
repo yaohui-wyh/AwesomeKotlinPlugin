@@ -16,11 +16,12 @@ class RefreshAction : LanguageAwareAction(
         AkIntelliJUtil.message("RefreshAction.description"),
         AllIcons.Actions.Refresh
 ) {
-    override fun actionPerformed(e: AnActionEvent?) {
+    override fun actionPerformed(e: AnActionEvent) {
         ApplicationManager.getApplication().messageBus.syncPublisher(AWESOME_KOTLIN_REFRESH_TOPIC).onRefresh()
     }
 
-    override fun update(e: AnActionEvent?) {
-        e?.presentation?.isEnabled = !PropertiesComponent.getInstance().getBoolean(Constants.Properties.refreshBtnBusyKey, false)
+    override fun update(e: AnActionEvent) {
+        super.update(e)
+        e.presentation.isEnabled = !PropertiesComponent.getInstance().getBoolean(Constants.Properties.refreshBtnBusyKey, false)
     }
 }

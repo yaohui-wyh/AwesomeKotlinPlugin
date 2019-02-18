@@ -3,10 +3,7 @@ package link.kotlin.scripts.resources.links
 import link.kotlin.scripts.LinkType.bitbucket
 import link.kotlin.scripts.LinkType.github
 import link.kotlin.scripts.Tags
-import link.kotlin.scripts.TargetType.ANDROID
-import link.kotlin.scripts.TargetType.IOS
-import link.kotlin.scripts.TargetType.JVM
-import link.kotlin.scripts.TargetType.NATIVE
+import link.kotlin.scripts.TargetType.*
 import link.kotlin.scripts.category
 import link.kotlin.scripts.link
 import link.kotlin.scripts.subcategory
@@ -71,9 +68,9 @@ val AkLibraries = category("Libraries/Frameworks") {
             tags = Tags["web", "http", "rest", "vert.x", "undertow"]
         }
         link {
-            name = "pgutkowski/KGraphQL"
+            name = "aPureBase/KGraphQL"
             desc = "A GraphQL implementation written in Kotlin"
-            href = "https://github.com/pgutkowski/KGraphQL"
+            href = "https://github.com/aPureBase/KGraphQL"
             type = github
             tags = Tags["graphql", "web"]
         }
@@ -228,7 +225,7 @@ val AkLibraries = category("Libraries/Frameworks") {
         }
         link {
             name = "robstoll/atrium"
-            desc = "Fluent assertion library for Kotlin supporting i18n."
+            desc = "Multiplatform assertion library for Kotlin supporting i18n."
             href = "https://github.com/robstoll/atrium"
             type = github
             tags = Tags["test", "assertion-library", "assert"]
@@ -337,6 +334,77 @@ val AkLibraries = category("Libraries/Frameworks") {
             href = "https://github.com/permissions-dispatcher/kompile-testing"
             type = github
             tags = Tags["kapt", "test"]
+        }
+        link {
+            name = "robfletcher/strikt"
+            desc = "An assertion library for Kotlin"
+            href = "https://github.com/robfletcher/strikt/"
+            type = github
+            tags = Tags["test", "strikt", "assert"]
+        }
+        link {
+            name = "dmcg/minutest"
+            desc = "Simple, Expressive, Extensible Testing for Kotlin on the JVM"
+            href = "https://github.com/dmcg/minutest"
+            type = github
+            tags = Tags["test", "minutest", "dsl"]
+        }
+        link {
+            name = "codecentric/hikaku"
+            desc = "A library that tests if the implementation of a REST-API meets its specification."
+            href = "https://github.com/codecentric/hikaku"
+            type = github
+            tags = Tags["test", "assert", "api", "rest"]
+        }
+        link {
+            name = "serpro69/kotlin-faker"
+            desc = "Port of ruby faker gem written in kotlin"
+            href = "https://github.com/serpro69/kotlin-faker"
+            type = github
+            tags = Tags["test", "testing", "data-generator", "faker"]
+        }
+        link {
+            name = "skrapeit/skrape.it"
+            desc = "A DSL-driven HTML/XML parser-library that enables meaningful testing of rendered HTML templates."
+            href = "https://github.com/skrapeit/skrape.it"
+            platforms = arrayOf(JVM)
+            type = github
+            tags = Tags["test", "html", "template", "dom", "dsl", "parser", "webcrawler", "scraper", "ktor", "spring-boot"]
+        }
+        link {
+            name = "krzema12/PlotAssert"
+            desc = "Test the shape of your functions!"
+            href = "https://github.com/krzema12/PlotAssert"
+            type = github
+            tags = Tags["test", "testing", "dsl", "ascii-art"]
+        }
+        link {
+            name = "EranBoudjnah/TestIt"
+            desc = "Generate unit testing boilerplate from kotlin files."
+            href = "https://github.com/EranBoudjnah/TestIt"
+            type = github
+            tags = Tags["test", "testing", "generator", "generation", "mock"]
+        }
+        link {
+            name = "EranBoudjnah/RandomGenKt"
+            desc = "Initialize instances of any class with generated data."
+            href = "https://github.com/EranBoudjnah/RandomGenKt"
+            type = github
+            tags = Tags["test", "testing", "random", "random-generation"]
+        }
+        link {
+            name = "KennethWussmann/mock-fuel"
+            desc = "JUnit 5 extension to easily mock external HTTP requests made with the HTTP client Fuel."
+            href = "https://github.com/KennethWussmann/mock-fuel"
+            type = github
+            tags = Tags["test", "testing", "mock", "fuel", "junit"]
+        }
+        link {
+            name = "jcornaz/kwik"
+            desc = "A property-based testing library for Kotlin. Execute tests with randomized inputs with a test-engine agnostic and compile-time safe library."
+            href = "https://github.com/jcornaz/kwik"
+            type = github
+            tags = Tags["test", "testing", "assert", "random", "random-generation"]
         }
     }
     subcategory("Dependency Injection") {
@@ -584,6 +652,13 @@ val AkLibraries = category("Libraries/Frameworks") {
             type = github
             tags = Tags["json", "json-query", "json-manager", "kotlin-library", "kotlin-android"]
         }
+        link {
+            name = "aafanasev/kson"
+            desc = "Auto-generate GSON type adapters for Kotlin data classes"
+            href = "https://github.com/aafanasev/kson"
+            type = github
+            tags = Tags["json", "gson", "type adapter", "annotation processing", "kapt"]
+        }
     }
     subcategory("Database") {
         link {
@@ -732,6 +807,13 @@ val AkLibraries = category("Libraries/Frameworks") {
             type = github
             tags = Tags["postgres", "mysql", "database driver"]
         }
+        link {
+            name = "vincentlauvlwj/Ktorm"
+            desc = "A lightweight and efficient ORM Framework for Kotlin. It provides strong typed and flexible SQL DSL and many convenient extension functions to reduce our duplicated effort on database operations. "
+            href = "https://github.com/vincentlauvlwj/Ktorm"
+            type = github
+            tags = Tags["ORM", "SQL", "DSL", "JDBC"]
+        }
     }
     subcategory("Tools") {
         link {
@@ -853,6 +935,20 @@ val AkLibraries = category("Libraries/Frameworks") {
             href = "https://github.com/rybalkinsd/kohttp"
             type = github
             tags = Tags["http", "http client", "dsl", "okhttp"]
+        }
+        link {
+            name = "curiousnikhil/Asynkio"
+            desc = "Make asynchronous calls painlessly with async/await style."
+            href = "https://github.com/CuriousNikhil/AsynKio"
+            type = github
+            tags = Tags["http", "http client", "coroutines"]
+        }
+        link {
+            name = "speekha/httpmocker"
+            desc = "Kotlin library to handle offline mode easily with OkHttp."
+            href = "https://github.com/speekha/httpmocker"
+            type = github
+            tags = Tags["http", "http client", "offline", "okhttp"]
         }
     }
     subcategory("Editors") {
@@ -992,6 +1088,13 @@ val AkLibraries = category("Libraries/Frameworks") {
             href = "https://github.com/Hexworks/zircon"
             type = github
             tags = Tags["text-gui", "games", "game-dev"]
+        }
+        link {
+            name = "korlibs/KorGE"
+            desc = "Modern Multiplatform Game Engine for Kotlin. Write games for the JVM, JavaScript, Android and iOS in no time using Kotlin."
+            href = "https://github.com/korlibs/korge"
+            type = github
+            tags = Tags["desktop", "android", "games", "game-dev"]
         }
     }
     subcategory("Misc") {
@@ -1305,7 +1408,49 @@ val AkLibraries = category("Libraries/Frameworks") {
             desc = "Lightweight Kotlin extensions for java.time API"
             href = "https://github.com/sandjelkovic/kxjtime"
             type = github
-            tags = Tags["extensions","time","date","jdk8", "java.time", "utility"]
+            tags = Tags["extensions", "time", "date", "jdk8", "java.time", "utility"]
+        }
+        link {
+            name = "pmwmedia/tinylog"
+            desc = "Lightweight logging framework with native logging API for Kotlin."
+            href = "https://github.com/pmwmedia/tinylog"
+            platforms = arrayOf(JVM, ANDROID)
+            type = github
+            tags = Tags["logging", "logger"]
+        }
+        link {
+            name = "Lewik/klog"
+            desc = "Minimalistic and multiplatform logging for Kotlin"
+            href = "https://github.com/Lewik/klog"
+            type = github
+            platforms = arrayOf(JVM, JS, COMMON)
+            tags = Tags["logging", "multiplatform"]
+        }
+        link {
+            name = "aafanasev/sekret"
+            desc = "Kotlin compiler plugin to exclude secret properties from toString() of Data class"
+            href = "https://github.com/aafanasev/sekret"
+            platforms = arrayOf(JVM, ANDROID)
+            type = github
+            tags = Tags["Data class", "toString"]
+        }
+    }
+    subcategory("Raspberry Pi") {
+        link {
+            name = "mhashim6/Pi4K"
+            desc = "Pi4J Kotlin bindings."
+            href = "https://github.com/mhashim6/Pi4K"
+            type = github
+            tags = Tags["raspberry-pi", "raspberrypi", "gpio", "dsl", "pi4j"]
+        }
+    }
+    subcategory("Multiplatform") {
+        link {
+            name = "ionspin/kotlin-multiplatform-bignum"
+            desc = "Pure kotlin multiplatform arbitrary precision arithmetic library."
+            href = "https://github.com/ionspin/kotlin-multiplatform-bignum"
+            type = github
+            tags = Tags["multiplatform", "bignum", "biginteger", "bigdecimal", "arbitrary-precision"]
         }
     }
     subcategory("Extensions") {

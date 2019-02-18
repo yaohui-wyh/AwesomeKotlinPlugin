@@ -1,9 +1,9 @@
 <idea-plugin>
     <id>AwesomeKotlin</id>
     <name>Awesome Kotlin</name>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <idea-version since-build="162.0"/>
-    <vendor email="alex.yh99@gmail.com" url="https://github.com/roger-yh99">Roger</vendor>
+    <vendor email="alex.yh99@gmail.com" url="https://github.com/alex-yh99">Yaohui Wang</vendor>
 
     <description><![CDATA[
       <b>Awesome Kotlin</b> - A Collection of awesome Kotlin related stuff<br/>
@@ -16,20 +16,22 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      <p>1.0.1</p>
+      <p>1.0.2</p>
       <ul>
+          <li>Show number of stars & folks and recent activities for a GitHub repo</li>
+          <li>Show README content for selected GitHub repo</li>
           <li>Fix compatibility issues with IDEA 2018.3</li>
       </ul>
     ]]>
     </change-notes>
 
+    <depends optional="true" config-file="">org.jetbrains.kotlin</depends>
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="AwesomeKotlin" icon="/images/kotlinToolWindow.png" anchor="right" factoryClass="com.intellij.awesomeKt.view.AkToolWindow"/>
         <applicationService serviceImplementation="com.intellij.awesomeKt.configurable.AkData"/>
         <applicationService serviceImplementation="com.intellij.awesomeKt.configurable.AkSettings"/>
-        <applicationService serviceImplementation="com.intellij.awesomeKt.util.TrackingManager"/>
         <applicationService serviceImplementation="link.kotlin.scripts.ProjectLinks"/>
         <applicationConfigurable id="AwesomeKotlin.Configurable" provider="com.intellij.awesomeKt.configurable.AwesomeKtConfProvider"/>
     </extensions>

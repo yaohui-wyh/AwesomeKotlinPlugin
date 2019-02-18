@@ -1,7 +1,6 @@
 package com.intellij.awesomeKt.component
 
 import com.intellij.awesomeKt.util.Constants
-import com.intellij.awesomeKt.util.TrackingManager
 import com.intellij.openapi.components.ProjectComponent
 
 /**
@@ -13,9 +12,7 @@ class AkProjectComponent : ProjectComponent {
 
     override fun disposeComponent() {}
 
-    override fun projectClosed() {
-        TrackingManager.instance.doReport()
-    }
+    override fun projectClosed() {}
 
     override fun initComponent() {}
 

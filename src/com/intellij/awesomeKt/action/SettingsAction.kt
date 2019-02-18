@@ -14,7 +14,7 @@ class SettingsAction : LanguageAwareAction(
         AkIntelliJUtil.message("SettingsAction.description"),
         AllIcons.General.Settings
 ) {
-    override fun actionPerformed(e: AnActionEvent?) {
-        ShowSettingsUtil.getInstance().showSettingsDialog(e?.project, Constants.Plugins.name)
+    override fun actionPerformed(e: AnActionEvent) {
+        ShowSettingsUtil.getInstance().showSettingsDialog(e.project, Constants.Plugins.name)
     }
 }

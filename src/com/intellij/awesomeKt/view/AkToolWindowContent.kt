@@ -3,6 +3,7 @@ package com.intellij.awesomeKt.view
 import com.intellij.awesomeKt.action.RefreshAction
 import com.intellij.awesomeKt.action.SettingsAction
 import com.intellij.awesomeKt.action.VcsCheckoutAction
+import com.intellij.awesomeKt.action.ViewReadmeAction
 import com.intellij.awesomeKt.configurable.AkData
 import com.intellij.awesomeKt.configurable.AkSettings
 import com.intellij.awesomeKt.configurable.ContentSource
@@ -31,7 +32,6 @@ import com.intellij.ui.*
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.panels.Wrapper
 import com.intellij.ui.treeStructure.Tree
-import com.intellij.util.text.MarkdownUtil
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.table.ComponentsListFocusTraversalPolicy
@@ -76,11 +76,9 @@ class AkToolWindowContent(val project: Project) : DataProvider {
                 currentLink = link
                 myDetailPanel.removeAll()
                 link?.let {
-                    TrackingManager.instance.reportUsage(TrackingAction.CLICK_ITEM)
                     val linkLabel = HoverHyperlinkLabel(it.name)
                     if (link.href.isNotBlank()) {
                         linkLabel.addHyperlinkListener {
-                            TrackingManager.instance.reportUsage(TrackingAction.VISIT_GITHUB)
                             BrowserUtil.browse(link.href.trim())
                         }
                     }
@@ -238,6 +236,7 @@ class AkToolWindowContent(val project: Project) : DataProvider {
         myTree.model = model
         myTree.isRootVisible = false
         myTree.selectionModel.selectionMode = TreeSelectionModel.SINGLE_TREE_SELECTION
+        myTree.toolTipText = "Double click to show project README"
         myTree.cellRenderer = AkTreeRenderer(myTree)
         myTree.rowHeight = 0
         UIUtil.setLineStyleAngled(myTree)
@@ -249,9 +248,14 @@ class AkToolWindowContent(val project: Project) : DataProvider {
             val item = (myTree.lastSelectedPathComponent as? DefaultMutableTreeNode)?.userObject
             project.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(item as? Link)
         }
+        val actionGroups = DefaultActionGroup()
+        actionGroups.addAction(VcsCheckoutAction())
+        actionGroups.addAction(ViewReadmeAction())
+        PopupHandler.installPopupHandler(myTree, actionGroups, ActionPlaces.UNKNOWN, ActionManager.getInstance())
+
         object : DoubleClickListener() {
             override fun onDoubleClick(event: MouseEvent?): Boolean {
-                val action = VcsCheckoutAction()
+                val action = ViewReadmeAction()
                 action.actionPerformed(AnActionEvent.createFromAnAction(action, event, ActionPlaces.UNKNOWN, DataManager.getInstance().getDataContext(myTree)))
                 return true
             }
@@ -306,17 +310,14 @@ class AkToolWindowContent(val project: Project) : DataProvider {
 
         val searchField = object : SearchTextField(true) {}
         searchField.addDocumentListener(object : DocumentAdapter() {
-            override fun textChanged(e: DocumentEvent?) {
-                e?.let {
-                    TrackingManager.instance.reportUsage(TrackingAction.SEARCH)
-                    val searchText = getText(e)
-                    myTree.model = setTreeModel(ProjectLinks.instance.search(searchText))
-                    if (searchText.isNotBlank()) {
-                        TreeUtil.expandAll(myTree)
-                    } else {
-                        // clear selection event triggered
-                        project.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(null)
-                    }
+            override fun textChanged(e: DocumentEvent) {
+                val searchText = getText(e)
+                myTree.model = setTreeModel(ProjectLinks.instance.search(searchText))
+                if (searchText.isNotBlank()) {
+                    TreeUtil.expandAll(myTree)
+                } else {
+                    // clear selection event triggered
+                    project.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(null)
                 }
             }
 
@@ -339,7 +340,7 @@ class AkToolWindowContent(val project: Project) : DataProvider {
         return panel
     }
 
-    override fun getData(dataId: String?): Any? {
+    override fun getData(dataId: String): Any? {
         if (AkDataKeys.tableItem.`is`(dataId)) {
             return currentLink
         }
