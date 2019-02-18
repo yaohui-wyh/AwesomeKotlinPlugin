@@ -31,6 +31,7 @@ import com.intellij.ui.*
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.panels.Wrapper
 import com.intellij.ui.treeStructure.Tree
+import com.intellij.util.text.MarkdownUtil
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.table.ComponentsListFocusTraversalPolicy
@@ -207,6 +208,11 @@ class AkToolWindowContent(val project: Project) : DataProvider {
                     }
                 }, ModalityState.stateForComponent(myDetailPanel))
             }
+        } else {
+            val hrefLabel = HyperlinkLabel(link.href.trim())
+            hrefLabel.setHyperlinkTarget(link.href.trim())
+            hrefLabel.alignmentX = Component.LEFT_ALIGNMENT
+            myDetailPanel.add(hrefLabel)
         }
     }
 
