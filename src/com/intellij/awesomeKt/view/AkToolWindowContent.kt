@@ -11,7 +11,9 @@ import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_REFRESH_TOPIC
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_VIEW_TOPIC
 import com.intellij.awesomeKt.messages.RefreshItemsListener
 import com.intellij.awesomeKt.messages.TableViewListener
-import com.intellij.awesomeKt.util.*
+import com.intellij.awesomeKt.util.AkDataKeys
+import com.intellij.awesomeKt.util.AkIntelliJUtil
+import com.intellij.awesomeKt.util.Constants
 import com.intellij.icons.AllIcons
 import com.intellij.ide.BrowserUtil
 import com.intellij.ide.CommonActionsManager
@@ -51,6 +53,7 @@ import javax.swing.event.DocumentEvent
 import javax.swing.text.BadLocationException
 import javax.swing.tree.DefaultMutableTreeNode
 import javax.swing.tree.DefaultTreeModel
+import javax.swing.tree.TreePath
 import javax.swing.tree.TreeSelectionModel
 
 /**
@@ -246,7 +249,9 @@ class AkToolWindowContent(val project: Project) : DataProvider {
         SmartExpander.installOn(myTree)
         myTree.addTreeSelectionListener {
             val item = (myTree.lastSelectedPathComponent as? DefaultMutableTreeNode)?.userObject
-            project.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(item as? Link)
+            if (item is Link) {
+                project.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(item)
+            }
         }
         val actionGroups = DefaultActionGroup()
         actionGroups.addAction(VcsCheckoutAction())
@@ -312,12 +317,14 @@ class AkToolWindowContent(val project: Project) : DataProvider {
         searchField.addDocumentListener(object : DocumentAdapter() {
             override fun textChanged(e: DocumentEvent) {
                 val searchText = getText(e)
+                val selectedNode = myTree.selectionPath?.lastPathComponent as? DefaultMutableTreeNode
                 myTree.model = setTreeModel(ProjectLinks.instance.search(searchText))
                 if (searchText.isNotBlank()) {
                     TreeUtil.expandAll(myTree)
                 } else {
                     // clear selection event triggered
-                    project.messageBus.syncPublisher(AWESOME_KOTLIN_VIEW_TOPIC).onLinkItemClicked(null)
+                    // FIXME: keep the selection path
+                    selectedNode?.let { myTree.makeVisible(TreePath(it.path).parentPath) }
                 }
             }
 
