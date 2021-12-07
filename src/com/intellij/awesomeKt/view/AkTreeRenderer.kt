@@ -1,7 +1,7 @@
 package com.intellij.awesomeKt.view
 
-import com.intellij.ui.JBDefaultTreeCellRenderer
 import com.intellij.ui.components.JBLabel
+import com.intellij.ui.render.LabelBasedRenderer
 import com.intellij.util.ui.JBUI
 import link.kotlin.scripts.Category
 import link.kotlin.scripts.LinkType
@@ -16,17 +16,21 @@ import javax.swing.tree.DefaultMutableTreeNode
 /**
  * Created by Roger™
  */
-class AkTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
+class AkTreeRenderer : LabelBasedRenderer.Tree() {
 
     override fun getTreeCellRendererComponent(
-        tree: JTree?, value: Any?, sel: Boolean, expanded: Boolean,
-        leaf: Boolean, row: Int, hasFocus: Boolean
+        tree: JTree,
+        value: Any?,
+        selected: Boolean,
+        expanded: Boolean,
+        leaf: Boolean,
+        row: Int,
+        focused: Boolean
     ): Component {
-        super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus)
+        super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, focused)
         if (value is DefaultMutableTreeNode) {
             val label = JBLabel()
-            val obj = value.userObject
-            when (obj) {
+            when (val obj = value.userObject) {
                 is Category -> {
                     label.text = obj.name
                     label.font = Font(JLabel().font.fontName, Font.BOLD, JBUI.scale(14))

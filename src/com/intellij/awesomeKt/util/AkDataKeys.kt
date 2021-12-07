@@ -8,5 +8,5 @@ import link.kotlin.scripts.model.Link
  */
 object AkDataKeys {
 
-    val tableItem: DataKey<Link> = DataKey.create<Link>("AwesomeKt.TreeItem")
+    val tableItem: DataKey<Link> = DataKey.create("AwesomeKt.TreeItem")
 }

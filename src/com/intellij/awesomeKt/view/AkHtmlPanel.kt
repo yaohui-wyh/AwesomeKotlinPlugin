@@ -15,7 +15,7 @@ class AkHtmlPanel : JEditorPane("text/html", "") {
     init {
         isEditable = false
         isOpaque = false
-        putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true)
+        putClientProperty(HONOR_DISPLAY_PROPERTIES, true)
         addHyperlinkListener { BrowserHyperlinkListener.INSTANCE.hyperlinkUpdate(it) }
     }
 

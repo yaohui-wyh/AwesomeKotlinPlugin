@@ -116,9 +116,9 @@ class AkToolWindowContent(val project: Project) : DataProvider {
                     override fun run(indicator: ProgressIndicator) {
                         indicator.fraction = 0.1
                         indicator.text = "Fetching links..."
-                        val urls = when {
-                            AkSettings.instance.contentSource == ContentSource.GITHUB -> githubContentList.map { githubPrefix + it }
-                            AkSettings.instance.contentSource == ContentSource.CUSTOM -> AkSettings.instance.customContentSourceList
+                        val urls = when (AkSettings.instance.contentSource) {
+                            ContentSource.GITHUB -> githubContentList.map { githubPrefix + it }
+                            ContentSource.CUSTOM -> AkSettings.instance.customContentSourceList
                             else -> listOf()
                         }
                         val results = if (urls.isEmpty()) {
@@ -247,9 +247,8 @@ class AkToolWindowContent(val project: Project) : DataProvider {
         myTree.isRootVisible = false
         myTree.selectionModel.selectionMode = TreeSelectionModel.SINGLE_TREE_SELECTION
         myTree.toolTipText = "Double click to show project README"
-        myTree.cellRenderer = AkTreeRenderer(myTree)
+        myTree.cellRenderer = AkTreeRenderer()
         myTree.rowHeight = 0
-        UIUtil.setLineStyleAngled(myTree)
         model.root?.let {
             TreeUtil.expand(myTree, 0)
         }

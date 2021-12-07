@@ -13,9 +13,10 @@ import com.intellij.openapi.ui.VerticalFlowLayout
 import com.intellij.openapi.ui.ex.MultiLineLabel
 import com.intellij.ui.HyperlinkLabel
 import com.intellij.ui.IdeBorderFactory
-import com.intellij.ui.ListCellRendererWrapper
+import com.intellij.ui.SimpleListCellRenderer
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBRadioButton
+import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import link.kotlin.scripts.githubContentList
 import link.kotlin.scripts.githubPrefix
@@ -41,9 +42,54 @@ class AkConfigComponent {
 
     init {
         mainPanel.layout = GridBagLayout()
-        mainPanel.add(buildSettingsPanel(), GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
-        mainPanel.add(buildContentSourcePanel(), GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
-        mainPanel.add(buildAboutPanel(), GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
+        mainPanel.add(
+            buildSettingsPanel(),
+            GridBagConstraints(
+                0,
+                0,
+                1,
+                1,
+                1.0,
+                0.0,
+                GridBagConstraints.NORTH,
+                GridBagConstraints.HORIZONTAL,
+                Insets(0, 0, 0, 0),
+                0,
+                0
+            )
+        )
+        mainPanel.add(
+            buildContentSourcePanel(),
+            GridBagConstraints(
+                0,
+                1,
+                1,
+                1,
+                1.0,
+                0.0,
+                GridBagConstraints.NORTH,
+                GridBagConstraints.HORIZONTAL,
+                Insets(0, 0, 0, 0),
+                0,
+                0
+            )
+        )
+        mainPanel.add(
+            buildAboutPanel(),
+            GridBagConstraints(
+                0,
+                2,
+                1,
+                1,
+                1.0,
+                1.0,
+                GridBagConstraints.NORTH,
+                GridBagConstraints.HORIZONTAL,
+                Insets(0, 0, 0, 0),
+                0,
+                0
+            )
+        )
     }
 
     private fun buildSettingsPanel(): JPanel {
@@ -54,14 +100,20 @@ class AkConfigComponent {
         val languagePanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 5))
         val languageLabel = JBLabel(AkIntelliJUtil.message("Config.language"))
 
-        languageLabel.border = IdeBorderFactory.createEmptyBorder(0, 0, 0, 15)
+        languageLabel.border = JBUI.Borders.empty(0, 0, 0, 15)
         languagePanel.add(languageLabel)
         languagePanel.add(comboBox)
 
         comboBox.selectedItem = AkSettings.instance.lang
-        comboBox.renderer = object : ListCellRendererWrapper<LanguageItem>() {
-            override fun customize(list: JList<*>?, item: LanguageItem?, index: Int, selected: Boolean, hasFocus: Boolean) {
-                setText(AkIntelliJUtil.message(item?.messageKey.orEmpty()))
+        comboBox.renderer = object : SimpleListCellRenderer<LanguageItem>() {
+            override fun customize(
+                list: JList<out LanguageItem>,
+                item: LanguageItem?,
+                index: Int,
+                selected: Boolean,
+                hasFocus: Boolean
+            ) {
+                text = AkIntelliJUtil.message(item?.messageKey.orEmpty())
             }
         }
 
@@ -92,8 +144,12 @@ class AkConfigComponent {
         // ========= Extra Panel ============
         val extraPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 5))
 
-        val feedbackLabel = JBLabel(AkIntelliJUtil.message("Config.feedbackText"), UIUtil.ComponentStyle.SMALL, UIUtil.FontColor.BRIGHTER)
-        feedbackLabel.border = IdeBorderFactory.createEmptyBorder(0, 2, 0, 8)
+        val feedbackLabel = JBLabel(
+            AkIntelliJUtil.message("Config.feedbackText"),
+            UIUtil.ComponentStyle.SMALL,
+            UIUtil.FontColor.BRIGHTER
+        )
+        feedbackLabel.border = JBUI.Borders.empty(0, 2, 0, 8)
         extraPanel.add(feedbackLabel)
         setRateLabel(extraPanel)
 
@@ -140,9 +196,54 @@ class AkConfigComponent {
         fromGithubBtn.addActionListener { toggleRadioSelection() }
         fromCustomUrlBtn.addActionListener { toggleRadioSelection() }
 
-        contentPanel.add(btnGroupPanel, GridBagConstraints(0, 0, 0, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(0, 0, 0, 0), 0, 0))
-        contentPanel.add(contentListPanel, GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, Insets(8, 10, 0, 0), 0, 0))
-        contentPanel.add(contentHintPanel, GridBagConstraints(0, 2, 0, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.WEST, Insets(10, 10, 0, 0), 0, 0))
+        contentPanel.add(
+            btnGroupPanel,
+            GridBagConstraints(
+                0,
+                0,
+                0,
+                1,
+                1.0,
+                0.0,
+                GridBagConstraints.NORTH,
+                GridBagConstraints.HORIZONTAL,
+                Insets(0, 0, 0, 0),
+                0,
+                0
+            )
+        )
+        contentPanel.add(
+            contentListPanel,
+            GridBagConstraints(
+                0,
+                1,
+                1,
+                1,
+                1.0,
+                0.0,
+                GridBagConstraints.NORTH,
+                GridBagConstraints.HORIZONTAL,
+                Insets(8, 10, 0, 0),
+                0,
+                0
+            )
+        )
+        contentPanel.add(
+            contentHintPanel,
+            GridBagConstraints(
+                0,
+                2,
+                0,
+                1,
+                0.0,
+                0.0,
+                GridBagConstraints.WEST,
+                GridBagConstraints.WEST,
+                Insets(10, 10, 0, 0),
+                0,
+                0
+            )
+        )
 
         toggleRadioSelection()
         return contentPanel
@@ -165,7 +266,11 @@ class AkConfigComponent {
         if (fromGithubBtn.isSelected) {
             contentListPanel.items = githubContentList
             contentListPanel.toggleEditable(false)
-            contentHintPanel.text = AkIntelliJUtil.message("Config.updateContent.fromGithub.hint", githubPrefix + "Links.kts", AkIntelliJUtil.message("Config.feedback"))
+            contentHintPanel.text = AkIntelliJUtil.message(
+                "Config.updateContent.fromGithub.hint",
+                githubPrefix + "Links.kts",
+                AkIntelliJUtil.message("Config.feedback")
+            )
         }
         if (fromCustomUrlBtn.isSelected) {
             contentListPanel.items = AkSettings.instance.customContentSourceList

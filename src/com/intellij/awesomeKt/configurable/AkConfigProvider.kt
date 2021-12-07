@@ -33,5 +33,5 @@ class AwesomeKtConfigurable : Configurable {
         component.apply()
     }
 
-    override fun createComponent(): JComponent? = component.mainPanel
+    override fun createComponent(): JComponent = component.mainPanel
 }
