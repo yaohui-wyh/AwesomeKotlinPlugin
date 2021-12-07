@@ -2,12 +2,9 @@ package link.kotlin.scripts
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.intellij.awesomeKt.app.AkData
-import com.intellij.awesomeKt.util.KotlinScriptCompiler
 import com.intellij.awesomeKt.util.d
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import link.kotlin.scripts.model.GitHubLink
 import link.kotlin.scripts.model.GitHubReadme
 import link.kotlin.scripts.model.Link
@@ -83,57 +80,6 @@ class ProjectLinks {
     fun linksFromPlugin(): List<CategoryKtsResult> =
         pluginBundleLinks.map { CategoryKtsResult(success = true, category = it) }
 
-    fun parseKtsFile(url: String, text: String): CategoryKtsResult {
-        val result = CategoryKtsResult(url)
-        if (text.isEmpty()) {
-            logger.d("Invalid ktsText")
-            result.success = false
-            result.errMessage = "Error fetching KotlinScript, please check network connection"
-        } else {
-            try {
-                logger.d("Parsing kts text...")
-                val category = KotlinScriptCompiler.execute<Category>(text)
-                if (category != null) {
-                    result.success = true
-                    result.category = category
-                } else {
-                    result.success = false
-                    result.errMessage = "Error parsing Kotlin Script"
-                }
-            } catch (ex: Exception) {
-                logger.d("Error while processing text", ex)
-                result.success = false
-                result.errMessage = "Error parsing Kotlin Script, ${ex.message}"
-            }
-        }
-        return result
-    }
-
-    suspend fun fetchKtsFiles(urls: List<String>): List<KtsFilePair> {
-        val list = urls.map {
-            GlobalScope.async {
-                logger.d("Fetching $it...")
-                try {
-                    val request = Request.Builder().url(it).build()
-                    okHttpClient.newCall(request).await()
-                } catch (ex: Exception) {
-                    logger.d("Error while processing ktsFile $it", ex)
-                    null
-                }
-            }
-        }
-        return list.mapIndexed { idx, deferred ->
-            try {
-                val response = deferred.await()
-                val text = response?.body?.string().orEmpty()
-                response?.close()
-                KtsFilePair(urls[idx], text)
-            } catch (ex: Exception) {
-                KtsFilePair(urls[idx], "")
-            }
-        }
-    }
-
     suspend fun getGithubStarCount(link: Link): GitHubLink {
         val githubLink = GitHubLink(link = link)
         logger.d("Querying GitHub Api for ${link.name}...")
@@ -184,10 +130,6 @@ class ProjectLinks {
     companion object {
         val instance: ProjectLinks = ServiceManager.getService(ProjectLinks::class.java)
     }
-}
-
-data class KtsFilePair(val url: String, val text: String) {
-    fun shortName() = url.split("/").lastOrNull().orEmpty()
 }
 
 data class CategoryKtsResult(
