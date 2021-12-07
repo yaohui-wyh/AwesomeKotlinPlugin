@@ -1,18 +1,15 @@
-package com.intellij.awesomeKt.component
+package com.intellij.awesomeKt.app
 
 import com.intellij.awesomeKt.util.Constants
 import com.intellij.ide.util.PropertiesComponent
-import com.intellij.openapi.components.ApplicationComponent
+import com.intellij.openapi.components.Service
 
 /**
  * Created by Roger™
  */
-class AkComponent : ApplicationComponent {
-    override fun getComponentName() = Constants.Components.appName
-
-    override fun disposeComponent() {}
-
-    override fun initComponent() {
+@Service
+class AkComponent {
+    init {
         resetProps()
     }
 

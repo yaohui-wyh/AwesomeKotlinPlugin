@@ -1,4 +1,4 @@
-package com.intellij.awesomeKt.configurable
+package com.intellij.awesomeKt.app
 
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager

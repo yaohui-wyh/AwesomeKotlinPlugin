@@ -14,11 +14,6 @@ object Constants {
         const val toolWindowId = "AwesomeKotlin"
     }
 
-    object Components {
-        const val appName = "AwesomeKotlin Application Component"
-        const val projectName = "AwesomeKotlin Project Component"
-    }
-
     object Urls {
         const val ratePlugin = "https://plugins.jetbrains.com/plugin/11357-awesome-kotlin"
         const val issues = "https://github.com/alex-yh99/AwesomeKotlinPlugin/issues"

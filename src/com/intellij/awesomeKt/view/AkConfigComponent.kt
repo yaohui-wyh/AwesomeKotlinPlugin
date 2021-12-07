@@ -1,8 +1,8 @@
 package com.intellij.awesomeKt.view
 
-import com.intellij.awesomeKt.configurable.AkSettings
-import com.intellij.awesomeKt.configurable.ContentSource
-import com.intellij.awesomeKt.configurable.LanguageItem
+import com.intellij.awesomeKt.app.AkSettings
+import com.intellij.awesomeKt.app.ContentSource
+import com.intellij.awesomeKt.app.LanguageItem
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_REFRESH_TOPIC
 import com.intellij.awesomeKt.util.AkIntelliJUtil
 import com.intellij.awesomeKt.util.Constants

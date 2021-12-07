@@ -1,4 +1,4 @@
-package com.intellij.awesomeKt.configurable
+package com.intellij.awesomeKt.app
 
 import com.intellij.awesomeKt.util.Constants
 import com.intellij.awesomeKt.view.AkConfigComponent

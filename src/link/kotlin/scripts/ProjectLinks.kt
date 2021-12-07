@@ -1,7 +1,7 @@
 package link.kotlin.scripts
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.intellij.awesomeKt.configurable.AkData
+import com.intellij.awesomeKt.app.AkData
 import com.intellij.awesomeKt.util.KotlinScriptCompiler
 import com.intellij.awesomeKt.util.d
 import com.intellij.openapi.components.ServiceManager

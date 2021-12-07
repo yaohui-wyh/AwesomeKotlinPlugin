@@ -4,9 +4,9 @@ import com.intellij.awesomeKt.action.RefreshAction
 import com.intellij.awesomeKt.action.SettingsAction
 import com.intellij.awesomeKt.action.VcsCheckoutAction
 import com.intellij.awesomeKt.action.ViewReadmeAction
-import com.intellij.awesomeKt.configurable.AkData
-import com.intellij.awesomeKt.configurable.AkSettings
-import com.intellij.awesomeKt.configurable.ContentSource
+import com.intellij.awesomeKt.app.AkData
+import com.intellij.awesomeKt.app.AkSettings
+import com.intellij.awesomeKt.app.ContentSource
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_REFRESH_TOPIC
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_VIEW_TOPIC
 import com.intellij.awesomeKt.messages.RefreshItemsListener

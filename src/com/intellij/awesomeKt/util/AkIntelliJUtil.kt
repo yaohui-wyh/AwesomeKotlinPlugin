@@ -1,7 +1,7 @@
 package com.intellij.awesomeKt.util
 
 import com.intellij.CommonBundle
-import com.intellij.awesomeKt.configurable.AkSettings
+import com.intellij.awesomeKt.app.AkSettings
 import com.intellij.awesomeKt.util.Constants.Plugins.name
 import com.intellij.awesomeKt.view.AkIcons
 import com.intellij.notification.NotificationDisplayType
