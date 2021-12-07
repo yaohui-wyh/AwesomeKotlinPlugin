@@ -8,7 +8,6 @@ import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-import kotlinx.coroutines.newFixedThreadPoolContext
 import link.kotlin.scripts.model.GitHubLink
 import link.kotlin.scripts.model.GitHubReadme
 import link.kotlin.scripts.model.Link
@@ -29,7 +28,6 @@ import kotlin.coroutines.suspendCoroutine
 class ProjectLinks {
 
     private val logger = Logger.getInstance(this::class.java)
-    private val applicationContext = newFixedThreadPoolContext(4, "KL")
     private val mapper = jacksonObjectMapper()
     private val dispatcher = Dispatcher().apply {
         maxRequests = 50
@@ -82,7 +80,8 @@ class ProjectLinks {
         }
     }
 
-    fun linksFromPlugin(): List<CategoryKtsResult> = pluginBundleLinks.map { CategoryKtsResult(success = true, category = it) }
+    fun linksFromPlugin(): List<CategoryKtsResult> =
+        pluginBundleLinks.map { CategoryKtsResult(success = true, category = it) }
 
     fun parseKtsFile(url: String, text: String): CategoryKtsResult {
         val result = CategoryKtsResult(url)
@@ -112,7 +111,7 @@ class ProjectLinks {
 
     suspend fun fetchKtsFiles(urls: List<String>): List<KtsFilePair> {
         val list = urls.map {
-            GlobalScope.async(applicationContext) {
+            GlobalScope.async {
                 logger.d("Fetching $it...")
                 try {
                     val request = Request.Builder().url(it).build()
