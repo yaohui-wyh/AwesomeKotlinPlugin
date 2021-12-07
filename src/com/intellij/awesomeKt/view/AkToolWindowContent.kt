@@ -86,7 +86,7 @@ class AkToolWindowContent(val project: Project) : DataProvider {
                         }
                     }
                     linkLabel.font = Font(JLabel().font.fontName, Font.BOLD, JBUI.scale(13))
-                    linkLabel.border = IdeBorderFactory.createEmptyBorder(5, 0, 5, 0)
+                    linkLabel.border = JBUI.Borders.empty(5, 0, 5, 0)
                     myDetailPanel.add(linkLabel)
 
                     val desc = AkHtmlPanel()
@@ -107,7 +107,12 @@ class AkToolWindowContent(val project: Project) : DataProvider {
                 PropertiesComponent.getInstance().setValue(Constants.Properties.refreshBtnBusyKey, true)
 
                 ApplicationManager.getApplication().invokeLater { myTree.setPaintBusy(true) }
-                ProgressManager.getInstance().run(object : Task.Backgroundable(project, "Update Content...", false, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
+                ProgressManager.getInstance().run(object : Task.Backgroundable(
+                    project,
+                    "Update Content...",
+                    false,
+                    PerformInBackgroundOption.ALWAYS_BACKGROUND
+                ) {
                     override fun run(indicator: ProgressIndicator) {
                         indicator.fraction = 0.1
                         indicator.text = "Fetching links..."
@@ -132,7 +137,8 @@ class AkToolWindowContent(val project: Project) : DataProvider {
                             if (results.all { it.success }) {
                                 AkIntelliJUtil.successNotification(project, "Update Success", null)
                             } else {
-                                val title = "Update Finished: ${results.count { it.success }} success, ${results.count { !it.success }} fail"
+                                val title =
+                                    "Update Finished: ${results.count { it.success }} success, ${results.count { !it.success }} fail"
                                 val errorContent = results.filter { !it.success }.joinToString("\n") {
                                     "${it.url} : ${it.errMessage}"
                                 }
@@ -152,7 +158,7 @@ class AkToolWindowContent(val project: Project) : DataProvider {
         if (link.type == LinkType.github) {
 
             val panel = JPanel()
-            panel.border = IdeBorderFactory.createEmptyBorder(10, 0, 0, 0)
+            panel.border = JBUI.Borders.empty(10, 0, 0, 0)
             panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
             panel.background = UIUtil.getTableBackground()
 
@@ -179,7 +185,8 @@ class AkToolWindowContent(val project: Project) : DataProvider {
                     }
 
                     gitHubLink.link?.star?.let {
-                        val starLabel = JBLabel("Star $it, Fork ${gitHubLink.forkCount}, Watch ${gitHubLink.watchCount}")
+                        val starLabel =
+                            JBLabel("Star $it, Fork ${gitHubLink.forkCount}, Watch ${gitHubLink.watchCount}")
                         starLabel.icon = AkIcons.STAR
                         starLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
                         starLabel.alignmentX = Component.LEFT_ALIGNMENT
@@ -259,9 +266,16 @@ class AkToolWindowContent(val project: Project) : DataProvider {
         PopupHandler.installPopupHandler(myTree, actionGroups, ActionPlaces.UNKNOWN, ActionManager.getInstance())
 
         object : DoubleClickListener() {
-            override fun onDoubleClick(event: MouseEvent?): Boolean {
+            override fun onDoubleClick(event: MouseEvent): Boolean {
                 val action = ViewReadmeAction()
-                action.actionPerformed(AnActionEvent.createFromAnAction(action, event, ActionPlaces.UNKNOWN, DataManager.getInstance().getDataContext(myTree)))
+                action.actionPerformed(
+                    AnActionEvent.createFromAnAction(
+                        action,
+                        event,
+                        ActionPlaces.UNKNOWN,
+                        DataManager.getInstance().getDataContext(myTree)
+                    )
+                )
                 return true
             }
         }.installOn(myTree)
@@ -280,14 +294,14 @@ class AkToolWindowContent(val project: Project) : DataProvider {
             }
         }
 
-        myDetailPanel.border = IdeBorderFactory.createEmptyBorder(15, 10, 20, 10)
+        myDetailPanel.border = JBUI.Borders.empty(15, 10, 20, 10)
         myDetailPanel.background = UIUtil.getTableBackground()
 
         val splitter = OnePixelSplitter(true, 0.75f)
         splitter.firstComponent = rootPanel
         splitter.secondComponent = myDetailPanel
 
-        panel.setToolbar(buildCategoryToolbar())
+        panel.toolbar = buildCategoryToolbar()
         panel.setContent(splitter)
 
         return panel

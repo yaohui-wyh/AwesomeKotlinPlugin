@@ -1,6 +1,5 @@
 package com.intellij.awesomeKt.view
 
-import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.JBDefaultTreeCellRenderer
 import com.intellij.ui.components.JBLabel
 import com.intellij.util.ui.JBUI
@@ -19,8 +18,10 @@ import javax.swing.tree.DefaultMutableTreeNode
  */
 class AkTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
 
-    override fun getTreeCellRendererComponent(tree: JTree?, value: Any?, sel: Boolean, expanded: Boolean,
-                                              leaf: Boolean, row: Int, hasFocus: Boolean): Component {
+    override fun getTreeCellRendererComponent(
+        tree: JTree?, value: Any?, sel: Boolean, expanded: Boolean,
+        leaf: Boolean, row: Int, hasFocus: Boolean
+    ): Component {
         super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus)
         if (value is DefaultMutableTreeNode) {
             val label = JBLabel()
@@ -30,12 +31,12 @@ class AkTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
                     label.text = obj.name
                     label.font = Font(JLabel().font.fontName, Font.BOLD, JBUI.scale(14))
                     label.icon = AkIcons.KOTLIN_ICON
-                    label.border = IdeBorderFactory.createEmptyBorder(8, 0, 4, 0)
+                    label.border = JBUI.Borders.empty(8, 0, 4, 0)
                 }
                 is Subcategory -> {
                     label.text = obj.name
                     label.font = Font(JLabel().font.fontName, Font.BOLD, JBUI.scale(13))
-                    label.border = IdeBorderFactory.createEmptyBorder(4, 0, 4, 0)
+                    label.border = JBUI.Borders.empty(4, 0, 4, 0)
                 }
                 is Link -> {
                     when (obj.type) {
@@ -46,7 +47,7 @@ class AkTreeRenderer(tree: JTree) : JBDefaultTreeCellRenderer(tree) {
                     }
                     label.text = obj.name
                     label.font = Font(JLabel().font.fontName, Font.PLAIN, JBUI.scale(12))
-                    label.border = IdeBorderFactory.createEmptyBorder(2, 0, 3, 0)
+                    label.border = JBUI.Borders.empty(2, 0, 3, 0)
                 }
             }
             return label

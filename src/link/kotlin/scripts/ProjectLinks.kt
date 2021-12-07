@@ -39,18 +39,18 @@ class ProjectLinks {
         val request = chain.request()
         val response = chain.proceed(request)
         response.newBuilder()
-                .removeHeader("Pragma")
-                .removeHeader("Cache-Control")
-                .header("Cache-Control", "max-age=" + 30 * 60)
-                .build()
+            .removeHeader("Pragma")
+            .removeHeader("Cache-Control")
+            .header("Cache-Control", "max-age=" + 30 * 60)
+            .build()
     }
     private val okHttpClient: OkHttpClient = OkHttpClient
-            .Builder()
-            .addNetworkInterceptor(cacheInterceptor)
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .dispatcher(dispatcher)
-            .build()
+        .Builder()
+        .addNetworkInterceptor(cacheInterceptor)
+        .connectTimeout(60, TimeUnit.SECONDS)
+        .readTimeout(60, TimeUnit.SECONDS)
+        .dispatcher(dispatcher)
+        .build()
 
     fun search(text: String): List<Category> {
         return AkData.instance.links.mapNotNull { category ->
@@ -66,10 +66,18 @@ class ProjectLinks {
                             sources.addAll(it.tags)
                             sources.any { s -> s.contains(text, true) }
                         }
-                        if (linksMatch.isNotEmpty()) Subcategory(subcategory.id, subcategory.name, linksMatch.toMutableList()) else null
+                        if (linksMatch.isNotEmpty()) Subcategory(
+                            subcategory.id,
+                            subcategory.name,
+                            linksMatch.toMutableList()
+                        ) else null
                     }
                 }
-                if (subCategoriesMatch.isNotEmpty()) Category(category.id, category.name, subCategoriesMatch.toMutableList()) else null
+                if (subCategoriesMatch.isNotEmpty()) Category(
+                    category.id,
+                    category.name,
+                    subCategoriesMatch.toMutableList()
+                ) else null
             }
         }
     }
@@ -118,7 +126,7 @@ class ProjectLinks {
         return list.mapIndexed { idx, deferred ->
             try {
                 val response = deferred.await()
-                val text = response?.body()?.string().orEmpty()
+                val text = response?.body?.string().orEmpty()
                 response?.close()
                 KtsFilePair(urls[idx], text)
             } catch (ex: Exception) {
@@ -131,12 +139,12 @@ class ProjectLinks {
         val githubLink = GitHubLink(link = link)
         logger.d("Querying GitHub Api for ${link.name}...")
         val request = Request.Builder()
-                .url("https://api.github.com/repos/${link.name}")
-                .header("Accept", "application/vnd.github.preview")
-                .build()
+            .url("https://api.github.com/repos/${link.name}")
+            .header("Accept", "application/vnd.github.preview")
+            .build()
         try {
             val response = okHttpClient.newCall(request).await()
-            val json = mapper.readTree(response.body()?.string().orEmpty())
+            val json = mapper.readTree(response.body?.string().orEmpty())
             response.close()
 
             githubLink.link?.star = json["stargazers_count"]?.asInt(0)
@@ -155,13 +163,13 @@ class ProjectLinks {
     fun getGithubReadme(link: Link): GitHubReadme {
         logger.d("Querying GitHub readme for ${link.name}...")
         val request = Request.Builder()
-                .url("https://api.github.com/repos/${link.name}/readme")
-                .header("Accept", "application/vnd.github.preview")
-                .build()
+            .url("https://api.github.com/repos/${link.name}/readme")
+            .header("Accept", "application/vnd.github.preview")
+            .build()
         val ret = GitHubReadme()
         try {
             val response = okHttpClient.newCall(request).execute()
-            val json = mapper.readTree(response.body()?.string().orEmpty())
+            val json = mapper.readTree(response.body?.string().orEmpty())
             response.close()
 
             ret.content = json["content"]?.textValue().orEmpty()
@@ -182,11 +190,12 @@ class ProjectLinks {
 data class KtsFilePair(val url: String, val text: String) {
     fun shortName() = url.split("/").lastOrNull().orEmpty()
 }
+
 data class CategoryKtsResult(
-        var url: String = "",
-        var success: Boolean = false,
-        var category: Category? = null,
-        var errMessage: String = ""
+    var url: String = "",
+    var success: Boolean = false,
+    var category: Category? = null,
+    var errMessage: String = ""
 )
 
 fun parseDate(date: String?): String {
@@ -200,30 +209,31 @@ suspend fun Call.await(): Response = suspendCoroutine { cont: Continuation<Respo
         override fun onResponse(call: Call, response: Response) {
             cont.resume(response)
         }
-        override fun onFailure(call: Call, ex: IOException) {
-            cont.resumeWithException(ex)
+
+        override fun onFailure(call: Call, e: IOException) {
+            cont.resumeWithException(e)
         }
     })
 }
 
 const val githubPrefix = "https://raw.githubusercontent.com/KotlinBy/awesome-kotlin/master/src/main/resources/links/"
 val githubContentList = listOf(
-        "Libraries.kts",
-        "Projects.kts",
-        "Android.kts",
-        "JavaScript.kts",
-        "Native.kts",
-        "Links.kts",
-        "UserGroups.kts",
-        "Archive.kts"
+    "Libraries.kts",
+    "Projects.kts",
+    "Android.kts",
+    "JavaScript.kts",
+    "Native.kts",
+    "Links.kts",
+    "UserGroups.kts",
+    "Archive.kts"
 )
 val pluginBundleLinks = listOf(
-        AkLibraries,
-        AkProjects,
-        AkAndroid,
-        AkJavaScript,
-        AkNative,
-        AkLinks,
-        AkUserGroups,
-        AkArchive
+    AkLibraries,
+    AkProjects,
+    AkAndroid,
+    AkJavaScript,
+    AkNative,
+    AkLinks,
+    AkUserGroups,
+    AkArchive
 )
