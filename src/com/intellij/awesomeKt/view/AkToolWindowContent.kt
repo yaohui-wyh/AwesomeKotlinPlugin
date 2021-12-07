@@ -5,8 +5,6 @@ import com.intellij.awesomeKt.action.SettingsAction
 import com.intellij.awesomeKt.action.VcsCheckoutAction
 import com.intellij.awesomeKt.action.ViewReadmeAction
 import com.intellij.awesomeKt.app.AkData
-import com.intellij.awesomeKt.app.AkSettings
-import com.intellij.awesomeKt.app.ContentSource
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_REFRESH_TOPIC
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_VIEW_TOPIC
 import com.intellij.awesomeKt.messages.RefreshItemsListener
@@ -40,8 +38,9 @@ import com.intellij.util.ui.table.ComponentsListFocusTraversalPolicy
 import com.intellij.util.ui.tree.TreeUtil
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import link.kotlin.scripts.*
+import link.kotlin.scripts.Category
+import link.kotlin.scripts.LinkType
+import link.kotlin.scripts.ProjectLinks
 import link.kotlin.scripts.model.Link
 import net.miginfocom.swing.MigLayout
 import java.awt.BorderLayout
@@ -116,22 +115,7 @@ class AkToolWindowContent(val project: Project) : DataProvider {
                     override fun run(indicator: ProgressIndicator) {
                         indicator.fraction = 0.1
                         indicator.text = "Fetching links..."
-                        val urls = when (AkSettings.instance.contentSource) {
-                            ContentSource.GITHUB -> githubContentList.map { githubPrefix + it }
-                            ContentSource.CUSTOM -> AkSettings.instance.customContentSourceList
-                            else -> listOf()
-                        }
-                        val results = if (urls.isEmpty()) {
-                            ProjectLinks.instance.linksFromPlugin().toMutableList()
-                        } else {
-                            indicator.fraction = 0.4
-                            val ktsFiles = runBlocking { ProjectLinks.instance.fetchKtsFiles(urls) }
-                            ktsFiles.mapIndexed { idx, ktsFilePair ->
-                                indicator.text = "Parsing KtsScript file ${ktsFilePair.shortName()}..."
-                                indicator.fraction = 0.4 + (idx + 1.0) * 0.6 / ktsFiles.size
-                                ProjectLinks.instance.parseKtsFile(ktsFilePair.url, ktsFilePair.text)
-                            }
-                        }
+                        val results = ProjectLinks.instance.linksFromPlugin().toMutableList()
                         AkData.instance.links = results.mapNotNull { it.category }
                         ApplicationManager.getApplication().invokeLater {
                             if (results.all { it.success }) {
@@ -246,7 +230,7 @@ class AkToolWindowContent(val project: Project) : DataProvider {
         myTree.model = model
         myTree.isRootVisible = false
         myTree.selectionModel.selectionMode = TreeSelectionModel.SINGLE_TREE_SELECTION
-        myTree.toolTipText = "Double click to show project README"
+        myTree.toolTipText = "Double click to show project's README"
         myTree.cellRenderer = AkTreeRenderer()
         myTree.rowHeight = 0
         model.root?.let {
