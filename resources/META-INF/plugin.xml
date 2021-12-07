@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>AwesomeKotlin</id>
     <name>Awesome Kotlin</name>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <idea-version since-build="162.0"/>
     <vendor email="alex.yh99@gmail.com" url="https://github.com/alex-yh99">Yaohui Wang</vendor>
 
