@@ -6,7 +6,7 @@ https://plugins.jetbrains.com/plugin/11357-awesome-kotlin
 
 - Show content from <a href="https://github.com/KotlinBy/awesome-kotlin">Awesome Kotlin</a> inside IDE ToolWindow
 - Enable search / checkout Kotlin projects
-- Custom content sources & dynamic KotlinScript loading is supported
+- <s>Custom content sources & dynamic KotlinScript loading is supported</s>
 
 ![](/docs/ide.png)
 
@@ -22,7 +22,7 @@ https://plugins.jetbrains.com/plugin/11357-awesome-kotlin
 2. Search for "Awesome Kotlin", install & restart
 
 #### Install from zip file
-1. Download zip from JetBrains Plugins Repository or from Github [Releases](https://github.com/alex-yh99/AwesomeKotlinPlugin/releases)
+1. Download zip from JetBrains Plugins Repository or from Github [Releases](https://github.com/yaohui-wyh/AwesomeKotlinPlugin/releases)
 2. Settings >> Plugins >> Install plugin from disk...,select the downloaded zip file in previous step then restart your idea 
 
 ## Plugin Development
@@ -33,27 +33,15 @@ https://plugins.jetbrains.com/plugin/11357-awesome-kotlin
 - Intellij IDEA (2016.3+)
 - Plugins Enabled: Kotlin
 
-Tech Stack
-
-- Build system: Gradle
-- Language: Kotlin
-- Frameworks: IntelliJ Platform SDK / Java GUI (Swing)
-
 #### Build / Run
 
 ```
 # run in sandbox
-gradle clean runIde
+./gradlew clean runIde
 
 # build artifact
-gradle clean buildPlugin
+./gradlew clean buildPlugin
 ```
-
-## TODO
-
-- [x] Fix GitHub star generation and enable cache
-- [ ] ~~Show GitHub repo activities (Issues, etc.)~~
-- [x] Update Links from Awesome-Kotlin GitHub repo (KtsCompiler, [KEEP/scripting-support](https://github.com/Kotlin/KEEP/blob/master/proposals/scripting-support.md))
 
 ## Thanks
 

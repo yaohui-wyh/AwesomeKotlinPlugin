@@ -16,7 +16,7 @@ object Constants {
 
     object Urls {
         const val ratePlugin = "https://plugins.jetbrains.com/plugin/11357-awesome-kotlin"
-        const val issues = "https://github.com/alex-yh99/AwesomeKotlinPlugin/issues"
+        const val issues = "https://github.com/yaohui-wyh/AwesomeKotlinPlugin/issues"
         const val awesomeKtRepo = "https://github.com/KotlinBy/awesome-kotlin"
     }
 
