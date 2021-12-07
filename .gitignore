@@ -7,9 +7,6 @@ target/
 *.swa
 *.iml
 *.zip
-*-dev.md
 
 idea-sandbox/
 .gradle/
-gradle/
-gradlew*
