@@ -25,7 +25,6 @@
     ]]>
     </change-notes>
 
-    <depends optional="true" config-file="">org.jetbrains.kotlin</depends>
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
