@@ -1,7 +1,7 @@
 package com.intellij.awesomeKt.app
 
 import com.intellij.openapi.components.ServiceManager
-import link.kotlin.scripts.Category
+import link.kotlin.scripts.dsl.Category
 import com.intellij.awesomeKt.util.pluginBundleLinks
 
 /**

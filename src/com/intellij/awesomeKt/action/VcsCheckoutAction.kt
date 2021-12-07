@@ -9,19 +9,18 @@ import com.intellij.openapi.vcs.CheckoutProvider
 import com.intellij.openapi.vcs.CheckoutProviderEx
 import com.intellij.openapi.vcs.ProjectLevelVcsManager
 import com.intellij.ui.AppIcon
-import link.kotlin.scripts.LinkType
 
 /**
  * Created by Roger™
  */
 class VcsCheckoutAction : LanguageAwareAction(
-        AkIntelliJUtil.message("VcsCheckoutAction.text"),
-        AkIntelliJUtil.message("VcsCheckoutAction.description"),
-        AllIcons.Actions.CheckOut
+    AkIntelliJUtil.message("VcsCheckoutAction.text"),
+    AkIntelliJUtil.message("VcsCheckoutAction.description"),
+    AllIcons.Actions.CheckOut
 ) {
     override fun actionPerformed(e: AnActionEvent) {
         e.getData(AkDataKeys.tableItem)?.let { link ->
-            if ((link.type != LinkType.github && link.type != LinkType.bitbucket) || link.href.isBlank()) return
+            if ((link.github.isNullOrBlank() && link.bitbucket.isNullOrBlank()) || link.href.isNullOrBlank()) return
             CheckoutProvider.EXTENSION_POINT_NAME.extensions.forEach { provider ->
                 if (provider is CheckoutProviderEx && provider.vcsId.equals("git", true)) {
                     val project = ProjectManager.getInstance().defaultProject
@@ -38,7 +37,7 @@ class VcsCheckoutAction : LanguageAwareAction(
         super.update(e)
         e.presentation.isEnabledAndVisible = false
         e.getData(AkDataKeys.tableItem)?.let {
-            if ((it.type == LinkType.github || it.type == LinkType.bitbucket) && it.href.isNotBlank()) {
+            if ((!it.github.isNullOrBlank() || !it.bitbucket.isNullOrBlank()) && !it.href.isNullOrBlank()) {
                 e.presentation.isEnabledAndVisible = true
             }
         }

@@ -1,94 +1,84 @@
 package link.kotlin.scripts.resources.links
 
-import link.kotlin.scripts.LinkType.github
-import link.kotlin.scripts.LinkType.kug
-import link.kotlin.scripts.Tags
-import link.kotlin.scripts.category
-import link.kotlin.scripts.link
-import link.kotlin.scripts.subcategory
+import link.kotlin.scripts.dsl.category
+import link.kotlin.scripts.dsl.link
+import link.kotlin.scripts.dsl.subcategory
 
 /**
  * Instead of deleting links (since they become 404, etc) move them here.
  */
 val AkArchive = category("Archive") {
-    subcategory("Libraries/Frameworks") {
+    subcategory("Android") {
         link {
-            name = "Kategory/Kategory"
-            desc = "Functional datatypes & abstractions for Kotlin."
-            href = "https://github.com/Kategory/Kategory"
-            type = github
-            tags = Tags["fp", "functional", "typeclasses", "comprehensions", "lenses", "optics"]
+            github = "0xe1f/KotX"
+            desc = "Kotlin extension and tool library for Android"
         }
         link {
-            name = "MarioAriasC/funKTionale"
-            desc = "Functional constructs for Kotlin."
-            href = "https://github.com/MarioAriasC/funKTionale"
-            type = github
-            tags = Tags["fp", "functional"]
-        }
-        link {
-            name = "SalomonBrys/Kodein"
-            desc = "Painless Kotlin Dependency Injection ."
-            href = "https://github.com/SalomonBrys/Kodein"
-            type = github
-            tags = Tags["di", "dependency injection"]
-        }
-        link {
-            name = "kohesive/injekt"
-            desc = "(Deprecated, @see Kodein) Dependency Injection / Object Factory for Kotlin."
-            href = "https://github.com/kohesive/injekt"
-            type = github
-            tags = Tags["di", "dependency injection"]
-        }
-        link {
-            name = "raniejade/kspec"
-            desc = "Kotlin Specification Framework."
-            href = "https://github.com/raniejade/kspec"
-            type = github
-            tags = Tags["test", "bdd"]
-        }
-        link {
-            name = "Levelmoney/kbuilders"
-            desc = "KBuilders turns your Java builders into beautiful Type-Safe Builders."
-            href = "https://github.com/Levelmoney/kbuilders"
-            type = github
+            github = "Kotlin/anko"
+            desc = "Pleasant Android application development."
         }
     }
-    subcategory("Kotlin User Group") {
+    subcategory("Resources") {
         link {
-            name = "China Kotlin User Group"
-            desc = "China"
-            href = "http://kotlin.cn/"
-            type = kug
-            tags = Tags["China"]
+            name = "Quora Kotlin"
+            href = "https://www.quora.com/topic/Kotlin"
         }
         link {
-            name = "Japan Kotlin User Group"
-            desc = "Japan"
-            href = "https://kotlin.doorkeeper.jp/"
-            type = kug
-            tags = Tags["Japan"]
+            name = "Stackoverflow Documentation on Kotlin"
+            href = "https://stackoverflow.com/documentation/kotlin/topics"
+            setTags("documentation", "stackoverflow")
+        }
+    }
+    subcategory("Libraries") {
+        link {
+            github = "s4kibs4mi/PultusORM"
+            desc = "PultusORM is a sqlite ORM library for kotlin on top of sqlite jdbc driver."
+            setTags("database", "query", "sqlite")
+        }
+    }
+    subcategory("Build Tools") {
+        link {
+            github = "brikk/brikk"
+            desc = "Brikk dependency manager (Kotlin, KotlinJS, Java, ...)."
+            setTags("dependency management")
+        }
+    }
+    subcategory("Everything") {
+        link {
+            name = "Public chat archive of Kotlin's Slack"
+            href = "https://kotlinlang.slackarchive.io/"
         }
         link {
-            name = "Kotlin Group of Boulder"
-            desc = "USA"
-            href = "http://www.meetup.com/Kotlin-Group-Boulder/"
-            type = kug
-            tags = Tags["USA"]
+            github = "Kategory/Kategory"
+            desc = "Functional datatypes & abstractions for Kotlin."
         }
         link {
-            name = "Czech Kotlin User Group"
-            desc = "Czechia"
-            href = "http://kotliners.cz/"
-            type = kug
-            tags = Tags["Czechia", "Czech"]
+            github = "MarioAriasC/funKTionale"
+            desc = "Functional constructs for Kotlin."
         }
         link {
-            name = "Kotlin.es"
-            desc = "Spain"
-            href = "http://kotlin.es/"
-            type = kug
-            tags = Tags["Spain"]
+            github = "SalomonBrys/Kodein"
+            desc = "Painless Kotlin Dependency Injection."
+        }
+        link {
+            github = "kohesive/injekt"
+            desc = "(Deprecated, @see Kodein) Dependency Injection / Object Factory for Kotlin."
+        }
+        link {
+            github = "raniejade/kspec"
+            desc = "Kotlin Specification Framework."
+        }
+        link {
+            github = "Levelmoney/kbuilders"
+            desc = "KBuilders turns your Java builders into beautiful Type-Safe Builders."
+        }
+        link {
+            github = "griffon/griffon-kotlin-plugin"
+            desc = "Griffon Support"
+        }
+        link {
+            github = "danfma/kotlinjs-react"
+            desc = "A react wrapper to the kotlin library."
         }
     }
 }

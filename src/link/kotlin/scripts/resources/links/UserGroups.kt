@@ -1,1086 +1,1256 @@
 package link.kotlin.scripts.resources.links
 
-import link.kotlin.scripts.LinkType.kug
-import link.kotlin.scripts.Tags
-import link.kotlin.scripts.category
-import link.kotlin.scripts.link
-import link.kotlin.scripts.subcategory
+import link.kotlin.scripts.dsl.category
+import link.kotlin.scripts.dsl.link
+import link.kotlin.scripts.dsl.subcategory
 
 val AkUserGroups = category("Kotlin User Groups") {
     subcategory("Europe") {
         link {
-            name = "Amsterdam Kotlin User Group"
+            kug = "Amsterdam Kotlin User Group"
             desc = "Netherlands"
             href = "https://www.meetup.com/kotlin-amsterdam/"
-            type = kug
-            tags = Tags["Netherlands"]
+            setTags("Netherlands")
         }
         link {
-            name = "Athens Kotlin User Group"
+            kug = "Amsterdam High-performance Kotlin User Group"
+            desc = "Netherlands"
+            href = "https://www.meetup.com/High-performance-Kotlin/"
+            setTags("Netherlands")
+        }
+        link {
+            kug = "Athens Kotlin User Group"
             desc = "Greece"
             href = "https://www.meetup.com/Kotlin-Athens/"
-            type = kug
-            tags = Tags["Greece"]
+            setTags("Greece")
         }
         link {
-            name = "Barcelona, KotlinBCN"
+            kug = "Barcelona, KotlinBCN"
             desc = "Spain"
             href = "https://www.meetup.com/kotlinbcn/"
-            type = kug
-            tags = Tags["Spain"]
+            setTags("Spain")
         }
         link {
-            name = "Belarus Kotlin User Group"
+            kug = "Basel Kotlin User Group"
+            desc = "Switzerland"
+            href = "https://www.meetup.com/Kotlin-User-Group-Basel/"
+            setTags("Switzerland")
+        }
+        link {
+            kug = "Belarus Kotlin User Group"
             desc = "Belarus"
             href = "https://bkug.by/"
-            type = kug
-            tags = Tags["Belarus"]
+            setTags("Belarus")
         }
         link {
-            name = "Belgium Kotlin User Group"
-            desc = "Belgium"
-            href = "https://www.meetup.com/Kotlin-User-Group-Belgium/"
-            type = kug
-            tags = Tags["Belgium"]
+            kug = "Belfast Kotlin User Group"
+            desc = "Northern Ireland"
+            href = "https://www.meetup.com/kotlin-belfast/"
+            setTags("Northern Ireland")
         }
         link {
-            name = "Berlin Kotlin User Group"
+            kug = "Berlin Kotlin User Group"
             desc = "Germany"
             href = "https://www.meetup.com/kotlin-berlin/"
-            type = kug
-            tags = Tags["Germany"]
+            setTags("Germany")
         }
         link {
-            name = "Bosnia Kotlin User Group"
+            kug = "Bielefelder Kotlin User Group"
+            desc = "Germany"
+            href = "https://www.meetup.com/Bielefelder-Kotlin-User-Group/"
+            setTags("Germany")
+        }
+        link {
+            kug = "Bologna Kotlin User Group"
+            desc = "Italy"
+            href = "https://www.facebook.com/Kotlin-User-Group-Bologna-111446750450756/"
+            setTags("Italy")
+        }
+        link {
+            kug = "Bosnia Kotlin User Group"
             desc = "Bosnia and Herzegovina"
-            href = "https://www.meetup.com/Kotlin-User-Group-Bosnia/"
-            type = kug
-            tags = Tags["Bosnia and Herzegovina"]
+            href = "https://www.facebook.com/kotlinugbosnia"
+            setTags("Bosnia and Herzegovina")
         }
         link {
-            name = "Bucharest Kotlin User Group"
+            kug = "Brighton Kotlin User Group"
+            desc = "United Kingdom"
+            href = "https://www.meetup.com/Brighton-Kotlin/"
+            setTags("United Kingdom")
+        }
+        link {
+            kug = "Bucharest Kotlin User Group"
             desc = "Romania"
             href = "https://www.meetup.com/kug-bucharest/"
-            type = kug
-            tags = Tags["Romania"]
+            setTags("Romania")
         }
         link {
-            name = "Budapest Kotlin User Group"
+            kug = "Budapest Kotlin User Group"
             desc = "Hungary"
             href = "https://www.facebook.com/groups/KotlinBudapest/"
-            type = kug
-            tags = Tags["Hungary"]
+            setTags("Hungary")
         }
         link {
-            name = "Cologne Kotlin User Group"
+            kug = "Bulgarian Kotlin User Group"
+            desc = "Bulgaria"
+            href = "https://bg-kug.github.io/"
+            setTags("Bulgaria")
+        }
+        link {
+            kug = "Cologne Kotlin User Group"
             desc = "Germany"
             href = "https://www.meetup.com/Kotlin-User-Group-Cologne/?from=ref"
-            type = kug
-            tags = Tags["Germany"]
+            setTags("Germany")
         }
         link {
-            name = "Croatia Kotlin User Group"
+            kug = "Copenhagen Kotlin User Group"
+            desc = "Denmark"
+            href = "https://www.meetup.com/Kotlin-Copenhagen/"
+            setTags("Denmark")
+        }
+        link {
+            kug = "Cosenza Kotlin User Group"
+            desc = "Italy"
+            href = "https://www.facebook.com/groups/251720265392355"
+            setTags("Italy")
+        }
+        link {
+            kug = "Croatia Kotlin User Group"
             desc = "Croatia"
             href = "https://www.meetup.com/Croatia-Kotlin-User-Group-Meetup/"
-            type = kug
-            tags = Tags["Croatia"]
+            setTags("Croatia")
         }
         link {
-            name = "Czech Kotlin User Group"
+            kug = "Czech Kotlin User Group"
             desc = "Czech Republic"
             href = "https://www.facebook.com/czkug/"
-            type = kug
-            tags = Tags["Czech Republic"]
+            setTags("Czech Republic")
         }
         link {
-            name = "Dnipro Kotlin User Group"
+            kug = "Dnipro Kotlin User Group"
             desc = "Ukraine"
             href = "https://www.meetup.com/Kotlin-Dnipro/"
-            type = kug
-            tags = Tags["Ukraine"]
+            setTags("Ukraine")
         }
         link {
-            name = "Dublin Kotliners"
+            kug = "Dublin Kotlin User Group"
             desc = "Ireland"
-            href = "https://www.meetup.com/Dublin-Kotliners/"
-            type = kug
-            tags = Tags["Ireland"]
+            href = "https://www.meetup.com/Dublin-Kotlin-Meetup/"
+            setTags("Ireland")
         }
         link {
-            name = "Dusseldorf Kotlin User Group"
+            kug = "Dusseldorf Kotlin User Group"
             desc = "Germany"
             href = "https://www.meetup.com/Dusseldorf-Kotlin-Meetup/"
-            type = kug
-            tags = Tags["Germany"]
+            setTags("Germany")
         }
         link {
-            name = "Dutch Kotlin User Group"
+            kug = "Dutch Kotlin User Group"
             desc = "Netherlands"
             href = "http://kotlin.nl/"
-            type = kug
-            tags = Tags["Netherlands"]
+            setTags("Netherlands")
         }
         link {
-            name = "Hamburg Kotlin User Group"
+            kug = "Edinburgh Kotlin User Group"
+            desc = "Scotland"
+            href = "https://www.meetup.com/Edinburgh-Kotlin-User-Group/"
+            setTags("Scotland")
+        }
+        link {
+            kug = "Estonia Kotlin User Group"
+            desc = "Estonia"
+            href = "https://www.facebook.com/groups/estoniaKotlin/"
+            setTags("Estonia")
+        }
+        link {
+            kug = "Hamburg Kotlin User Group"
             desc = "Germany"
             href = "https://www.meetup.com/de-DE/Kotlin-User-Group-Hamburg/"
-            type = kug
-            tags = Tags["Germany"]
+            setTags("Germany")
         }
         link {
-            name = "Helsinki Kotlin User Group"
+            kug = "Helsinki Kotlin User Group"
             desc = "Finland"
             href = "https://www.meetup.com/Kotlin-User-Group-Helsinki/?from=ref"
-            type = kug
-            tags = Tags["Finland"]
+            setTags("Finland")
         }
         link {
-            name = "Italy Kotlin User Group"
+            kug = "Italy Kotlin User Group"
             desc = "Italy"
             href = "https://www.facebook.com/groups/kotlinitaly/"
-            type = kug
-            tags = Tags["Italy"]
+            setTags("Italy")
         }
         link {
-            name = "Karlsruhe Kotlin User Group"
+            kug = "Karlsruhe Kotlin User Group"
             desc = "Germany"
             href = "https://www.meetup.com/Karlsruhe-Software-Development-Meetup/"
-            type = kug
-            tags = Tags["Germany"]
+            setTags("Germany")
         }
         link {
-            name = "Kyiv Kotlin User Group"
+            kug = "Kassel Kotlin User Group"
+            desc = "Germany"
+            href = "https://www.meetup.com/Kassel-Kotlin-User-Group/"
+            setTags("Germany")
+        }
+        link {
+            kug = "Kyiv Kotlin User Group"
             desc = "Ukraine"
             href = "https://www.meetup.com/KyivKUG"
-            type = kug
-            tags = Tags["Ukraine"]
+            setTags("Ukraine")
         }
         link {
-            name = "Kraków Kotlin User Group"
+            kug = "Krakow Kotlin User Group"
             desc = "Poland"
             href = "https://www.meetup.com/krakow-kotlin/"
-            type = kug
-            tags = Tags["Poland"]
+            setTags("Poland")
         }
         link {
-            name = "London Kotlin"
+            kug = "Leeds Kotlin User Group"
+            desc = "Kingdom"
+            href = "https://leedskotlinusergroup.netlify.com/published/2020/1/6/our-first-meetup/"
+            setTags("Kingdom")
+        }
+        link {
+            kug = "Limerick Kotlin User Group"
+            desc = "Ireland"
+            href = "https://www.meetup.com/kotlinlimerick/"
+            setTags("Ireland")
+        }
+        link {
+            kug = "Lisboa Kotlin User Group"
+            desc = "Portugal"
+            href = "https://meetup.com/kotlin-lisboa/"
+            setTags("Portugal")
+        }
+        link {
+            kug = "London Kotlin"
             desc = "United Kingdom"
             href = "http://www.meetup.com/kotlin-london/"
-            type = kug
-            tags = Tags["United Kingdom"]
+            setTags("United Kingdom")
         }
         link {
-            name = "Lyon Kotlin User Group"
+            kug = "Lviv Kotlin User Group"
+            desc = "Ukraine"
+            href = "https://www.facebook.com/groups/1395212093948927/"
+            setTags("Ukraine")
+        }
+        link {
+            kug = "Lyon Kotlin User Group"
             desc = "France"
             href = "http://www.meetup.com/Lyon-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["France"]
+            setTags("France")
         }
         link {
-            name = "Madrid Kotlin User Group"
+            kug = "Madrid Kotlin User Group"
             desc = "Spain"
             href = "https://www.meetup.com/KotlinMAD/"
-            type = kug
-            tags = Tags["Spain"]
+            setTags("Spain")
         }
         link {
-            name = "Manchester Kotlin Developers"
+            kug = "Manchester Kotlin Developers"
             desc = "United Kingdom"
             href = "http://www.meetup.com/Kotlin-Manchester/"
-            type = kug
-            tags = Tags["United Kingdom"]
+            setTags("United Kingdom")
         }
         link {
-            name = "Milano Kotlin User Group"
+            kug = "Marseille Kotlin User Group"
+            desc = "France"
+            href = "https://www.meetup.com/Marseille-Kotlin-User-Group/"
+            setTags("France")
+        }
+        link {
+            kug = "Milano Kotlin User Group"
             desc = "Italy"
             href = "https://www.meetup.com/it-IT/KUG-Milan/"
-            type = kug
-            tags = Tags["Italy"]
+            setTags("Italy")
         }
         link {
-            name = "Moscow Kotlin User Group"
+            kug = "Moscow Kotlin User Group"
             desc = "Russia"
             href = "https://vk.com/kotlinmoscow"
-            type = kug
-            tags = Tags["Russia"]
+            setTags("Russia")
         }
         link {
-            name = "Munich Kotlin User Group"
+            kug = "Munich Kotlin User Group"
             desc = "Germany"
             href = "https://www.meetup.com/Kotlin-User-Group-Munich/"
-            type = kug
-            tags = Tags["Germany"]
+            setTags("Germany")
         }
         link {
-            name = "Paris Kotlin User Group"
+            kug = "Nantes Kotlin User Group"
+            desc = "France"
+            href = "https://www.meetup.com/fr-FR/Kotlin-Nantes-Meetup"
+            setTags("France")
+        }
+        link {
+            kug = "Nizhny Novgorod Kotlin User Group"
+            desc = "Russia"
+            href = "https://www.meetup.com/kotlin_nn/"
+            setTags("Russia")
+        }
+        link {
+            kug = "Odessa Kotlin User Group"
+            desc = "Ukraine"
+            href = "https://www.facebook.com/groups/557764034687880/"
+            setTags("Ukraine")
+        }
+        link {
+            kug = "Oslo Kotlin User Group"
+            desc = "Norway"
+            href = "https://www.meetup.com/meetup-group-nWeRbyMu/"
+            setTags("Norway")
+        }
+        link {
+            kug = "Omsk Kotlin User Group"
+            desc = "Russia"
+            href = "https://vk.com/omskkotlin"
+            setTags("Russia")
+        }
+        link {
+            kug = "Paris Kotlin User Group"
             desc = "France"
             href = "https://www.meetup.com/Kotlin-Paris-Meetup/"
-            type = kug
-            tags = Tags["France"]
+            setTags("France")
         }
         link {
-            name = "Rhein-Main Kotlin"
+            kug = "Rhein-Main Kotlin"
             desc = "Germany"
             href = "https://www.meetup.com/de-DE/Kotlin-Rhein-Main/"
-            type = kug
-            tags = Tags["Germany"]
+            setTags("Germany")
         }
         link {
-            name = "Rostov-on-Don Kotlin User Group"
+            kug = "Rostov Kotlin User Group"
             desc = "Russia"
             href = "https://vk.com/rndkotlin"
-            type = kug
-            tags = Tags["Russia"]
+            setTags("Russia")
         }
         link {
-            name = "St. Petersburg Kotlin User Group"
+            kug = "Samara Kotlin User Group"
+            desc = "Russia"
+            href = "https://sitc.community/communities/kug/"
+            setTags("Russia")
+        }
+        link {
+            kug = "St. Petersburg Kotlin User Group"
             desc = "Russia"
             href = "https://www.meetup.com/St-Petersburg-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["Russia"]
+            setTags("Russia")
         }
         link {
-            name = "Serbia Kotlin User Group"
+            kug = "Serbia Kotlin User Group"
             desc = "Serbia"
             href = "https://www.meetup.com/Serbia-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["Serbia"]
+            setTags("Serbia")
         }
         link {
-            name = "Stockholm Kotlin User Group"
+            kug = "Slovakia Kotlin User Group"
+            desc = "Slovakia"
+            href = "https://www.meetup.com/Kotlin-Slovakia/"
+            setTags("Slovakia")
+        }
+        link {
+            kug = "Stockholm Kotlin User Group"
             desc = "Sweden"
             href = "https://www.meetup.com/Sweden-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["Sweden"]
+            setTags("Sweden")
         }
         link {
-            name = "Swiss Kotlin User Group"
+            kug = "Stuttgart Kotlin User Group"
+            desc = "Germany"
+            href = "https://www.meetup.com/Kotlin-User-Group-Stuttgart/"
+            setTags("Germany")
+        }
+        link {
+            kug = "Swiss Kotlin User Group"
             desc = "Switzerland"
             href = "https://www.meetup.com/Kotlin-Swiss-User-Group/"
-            type = kug
-            tags = Tags["Swiss", "Switzerland"]
+            setTags("Switzerland")
         }
         link {
-            name = "Toulouse Kotlin User Group"
-            desc = "France"
-            href = "https://www.meetup.com/fr-FR/Toulouse-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["France"]
+            kug = "Taganrog Kotlin User Group"
+            desc = "Russia"
+            href = "https://vk.com/kotlintgn"
+            setTags("Russia")
         }
         link {
-            name = "Utrecht Kotlin User Group"
+            kug = "Tricity Kotlin User Group"
+            desc = "Poland"
+            href = "https://www.facebook.com/groups/2519853351660362/"
+            setTags("Poland")
+        }
+        link {
+            kug = "Utrecht Kotlin User Group"
             desc = "Netherlands"
             href = "https://www.meetup.com/meetup-group-YgJEOzCn/"
-            type = kug
-            tags = Tags["Netherlands"]
+            setTags("Netherlands")
         }
         link {
-            name = "Uzhgorod Kotlin User Group"
+            kug = "Uzhgorod Kotlin User Group"
             desc = "Ukraine"
             href = "https://www.facebook.com/groups/135578123824203/"
-            type = kug
-            tags = Tags["Ukraine"]
+            setTags("Ukraine")
         }
         link {
-            name = "Vienna Kotlin"
+            kug = "Vienna Kotlin"
             desc = "Austria"
             href = "https://www.meetup.com/Kotlin-Vienna/"
-            type = kug
-            tags = Tags["Austria"]
+            setTags("Austria")
         }
         link {
-            name = "Wroclaw Kotlin"
-            desc = "Poland"
-            href = "https://www.meetup.com/pl-PL/Kotlin-Wroclaw"
-            type = kug
-            tags = Tags["Poland"]
-        }
-        link {
-            name = "Warsaw Kotlin"
+            kug = "Warsaw Kotlin"
             desc = "Poland"
             href = "https://www.meetup.com/Kotlin-Warsaw/"
-            type = kug
-            tags = Tags["Poland"]
-        }
-        link {
-            name = "Yorkshire Kotlin Meetup"
-            desc = "United Kingdom"
-            href = "http://www.meetup.com/Kotlin-Yorkshire-Meetup-Group/"
-            type = kug
-            tags = Tags["United Kingdom"]
+            setTags("Poland")
         }
     }
     subcategory("Asia") {
         link {
-            name = "Ahmedabad Kotlin User Group"
+            kug = "Ahmedabad Kotlin User Group"
             desc = "India"
             href = "https://www.meetup.com/KotlinAhmedabad/"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Allahabad Kotlin User Group"
+            kug = "Allahabad Kotlin User Group"
             desc = "India"
             href = "https://www.facebook.com/Kotlin-Allahabad-User-Group-967463300076405/"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Azerbaijan Kotlin User Group"
+            kug = "Astana Java & Kotlin User Group"
+            desc = "Kazakhstan"
+            href = "https://community-z.com/communities/astana-jkug"
+            setTags("Kazakhstan")
+        }
+        link {
+            kug = "Azerbaijan Kotlin User Group"
             desc = "Azerbaijan"
             href = "https://www.facebook.com/groups/395337754167951/"
-            type = kug
-            tags = Tags["Azerbaijan"]
+            setTags("Azerbaijan")
         }
         link {
-            name = "Bangladesh Kotlin User Group"
+            kug = "Bangladesh Kotlin User Group"
             desc = "Bangladesh"
             href = "https://www.facebook.com/KotlinBangladesh/"
-            type = kug
-            tags = Tags["Bangladesh"]
+            setTags("Bangladesh")
         }
         link {
-            name = "Bengaluru Kotlin User Group"
+            kug = "Batam Kotlin User Group"
+            desc = "Indonesia"
+            href = "https://t.me/KotlinDevBatam"
+            setTags("Indonesia")
+        }
+        link {
+            kug = "Bengaluru Kotlin User Group"
             desc = "India"
             href = "https://www.facebook.com/KotlinBengaluru/"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Bengaluru Kotlin 'BlrKotlin' Meetup "
+            kug = "Bengaluru Kotlin 'BlrKotlin' Meetup "
             desc = "India"
             href = "https://www.meetup.com/BlrKotlin/"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Beijing Kotlin User Group"
+            kug = "Beijing Kotlin User Group"
             desc = "China"
             href = "http://www.kotliner.cn/"
-            type = kug
-            tags = Tags["China"]
+            setTags("China")
         }
         link {
-            name = "Bhopal Kotlin User Group"
+            kug = "Bhopal Kotlin User Group"
             desc = "India"
             href = "https://www.facebook.com/kotlinbpl/"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Bhubaneswar Kotlin User Group"
+            kug = "Bhubaneswar Kotlin User Group"
             desc = "India"
             href = "https://www.facebook.com/groups/1961143800818624/"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Chengdu Kotlin User Group"
-            desc = "China"
-            href = "https://www.kotliner.cn/chengdu/"
-            type = kug
-            tags = Tags["China"]
+            kug = "Cirebon Kotlin User Group"
+            desc = "Indonesia"
+            href = "https://t.me/kotlin_crb"
+            setTags("Indonesia")
         }
         link {
-            name = "Coimbatore Kotlin User Group"
+            kug = "Coimbatore Kotlin User Group"
             desc = "India"
             href = "https://facebook.com/kotlincbe/"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Cambodia Kotlin User Group"
+            kug = "Cambodia Kotlin User Group"
             desc = "Cambodia"
             href = "https://www.facebook.com/groups/kotlinphnompenh"
-            type = kug
-            tags = Tags["Cambodia"]
+            setTags("Cambodia")
         }
         link {
-            name = "Dubai Kotlin User Group"
+            kug = "Dubai Kotlin User Group"
             desc = "United Arab Emirates"
             href = "https://www.facebook.com/kotlindubai/"
-            type = kug
-            tags = Tags["United Arab Emirates"]
+            setTags("United Arab Emirates")
         }
         link {
-            name = "Hefei Kotlin User Group"
+            kug = "Jordan Kotlin User Group"
+            desc = "Jordan"
+            href = "https://www.facebook.com/KotlinJO/"
+            setTags("Jordan")
+        }
+        link {
+            kug = "Hefei Kotlin User Group"
             desc = "China"
             href = "http://weibo.com/kotlinhfug"
-            type = kug
-            tags = Tags["China"]
+            setTags("China")
         }
         link {
-            name = "Hyderabad Kotlin User Group"
+            kug = "Ho Chi Minh Kotlin User Group"
+            desc = "Vietnam"
+            href = "https://www.facebook.com/kughcmc/"
+            setTags("Vietnam")
+        }
+        link {
+            kug = "Hong Kong Kotlin User Group"
+            desc = "China"
+            href = "https://www.facebook.com/KotlinHK"
+            setTags("China")
+        }
+        link {
+            kug = "Hyderabad Kotlin User Group"
             desc = "India"
-            href = "https://www.facebook.com/KotlinHyd/"
-            type = kug
-            tags = Tags["India"]
+            href = "https://www.meetup.com/KotlinHyderabad/"
+            setTags("India")
         }
         link {
-            name = "Indonesia Kotlin User Group"
+            kug = "Indonesia Kotlin User Group"
             desc = "Indonesia"
             href = "https://www.facebook.com/groups/395469687469099/"
-            type = kug
-            tags = Tags["Indonesia"]
+            setTags("Indonesia")
         }
         link {
-            name = "Indore Kotlin User Group"
+            kug = "Indore Kotlin User Group"
             desc = "India"
             href = "https://www.meetup.com/kotlinindore/"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Israel Kotlin User Group"
+            kug = "Israel Kotlin User Group"
             desc = "Israel"
             href = "https://www.facebook.com/groups/107080706530829/"
-            type = kug
-            tags = Tags["Israel"]
+            setTags("Israel")
         }
         link {
-            name = "Istanbul Kotlin User Group"
+            kug = "Istanbul Kotlin User Group"
             desc = "Turkey"
             href = "https://www.meetup.com/Kotlin-%C4%B0stanbul/"
-            type = kug
-            tags = Tags["Turkey"]
+            setTags("Turkey")
         }
         link {
-            name = "Jalandhar Kotlin User Group"
+            kug = "Jaffna Kotlin User Group"
+            desc = "Sri Lanka"
+            href = "https://www.facebook.com/Kotlin-User-Group-Jaffna-102091321371464/"
+            setTags("Sri Lanka")
+        }
+        link {
+            kug = "Jalandhar Kotlin User Group"
             desc = "India"
-            href = "https://nvite.com/JalandharKotlin/13lv7v"
-            type = kug
-            tags = Tags["India"]
+            href = "https://www.meetup.com/Kotlin-EveryWhere-Jalandhar-Group/"
+            setTags("India")
         }
         link {
-            name = "Japan Kotlin User Group"
+            kug = "Japan Kotlin User Group"
             desc = "Japan"
             href = "https://kotlin.connpass.com/"
-            type = kug
-            tags = Tags["Japan"]
+            setTags("Japan")
         }
         link {
-            name = "Karachi Kotlin User Group"
+            kug = "Karachi Kotlin User Group"
             desc = "Pakistan"
             href = "https://www.facebook.com/kotlinkarachi/"
-            type = kug
-            tags = Tags["Pakistan"]
+            setTags("Pakistan")
         }
         link {
-            name = "Kathmandu Kotlin User Group"
+            kug = "Kathmandu Kotlin User Group"
             desc = "Nepal"
             href = "https://www.facebook.com/groups/100333660782830/"
-            type = kug
-            tags = Tags["Nepal"]
+            setTags("Nepal")
         }
         link {
-            name = "Kolkata Kotlin User Group"
+            kug = "Khabarovsk Kotlin User Group"
+            desc = "Russia"
+            href = "https://devdv.ru/projects/kug"
+            setTags("Russia")
+        }
+        link {
+            kug = "Kolkata Kotlin User Group"
             desc = "India"
             href = "https://www.meetup.com/Kotlin-Kolkata-UG/"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Korean Kotlin User Group"
-            desc = "Korea"
+            kug = "Korean Kotlin User Group"
+            desc = "South Korea"
             href = "http://kotlin.kr/"
-            type = kug
-            tags = Tags["Korea"]
+            setTags("South Korea")
         }
         link {
-            name = "Kozhikode Kotlin User Group"
+            kug = "Kozhikode Kotlin User Group"
             desc = "India"
             href = "https://www.facebook.com/kotlinusergroup/"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Mumbai Kotlin User Group"
+            kug = "Mumbai Kotlin User Group"
             desc = "India"
-            href = "https://www.facebook.com/kotlinmumbai/"
-            type = kug
-            tags = Tags["India"]
+            href = "https://www.meetup.com/Kotlin-User-Group-Mumbai/"
+            setTags("India")
         }
         link {
-            name = "Mumbai Kotlin for Android"
-            desc = "India"
-            href = "https://www.meetup.com/Kotline-for-Android/"
-            type = kug
-            tags = Tags["India"]
-        }
-        link {
-            name = "Myanmar Kotlin User Group"
+            kug = "Myanmar Kotlin User Group"
             desc = "Myanmar"
             href = "https://www.facebook.com/groups/kotlinmyanmarusergroup/about/"
-            type = kug
-            tags = Tags["Myanmar"]
+            setTags("Myanmar")
         }
         link {
-            name = "Nepal Kotlin User Group"
+            kug = "Nagpur Kotlin User Group"
+            desc = "India"
+            href = "https://www.facebook.com/kotlinnagpur/"
+            setTags("India")
+        }
+        link {
+            kug = "Nepal Kotlin User Group"
             desc = "Nepal"
             href = "https://www.facebook.com/groups/dnkotlin/"
-            type = kug
-            tags = Tags["Nepal"]
+            setTags("Nepal")
         }
         link {
-            name = "New Delhi Kotlin User Group"
+            kug = "New Delhi Kotlin User Group"
             desc = "India"
-            href = "https://www.facebook.com/kotlinNewDelhi/"
-            type = kug
-            tags = Tags["India"]
+            href = "https://www.meetup.com/KotlinDelhi/"
+            setTags("India")
         }
         link {
-            name = "Pakistan KotlinUser Group"
+            kug = "Pakistan KotlinUser Group"
             desc = "Pakistan"
             href = "https://www.facebook.com/groups/565405337181251/"
-            type = kug
-            tags = Tags["Pakistan"]
+            setTags("Pakistan")
         }
         link {
-            name = "Philippines Kotlin"
+            kug = "Palestine Kotlin User Group"
+            desc = "State of Palestine"
+            href = "https://www.facebook.com/groups/592717964582711/"
+            setTags("State of Palestine")
+        }
+        link {
+            kug = "Philippines Kotlin"
             desc = "Philippines"
             href = "https://www.facebook.com/groups/642901202586581/"
-            type = kug
-            tags = Tags["Philippines"]
+            setTags("Philippines")
         }
         link {
-            name = "Pune Kotlin User Group"
+            kug = "Pune Kotlin User Group"
             desc = "India"
             href = "https://www.facebook.com/groups/punekotlin"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Saudi Arabia Kotlin User Group"
+            kug = "Saudi Arabia Kotlin User Group"
             desc = "Saudi Arabia"
             href = "https://www.facebook.com/KotlinArabia"
-            type = kug
-            tags = Tags["Saudi Arabia"]
+            setTags("Saudi Arabia")
         }
         link {
-            name = "Shanghai, KotlinThree"
+            kug = "Shanghai, KotlinThree"
             desc = "China"
             href = "http://kotlinthree.github.io/"
-            type = kug
-            tags = Tags["China"]
+            setTags("China")
         }
         link {
-            name = "Singapore Kotlin User Group"
+            kug = "Singapore Kotlin User Group"
             desc = "Singapore"
             href = "https://www.meetup.com/Singapore-Kotlin-User-group/"
-            type = kug
-            tags = Tags["Singapore"]
+            setTags("Singapore")
         }
         link {
-            name = "Sri Lanka Kotlin User Group"
+            kug = "Sri Lanka Kotlin User Group"
             desc = "Sri Lanka"
             href = "https://www.facebook.com/KotlinSrilanka/"
-            type = kug
-            tags = Tags["Sri Lanka"]
+            setTags("Sri Lanka")
         }
         link {
-            name = "Syria Kotlin User Group"
+            kug = "Syria Kotlin User Group"
             desc = "Syria"
             href = "https://www.facebook.com/KotlinSyria/"
-            type = kug
-            tags = Tags["Syria"]
+            setTags("Syria")
         }
         link {
-            name = "Sultanpur KNIT Kotlin User Group"
+            kug = "Surat Kotlin User Group"
             desc = "India"
-            href = "https://www.facebook.com/KotlinKnit/"
-            type = kug
-            tags = Tags["India"]
+            href = "https://web.facebook.com/kotlinsurat"
+            setTags("India")
         }
         link {
-            name = "Taiwan Kotlin User Group"
+            kug = "Taiwan Kotlin User Group"
             desc = "Taiwan"
             href = "https://wetogether.co/kotlin-tw"
-            type = kug
-            tags = Tags["Taiwan"]
+            setTags("Taiwan")
         }
         link {
-            name = "Tel Aviv Kotlin User Group"
+            kug = "Tel Aviv Kotlin User Group"
             desc = "Israel"
             href = "https://www.meetup.com/KotlinTLV/"
-            type = kug
-            tags = Tags["Israel"]
+            setTags("Israel")
         }
         link {
-            name = "Thailand Kotlin Developers"
+            kug = "Thailand Kotlin Developers"
             desc = "Thailand"
             href = "https://www.facebook.com/groups/872547279487598/"
-            type = kug
-            tags = Tags["Thailand"]
+            setTags("Thailand")
         }
         link {
-            name = "Turkey Kotlin User Group"
+            kug = "Turkey Kotlin User Group"
             desc = "Turkey"
             href = "http://kotlinveandroid.com/"
-            type = kug
-            tags = Tags["Turkey"]
+            setTags("Turkey")
         }
         link {
-            name = "Vellore Kotlin User Group"
+            kug = "Vellore Kotlin User Group"
             desc = "India"
             href = "https://www.facebook.com/kotlinvellore"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
         }
         link {
-            name = "Vietnam Kotlin User Group"
+            kug = "Vietnam Kotlin User Group (online community)"
             desc = "Vietnam"
             href = "https://vnkotlin.com"
-            type = kug
-            tags = Tags["Vietnam"]
+            setTags("Vietnam")
         }
         link {
-            name = "Vijayawada Kotlin User Group"
+            kug = "Vijayawada Kotlin User Group"
             desc = "India"
             href = "https://www.facebook.com/KotlinVijayawada/"
-            type = kug
-            tags = Tags["India"]
+            setTags("India")
+        }
+        link {
+            kug = "Yerevan Kotlin User Group"
+            desc = "Armenia"
+            href = "https://www.meetup.com/Kotlin-Yerevan/"
+            setTags("Armenia")
         }
     }
     subcategory("North America") {
         link {
-            name = "Albuquerque Kotlin User Group"
+            kug = "Albuquerque Kotlin User Group"
             desc = "USA"
             href = "https://www.meetup.com/Kotlin-ABQ/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Bay Area Kotlin User Group"
+            kug = "Austin Kotlin User Group"
             desc = "USA"
-            href = "http://www.meetup.com/Bay-Area-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["USA"]
+            href = "https://www.meetup.com/Austin-Kotlin-Meetup/"
+            setTags("USA")
         }
         link {
-            name = "Brooklyn (NY) Kotlin User Group"
+            kug = "Brooklyn (NY) Kotlin User Group"
             desc = "USA"
             href = "https://www.meetup.com/Brooklyn-Kotlin/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Cambridge Kotlin Office Hours"
+            kug = "Cambridge Kotlin Office Hours"
             desc = "USA"
             href = "https://www.meetup.com/kotlin-office-hours/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Chicago Kotlin Users Group"
+            kug = "Chicago Kotlin Users Group"
             desc = "USA"
             href = "http://www.meetup.com/Chicago-Kotlin/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Cincinnati Kotlin User Group"
+            kug = "Cincinnati Kotlin User Group"
             desc = "USA"
             href = "https://www.meetup.com/Cincinnati-Kotlin/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Columbus Kotlin User Group"
-            desc = "USA"
-            href = "https://www.meetup.com/Columbus-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["USA"]
-        }
-        link {
-            name = "Dallas, Kotlin DFW"
+            kug = "Dallas, Kotlin DFW"
             desc = "USA"
             href = "https://www.meetup.com/Kotlin-DFW/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Guadalajara Kotlin User Group"
+            kug = "Guadalajara Kotlin User Group"
             desc = "Mexico"
             href = "https://www.meetup.com/es/Kotlin-User-Group-GDL/"
-            type = kug
-            tags = Tags["Mexico"]
+            setTags("Mexico")
         }
         link {
-            name = "Guatemala Kotlin Meetup"
+            kug = "Guatemala Kotlin Meetup"
             desc = "Guatemala"
             href = "https://www.meetup.com/Guatemala-Kotlin-Meetup/"
-            type = kug
-            tags = Tags["Guatemala"]
+            setTags("Guatemala")
         }
         link {
-            name = "Mexico, CDMX Kotlin User Group"
+            kug = "Houston Kotlin User Group"
+            desc = "USA"
+            href = "https://www.hccug.org/"
+            setTags("USA")
+        }
+        link {
+            kug = "Kansas City User Group"
+            desc = "USA"
+            href = "https://www.meetup.com/Kansas-City-Kotlin-User-Group/"
+            setTags("USA")
+        }
+        link {
+            kug = "Mexico, CDMX Kotlin User Group"
             desc = "Mexico"
             href = "https://www.meetup.com/es-ES/Kotlin-Nights-CDMX/"
-            type = kug
-            tags = Tags["Mexico"]
+            setTags("Mexico")
         }
         link {
-            name = "Mérida Kotlin User Group"
+            kug = "Mérida Kotlin User Group"
             desc = "Mexico"
             href = "https://www.meetup.com/Merida-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["Mexico"]
+            setTags("Mexico")
         }
         link {
-            name = "New England User Group"
+            kug = "New England User Group"
             desc = "USA"
             href = "https://www.meetup.com/New-England-Kotlin-Users-Group/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "New York Kotlin Meetup"
+            kug = "New York Kotlin Meetup"
             desc = "USA"
             href = "http://www.meetup.com/New-York-Kotlin-Meetup/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Norfolk Kotlin User Group"
+            kug = "Norfolk Kotlin User Group"
             desc = "USA"
             href = "mailto:robert.chrzanowski@gmail.com"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Orange County Kotlin Meetup"
+            kug = "Irvine Kotlin User Group \"OC Kotlin Krew\""
             desc = "USA"
-            href = "https://www.meetup.com/oc-kotlin-meetup/"
-            type = kug
-            tags = Tags["USA"]
+            href = "https://www.meetup.com/OCKotlinKrew/"
+            setTags("USA")
         }
         link {
-            name = "San Diego Kotlin User Group"
+            kug = "Portland Kotlin User Group"
+            desc = "USA"
+            href = "https://www.meetup.com/Kotlin-Portland-User-Group/"
+            setTags("USA")
+        }
+        link {
+            kug = "San Diego Kotlin User Group"
             desc = "USA"
             href = "https://www.meetup.com/sd-kotlin/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Santa Cruz Kotlin User Group"
+            kug = "San Francisco Kotlin Meetup"
+            desc = "USA"
+            href = "https://www.meetup.com/San-Francisco-Kotlin-Meetup/"
+            setTags("USA")
+        }
+        link {
+            kug = "Santa Cruz Kotlin User Group"
             desc = "USA"
             href = "https://www.meetup.com/Santa-Cruz-Kotlin-User-Group/events/245895831/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "South Florida Kotlin User Group"
+            kug = "South Florida Kotlin User Group"
             desc = "USA"
             href = "https://www.meetup.com/Kotlin-South-Florida-Users-Group/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Toronto Kotlin"
+            kug = "Toronto Kotlin"
             desc = "Canada"
             href = "https://www.meetup.com/Kotlin-Toronto/events/235740293/"
-            type = kug
-            tags = Tags["Canada"]
+            setTags("Canada")
         }
         link {
-            name = "Twin Cities Kotlin User Group"
+            kug = "Twin Cities Kotlin User Group"
             desc = "USA"
             href = "https://www.meetup.com/Twin-Cities-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Utah Kotlin"
+            kug = "Utah Kotlin"
             desc = "USA"
             href = "https://www.meetup.com/Kotlin-Utah/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "Vancouver Kotlin Meetup"
+            kug = "Vancouver Kotlin Meetup"
             desc = "Canada"
             href = "https://www.meetup.com/VancouverKotlin/"
-            type = kug
-            tags = Tags["Canada"]
+            setTags("Canada")
         }
         link {
-            name = "Washington DC Kotlin User Group"
+            kug = "Washington DC Kotlin User Group"
             desc = "USA"
             href = "https://www.meetup.com/DCKotlin/"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
         link {
-            name = "West Florida Kotlin User Group"
+            kug = "Waterloo Kotlin P2P"
+            desc = "Canada"
+            href = "https://www.meetup.com/Kotlin-Waterloo-P2P/events/"
+            setTags("Canada")
+        }
+        link {
+            kug = "West Florida Kotlin User Group"
             desc = "USA"
             href = "https://www.facebook.com/groups/KotlnWestFlorida"
-            type = kug
-            tags = Tags["USA"]
+            setTags("USA")
         }
     }
     subcategory("South America") {
         link {
-            name = "Brasil Kotlin User Group"
+            kug = "Asunción Kotlin User Group"
+            desc = "Paraguay"
+            href = "https://kotlin-user-group-asuncion-py.github.io/"
+            setTags("Paraguay")
+        }
+        link {
+            kug = "Brasil Kotlin User Group"
             desc = "Brazil"
             href = "https://groups.google.com/forum/#!forum/kotlin-brasil"
-            type = kug
-            tags = Tags["Brazil"]
+            setTags("Brazil")
         }
         link {
-            name = "Buenos Aires Desarrollo en Android con Kotlin"
+            kug = "Buenos Aires Desarrollo en Android con Kotlin"
             desc = "Argentina"
             href = "https://www.meetup.com/Desarrollo-en-Android-con-Kotlin/"
-            type = kug
-            tags = Tags["Argentina"]
+            setTags("Argentina")
         }
         link {
-            name = "Cascavel Kotlin Meetup"
+            kug = "Cascavel Kotlin Meetup"
             desc = "Brazil"
             href = "https://www.meetup.com/Kotlin-Meetup-Cascavel/"
-            type = kug
-            tags = Tags["Brazil"]
+            setTags("Brazil")
         }
         link {
-            name = "Chile Kotlin User Group"
+            kug = "Chile Kotlin User Group"
             desc = "Chile"
             href = "http://www.facebook.com/kotlinchile"
-            type = kug
-            tags = Tags["Chile"]
+            setTags("Chile")
         }
         link {
-            name = "Cochabamba Kotlin User Group"
+            kug = "Cochabamba Kotlin User Group"
             desc = "Bolivia"
             href = "https://www.facebook.com/kotlincocha/"
-            type = kug
-            tags = Tags["Bolivia"]
+            setTags("Bolivia")
         }
         link {
-            name = "Curitiba Kotlin User Group"
+            kug = "Curitiba CWB Kotlin User Group"
             desc = "Brazil"
-            href = "https://www.meetup.com/Kotlin-Curitiba/"
-            type = kug
-            tags = Tags["Brazil"]
+            href = "https://www.meetup.com/KotlinCWB/"
+            setTags("Brazil")
         }
         link {
-            name = "El Alto Kotlin User Group"
+            kug = "El Alto Kotlin User Group"
             desc = "Bolivia"
-            href = "https://www.meetup.com/es/Kotlin-El-Alto/?_cookie-check=x7g06koKCyQaUPnm"
-            type = kug
-            tags = Tags["Bolivia"]
+            href = "https://m.facebook.com/KotlinElAlto/"
+            setTags("Bolivia")
         }
         link {
-            name = "La Paz Kotlin User Group"
+            kug = "La Paz Kotlin User Group"
             desc = "Bolivia"
             href = "https://www.facebook.com/KotlinLaPaz/"
-            type = kug
-            tags = Tags["Bolivia"]
+            setTags("Bolivia")
         }
         link {
-            name = "Lima Kotlin User Group"
+            kug = "Lima Kotlin User Group"
             desc = "Peru"
             href = "https://www.facebook.com/groups/limakotlin/"
-            type = kug
-            tags = Tags["Peru"]
+            setTags("Peru")
         }
         link {
-            name = "Peru Kotlin User Group"
+            kug = "Medellin Kotlin User Group"
+            desc = "Colombia"
+            href = "https://www.meetup.com/Kotlin-User-Group-Medellin/"
+            setTags("Colombia")
+        }
+        link {
+            kug = "Peru Kotlin User Group"
             desc = "Peru"
             href = "https://www.facebook.com/groups/1540580306247047/"
-            type = kug
-            tags = Tags["Peru"]
+            setTags("Peru")
         }
         link {
-            name = "Sao Paulo Kotlin Meetup"
+            kug = "Porto Alegre Kotlin User Group"
+            desc = "Brazil"
+            href = "https://www.meetup.com/Kotlin-RS/"
+            setTags("Brazil")
+        }
+        link {
+            kug = "Santiago Kotlin User Group"
+            desc = "Chile"
+            href = "https://www.facebook.com/kotlinsantiago/"
+            setTags("Chile")
+        }
+        link {
+            kug = "Sao Paulo Kotlin Meetup"
             desc = "Brazil"
             href = "https://www.meetup.com/kotlin-meetup-sp/"
-            type = kug
-            tags = Tags["Brazil"]
+            setTags("Brazil")
         }
         link {
-            name = "Rio de Janeiro"
+            kug = "Rio de Janeiro"
             desc = "Brazil"
             href = "https://www.meetup.com/Kotlin-Rio/"
-            type = kug
-            tags = Tags["Brazil"]
+            setTags("Brazil")
         }
     }
     subcategory("Australia/Oceania") {
         link {
-            name = "Brisbane Kotlin User Group"
+            kug = "Brisbane Kotlin User Group"
             desc = "Australia"
             href = "https://www.meetup.com/Brisbane-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["Australia"]
+            setTags("Australia")
         }
         link {
-            name = "Sydney Kotlin User Group"
+            kug = "Melbourne Kotlin User Group"
             desc = "Australia"
-            href = "https://sydkotlin.space/"
-            type = kug
-            tags = Tags["Australia"]
+            href = "https://www.meetup.com/Melbourne-Kotlin-Meetup/"
+            setTags("Australia")
         }
         link {
-            name = "Wellington Kotlin User Group"
+            kug = "Sydney Kotlin User Group"
+            desc = "Australia"
+            href = "https://sydspace.org/kotlin/"
+            setTags("Australia")
+        }
+        link {
+            kug = "Wellington Kotlin User Group"
             desc = "New Zealand"
             href = "https://www.meetup.com/Wellington-kt/"
-            type = kug
-            tags = Tags["New Zealand"]
+            setTags("New Zealand")
         }
     }
     subcategory("Africa") {
         link {
-            name = "Abidjan Kotlin User Group"
+            kug = "Abidjan Kotlin User Group"
             desc = "Cote d'Ivoire"
             href = "https://www.facebook.com/groups/778398068995641/"
-            type = kug
-            tags = Tags["Cote d'Ivoire"]
+            setTags("Cote d'Ivoire")
         }
         link {
-            name = "Abuja Kotlin User Group"
+            kug = "Abuja Kotlin User Group"
             desc = "Nigeria"
             href = "https://www.meetup.com/Kotlin-Abuja-User-Group-Nigeria/"
-            type = kug
-            tags = Tags["Nigeria"]
+            setTags("Nigeria")
         }
         link {
-            name = "Agadir Kotlin User Group"
-            desc = "Morocco"
-            href = "https://www.meetup.com/Agadir-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["Morocco"]
+            kug = "Accra Ghana Kotlin User Group"
+            desc = "Ghana"
+            href = "http://groupspaces.com/AccraGhanaKotlinUserGroup/"
+            setTags("Ghana")
         }
         link {
-            name = "Ado-Ekiti Kotlin User Group"
+            kug = "Ado-Ekiti Kotlin User Group"
             desc = "Nigeria"
             href = "https://web.facebook.com/groups/1598555973529998/?ref=group_header"
-            type = kug
-            tags = Tags["Nigeria"]
+            setTags("Nigeria")
         }
         link {
-            name = "Angola Kotlin User Group"
+            kug = "Agadir Kotlin User Group"
+            desc = "Morocco"
+            href = "https://www.meetup.com/Agadir-Kotlin-User-Group/"
+            setTags("Morocco")
+        }
+        link {
+            kug = "Algeria Kotlin User Group"
+            desc = "Algeria"
+            href = "https://web.facebook.com/groups/383147662448461/"
+            setTags("Algeria")
+        }
+        link {
+            kug = "Angola Kotlin User Group"
             desc = "Angola"
             href = "https://www.facebook.com/groups/405177603231134/about/"
-            type = kug
-            tags = Tags["Angola"]
+            setTags("Angola")
         }
         link {
-            name = "Beira Kotlin User Group"
+            kug = "Bauchi Kotlin User Group"
+            desc = "Nigeria"
+            href = "https://www.facebook.com/groups/kotlinbauchi/"
+            setTags("Nigeria")
+        }
+        link {
+            kug = "Beira Kotlin User Group"
             desc = "Mozambique"
             href = "https://www.facebook.com/groups/470398203308975/"
-            type = kug
-            tags = Tags["Mozambique"]
+            setTags("Mozambique")
         }
         link {
-            name = "Brazza Kotlin User Group"
+            kug = "Benin Kotlin User Group"
+            desc = "Nigeria"
+            href = "https://www.meetup.com/Kotlin-Benin/"
+            setTags("Nigeria")
+        }
+        link {
+            kug = "Brazza Kotlin User Group"
             desc = "Congo"
             href = "https://www.facebook.com/groups/KotlinBrazza/"
-            type = kug
-            tags = Tags["Congo"]
+            setTags("Congo")
         }
         link {
-            name = "Cairo Kotlin User Group"
+            kug = "Cairo Kotlin User Group"
             desc = "Egypt"
             href = "https://www.facebook.com/Kotlin.Cairo/"
-            type = kug
-            tags = Tags["Egypt"]
+            setTags("Egypt")
         }
         link {
-            name = "Cotonou Kotlin User Group"
+            kug = "Cotonou Kotlin User Group"
             desc = "Benin"
             href = "https://www.facebook.com/kotlinCotonou/"
-            type = kug
-            tags = Tags["Benin"]
+            setTags("Benin")
         }
         link {
-            name = "Egypt Kotlin"
+            kug = "Egypt Kotlin"
             desc = "Egypt"
             href = "https://www.facebook.com/kotlinegypt/"
-            type = kug
-            tags = Tags["Egypt"]
+            setTags("Egypt")
         }
         link {
-            name = "Fayoum Kotlin User Group"
-            desc = "Egypt"
-            href = "https://www.facebook.com/kdgfayoum/"
-            type = kug
-            tags = Tags["Egypt"]
+            kug = "Enugu Kotlin User Group"
+            desc = "Nigeria"
+            href = "https://kotlin-enuguusergroup.slack.com/"
+            setTags("Nigeria")
         }
         link {
-            name = "Johannesburg Kotlin User Group"
+            kug = "Johannesburg Kotlin User Group"
             desc = "South Africa"
             href = "https://www.meetup.com/Kotlin-Software-Development-Meetup/"
-            type = kug
-            tags = Tags["South Africa"]
+            setTags("South Africa")
         }
         link {
-            name = "Lagos Kotlin User Group"
+            kug = "Kano Kotlin User Group"
+            desc = "Nigeria"
+            href = "https://www.meetup.com/Kotlin-Kano-User-Group-Nigeria/"
+            setTags("Nigeria")
+        }
+        link {
+            kug = "Katsina Kotlin User Group"
+            desc = "Nigeria"
+            href = "https://www.downtomeet.com/Katsina-Kotlin-Group"
+            setTags("Nigeria")
+        }
+        link {
+            kug = "Lagos Kotlin User Group"
             desc = "Nigeria"
             href = "https://www.meetup.com/Lagos-Kotlin-Meetup/"
-            type = kug
-            tags = Tags["Nigeria"]
+            setTags("Nigeria")
         }
         link {
-            name = "Lome Kotlin User Group"
+            kug = "Lapai Kotlin User Group"
+            desc = "Nigeria"
+            href = "https://www.meetup.com/Kotlin-Lapai-User-Group/"
+            setTags("Nigeria")
+        }
+        link {
+            kug = "Libreville Kotlin User Group"
+            desc = "Gabon"
+            href = "https://www.meetup.com/fr-FR/Libreville-Kotlin/"
+            setTags("Gabon")
+        }
+        link {
+            kug = "Lome Kotlin User Group"
             desc = "Togo"
             href = "https://www.facebook.com/groups/1825278611119862/"
-            type = kug
-            tags = Tags["Togo"]
+            setTags("Togo")
         }
         link {
-            name = "Minya Kotlin User Group"
+            kug = "Lubumbashi Kotlin User Group"
+            desc = "Congo"
+            href = "https://www.meetup.com/Lubumbashi-Kotlin-User-Group/"
+            setTags("Congo")
+        }
+        link {
+            kug = "Minna Kotlin User Group"
+            desc = "Nigeria"
+            href = "https://www.meetup.com/Kotlin-Minna-User-Group-Nigeria/"
+            setTags("Nigeria")
+        }
+        link {
+            kug = "Minya Kotlin User Group"
             desc = "Egypt"
             href = "https://www.facebook.com/kotlinminya/"
-            type = kug
-            tags = Tags["Egypt"]
+            setTags("Egypt")
         }
         link {
-            name = "Nairobi Kotlin User Group"
+            kug = "Nairobi Kotlin User Group"
             desc = "Kenya"
             href = "https://www.meetup.com/KotlinKenya/"
-            type = kug
-            tags = Tags["Kenya"]
+            setTags("Kenya")
         }
         link {
-            name = "Noun Kotlin User Group"
+            kug = "Noun Kotlin User Group"
             desc = "Cameroon"
             href = "https://www.meetup.com/Noun-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["Cameroon"]
+            setTags("Cameroon")
         }
         link {
-            name = "Ondo Kotlin User Group"
+            kug = "Ondo Kotlin User Group"
             desc = "Nigeria"
             href = "https://www.meetup.com/Kotlin-Ondo-User-Group/"
-            type = kug
-            tags = Tags["Nigeria"]
+            setTags("Nigeria")
         }
         link {
-            name = "Ouagadougou Kotlin User Group"
+            kug = "Ouagadougou Kotlin User Group"
             desc = "Burkina Faso"
             href = "https://www.facebook.com/groups/649651491892414/"
-            type = kug
-            tags = Tags["Burkina Faso"]
+            setTags("Burkina Faso")
         }
         link {
-            name = "Rabat Kotlin User Group"
+            kug = "Rabat Kotlin User Group"
             desc = "Morocco"
             href = "https://www.meetup.com/Rabat-Kotlin-User-Group/"
-            type = kug
-            tags = Tags["Morocco"]
+            setTags("Morocco")
         }
         link {
-            name = "Tunisia Kotlin User Group"
+            kug = "Rivers Kotlin User Group"
+            desc = "Nigeria"
+            href = "https://www.facebook.com/groups/2178453949151460/"
+            setTags("Nigeria")
+        }
+        link {
+            kug = "Tunisia Kotlin User Group"
             desc = "Tunisia"
             href = "https://www.facebook.com/groups/1501353116571104"
-            type = kug
-            tags = Tags["Tunisia"]
+            setTags("Tunisia")
         }
         link {
-            name = "Uganda Kotlin User Group"
+            kug = "Uganda Kotlin User Group"
             desc = "Uganda"
             href = "https://www.facebook.com/Uganda-Kotlin-User-Group-613707548753658/"
-            type = kug
-            tags = Tags["Uganda"]
+            setTags("Uganda")
+        }
+        link {
+            kug = "Warri Kotlin User Group"
+            desc = "Nigeria"
+            href = "https://www.meetup.com/kotlin-warri/"
+            setTags("Nigeria")
+        }
+        link {
+            kug = "Yola Kotlin User Group"
+            desc = "Nigeria"
+            href = "https://www.facebook.com/Kotlin-Yola-User-Group-104198534358013/"
+            setTags("Nigeria")
         }
     }
 }

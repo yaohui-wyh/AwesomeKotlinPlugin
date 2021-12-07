@@ -4,8 +4,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.intellij.awesomeKt.app.AkData
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
-import link.kotlin.scripts.Category
-import link.kotlin.scripts.Subcategory
+import link.kotlin.scripts.dsl.Category
+import link.kotlin.scripts.dsl.Subcategory
 import link.kotlin.scripts.model.GitHubLink
 import link.kotlin.scripts.model.GitHubReadme
 import link.kotlin.scripts.model.Link
@@ -58,7 +58,7 @@ class ProjectLinks {
                         val linksMatch = subcategory.links.filter {
                             val sources = mutableListOf(it.name, it.desc, it.href)
                             sources.addAll(it.tags)
-                            sources.any { s -> s.contains(text, true) }
+                            sources.any { s -> !s.isNullOrBlank() && s.contains(text, true) }
                         }
                         if (linksMatch.isNotEmpty()) Subcategory(
                             subcategory.id,
@@ -97,8 +97,10 @@ class ProjectLinks {
                 throw RuntimeException(response.message)
             }
 
-            githubLink.link?.star = json["stargazers_count"]?.asInt(0)
-            githubLink.link?.update = parseDate(json["pushed_at"]?.textValue())
+            githubLink.link = Link(
+                star = json["stargazers_count"]?.asInt(0),
+                update = parseDate(json["pushed_at"]?.textValue())
+            )
             githubLink.createdAt = parseDate(json["created_at"]?.textValue())
             githubLink.forkCount = json["forks"]?.asInt(0) ?: 0
             githubLink.watchCount = json["subscribers_count"]?.asInt(0) ?: 0

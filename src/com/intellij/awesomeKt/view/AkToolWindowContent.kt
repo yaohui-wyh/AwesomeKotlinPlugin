@@ -37,8 +37,7 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.table.ComponentsListFocusTraversalPolicy
 import com.intellij.util.ui.tree.TreeUtil
-import link.kotlin.scripts.Category
-import link.kotlin.scripts.LinkType
+import link.kotlin.scripts.dsl.Category
 import link.kotlin.scripts.model.Link
 import net.miginfocom.swing.MigLayout
 import java.awt.BorderLayout
@@ -77,7 +76,7 @@ class AkToolWindowContent(val project: Project) : DataProvider {
                 myDetailPanel.removeAll()
                 link?.let {
                     val linkLabel = HoverHyperlinkLabel(it.name)
-                    if (link.href.isNotBlank()) {
+                    if (!link.href.isNullOrBlank()) {
                         linkLabel.addHyperlinkListener {
                             BrowserUtil.browse(link.href.trim())
                         }
@@ -137,8 +136,7 @@ class AkToolWindowContent(val project: Project) : DataProvider {
     }
 
     private fun setGithubDetail(link: Link) {
-        if (link.type == LinkType.github) {
-
+        if (!link.github.isNullOrBlank()) {
             val panel = JPanel()
             panel.border = JBUI.Borders.empty(10, 0, 0, 0)
             panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
@@ -212,8 +210,8 @@ class AkToolWindowContent(val project: Project) : DataProvider {
             })
 
         } else {
-            val hrefLabel = HyperlinkLabel(link.href.trim())
-            hrefLabel.setHyperlinkTarget(link.href.trim())
+            val hrefLabel = HyperlinkLabel(link.href?.trim().orEmpty())
+            hrefLabel.setHyperlinkTarget(link.href?.trim().orEmpty())
             hrefLabel.alignmentX = Component.LEFT_ALIGNMENT
             myDetailPanel.add(hrefLabel)
         }

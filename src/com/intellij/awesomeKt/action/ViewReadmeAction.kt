@@ -1,10 +1,7 @@
 package com.intellij.awesomeKt.action
 
-import com.intellij.awesomeKt.util.AkDataKeys
-import com.intellij.awesomeKt.util.AkIntelliJUtil
-import com.intellij.awesomeKt.util.Constants
+import com.intellij.awesomeKt.util.*
 import com.intellij.awesomeKt.util.Constants.Properties.viewReadmeBtnBusyKey
-import com.intellij.awesomeKt.util.d
 import com.intellij.icons.AllIcons
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -18,8 +15,6 @@ import com.intellij.openapi.progress.Task
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.openapi.vfs.LocalFileSystem
-import link.kotlin.scripts.LinkType
-import com.intellij.awesomeKt.util.ProjectLinks
 import org.apache.commons.codec.binary.Base64
 import java.io.File
 import java.nio.charset.Charset
@@ -28,9 +23,9 @@ import java.nio.charset.Charset
  * Created by Roger™
  */
 class ViewReadmeAction : LanguageAwareAction(
-        AkIntelliJUtil.message("ViewReadmeAction.text"),
-        AkIntelliJUtil.message("ViewReadmeAction.description"),
-        AllIcons.Actions.PreviewDetails
+    AkIntelliJUtil.message("ViewReadmeAction.text"),
+    AkIntelliJUtil.message("ViewReadmeAction.description"),
+    AllIcons.Actions.PreviewDetails
 ) {
 
     private val logger = Logger.getInstance(this::class.java)
@@ -38,10 +33,11 @@ class ViewReadmeAction : LanguageAwareAction(
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         val link = e.getData(AkDataKeys.tableItem) ?: return
-        if (link.type != LinkType.github || link.href.isBlank()) return
+        if ((link.github.isNullOrBlank() && link.bitbucket.isNullOrBlank()) || link.href.isNullOrBlank()) return
 
         val prop = PropertiesComponent.getInstance()
-        ProgressManager.getInstance().run(object : Task.Backgroundable(project, "Fetching README...", false, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
+        ProgressManager.getInstance().run(object :
+            Task.Backgroundable(project, "Fetching README...", false, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
             override fun run(indicator: ProgressIndicator) {
                 prop.setValue(viewReadmeBtnBusyKey, true)
                 val readme = ProjectLinks.instance.getGithubReadme(link)
@@ -96,7 +92,7 @@ class ViewReadmeAction : LanguageAwareAction(
         e.presentation.isEnabledAndVisible = false
         val link = e.getData(AkDataKeys.tableItem) ?: return
         val prop = PropertiesComponent.getInstance().getBoolean(viewReadmeBtnBusyKey, false)
-        if (link.type == LinkType.github && link.href.isNotBlank() && !prop) {
+        if (!link.github.isNullOrBlank() && !link.href.isNullOrBlank() && !prop) {
             e.presentation.isEnabledAndVisible = true
         }
     }

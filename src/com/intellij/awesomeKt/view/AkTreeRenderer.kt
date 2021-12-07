@@ -3,9 +3,8 @@ package com.intellij.awesomeKt.view
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.render.LabelBasedRenderer
 import com.intellij.util.ui.JBUI
-import link.kotlin.scripts.Category
-import link.kotlin.scripts.LinkType
-import link.kotlin.scripts.Subcategory
+import link.kotlin.scripts.dsl.Category
+import link.kotlin.scripts.dsl.Subcategory
 import link.kotlin.scripts.model.Link
 import java.awt.Component
 import java.awt.Font
@@ -43,11 +42,10 @@ class AkTreeRenderer : LabelBasedRenderer.Tree() {
                     label.border = JBUI.Borders.empty(4, 0, 4, 0)
                 }
                 is Link -> {
-                    when (obj.type) {
-                        LinkType.github -> label.icon = AkIcons.GITHUB_ICON
-                        LinkType.bitbucket -> label.icon = AkIcons.BITBUCKET_ICON
-                        else -> {
-                        }
+                    if (!obj.github.isNullOrBlank()) {
+                        label.icon = AkIcons.GITHUB_ICON
+                    } else if (!obj.bitbucket.isNullOrBlank()) {
+                        label.icon = AkIcons.BITBUCKET_ICON
                     }
                     label.text = obj.name
                     label.font = Font(JLabel().font.fontName, Font.PLAIN, JBUI.scale(12))
