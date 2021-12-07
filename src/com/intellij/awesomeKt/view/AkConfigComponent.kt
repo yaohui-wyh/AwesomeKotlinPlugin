@@ -18,8 +18,8 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBRadioButton
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
-import link.kotlin.scripts.githubContentList
-import link.kotlin.scripts.githubPrefix
+import com.intellij.awesomeKt.util.githubContentList
+import com.intellij.awesomeKt.util.githubPrefix
 import java.awt.FlowLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout

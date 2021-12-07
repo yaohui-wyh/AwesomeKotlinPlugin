@@ -1,26 +1,25 @@
-package link.kotlin.scripts
+package com.intellij.awesomeKt.util
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.intellij.awesomeKt.app.AkData
-import com.intellij.awesomeKt.util.d
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
+import link.kotlin.scripts.Category
+import link.kotlin.scripts.Subcategory
 import link.kotlin.scripts.model.GitHubLink
 import link.kotlin.scripts.model.GitHubReadme
 import link.kotlin.scripts.model.Link
 import link.kotlin.scripts.resources.links.*
-import okhttp3.*
-import java.io.IOException
+import okhttp3.Dispatcher
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 class ProjectLinks {
 
@@ -80,7 +79,7 @@ class ProjectLinks {
     fun linksFromPlugin(): List<CategoryKtsResult> =
         pluginBundleLinks.map { CategoryKtsResult(success = true, category = it) }
 
-    suspend fun getGithubStarCount(link: Link): GitHubLink {
+    fun getGithubStarCount(link: Link): GitHubLink {
         val githubLink = GitHubLink(link = link)
         logger.d("Querying GitHub Api for ${link.name}...")
         val request = Request.Builder()
@@ -88,9 +87,15 @@ class ProjectLinks {
             .header("Accept", "application/vnd.github.preview")
             .build()
         try {
-            val response = okHttpClient.newCall(request).await()
+            val response = okHttpClient.newCall(request).execute()
             val json = mapper.readTree(response.body?.string().orEmpty())
             response.close()
+
+            if (response.code == 403) {
+                throw RuntimeException(json["message"]?.textValue())
+            } else if (!response.isSuccessful) {
+                throw RuntimeException(response.message)
+            }
 
             githubLink.link?.star = json["stargazers_count"]?.asInt(0)
             githubLink.link?.update = parseDate(json["pushed_at"]?.textValue())
@@ -100,7 +105,7 @@ class ProjectLinks {
             githubLink.openIssueCount = json["open_issues"]?.asInt(0) ?: 0
             githubLink.homepage = json["homepage"]?.textValue()?.trim().orEmpty()
         } catch (ex: Exception) {
-            logger.d("Error while getting Github info for ${link.name}", ex)
+            throw RuntimeException("Error while getting Github info for ${link.name}, ex=[${ex.message}]")
         }
         return githubLink
     }
@@ -145,17 +150,6 @@ fun parseDate(date: String?): String {
     return LocalDateTime.ofInstant(Instant.parse(date), ZoneId.of("UTC")).format(formatter)
 }
 
-suspend fun Call.await(): Response = suspendCoroutine { cont: Continuation<Response> ->
-    this.enqueue(object : Callback {
-        override fun onResponse(call: Call, response: Response) {
-            cont.resume(response)
-        }
-
-        override fun onFailure(call: Call, e: IOException) {
-            cont.resumeWithException(e)
-        }
-    })
-}
 
 const val githubPrefix = "https://raw.githubusercontent.com/KotlinBy/awesome-kotlin/master/src/main/resources/links/"
 val githubContentList = listOf(

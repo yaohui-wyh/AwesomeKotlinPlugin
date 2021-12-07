@@ -31,7 +31,7 @@
         <toolWindow id="AwesomeKotlin" icon="/images/kotlinToolWindow.png" anchor="right" factoryClass="com.intellij.awesomeKt.view.AkToolWindow"/>
         <applicationService serviceImplementation="com.intellij.awesomeKt.app.AkData"/>
         <applicationService serviceImplementation="com.intellij.awesomeKt.app.AkSettings"/>
-        <applicationService serviceImplementation="link.kotlin.scripts.ProjectLinks"/>
+        <applicationService serviceImplementation="com.intellij.awesomeKt.util.ProjectLinks"/>
         <applicationConfigurable id="AwesomeKotlin.Configurable" provider="com.intellij.awesomeKt.app.AwesomeKtConfProvider"/>
     </extensions>
 

@@ -12,6 +12,7 @@ import com.intellij.awesomeKt.messages.TableViewListener
 import com.intellij.awesomeKt.util.AkDataKeys
 import com.intellij.awesomeKt.util.AkIntelliJUtil
 import com.intellij.awesomeKt.util.Constants
+import com.intellij.awesomeKt.util.ProjectLinks
 import com.intellij.icons.AllIcons
 import com.intellij.ide.BrowserUtil
 import com.intellij.ide.CommonActionsManager
@@ -36,11 +37,8 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.table.ComponentsListFocusTraversalPolicy
 import com.intellij.util.ui.tree.TreeUtil
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import link.kotlin.scripts.Category
 import link.kotlin.scripts.LinkType
-import link.kotlin.scripts.ProjectLinks
 import link.kotlin.scripts.model.Link
 import net.miginfocom.swing.MigLayout
 import java.awt.BorderLayout
@@ -154,52 +152,65 @@ class AkToolWindowContent(val project: Project) : DataProvider {
             myDetailPanel.repaint()
             myDetailPanel.revalidate()
 
-            GlobalScope.launch {
-                val gitHubLink = ProjectLinks.instance.getGithubStarCount(link)
-                if (gitHubLink.link != currentLink) return@launch
+            ProgressManager.getInstance().run(object : Task.Backgroundable(
+                project,
+                "Fetching GitHub Stars...",
+                true,
+                ALWAYS_BACKGROUND
+            ) {
+                override fun run(indicator: ProgressIndicator) {
+                    try {
+                        val gitHubLink = ProjectLinks.instance.getGithubStarCount(link)
+                        if (gitHubLink.link != currentLink) return
 
-                ApplicationManager.getApplication().invokeAndWait({
-                    panel.remove(hintLabel)
+                        ApplicationManager.getApplication().invokeAndWait({
+                            panel.remove(hintLabel)
 
-                    if (gitHubLink.homepage.isNotBlank()) {
-                        val homepage = HyperlinkLabel(gitHubLink.homepage)
-                        homepage.setHyperlinkTarget(gitHubLink.homepage)
-                        homepage.alignmentX = Component.LEFT_ALIGNMENT
-                        panel.add(homepage)
+                            if (gitHubLink.homepage.isNotBlank()) {
+                                val homepage = HyperlinkLabel(gitHubLink.homepage)
+                                homepage.setHyperlinkTarget(gitHubLink.homepage)
+                                homepage.alignmentX = Component.LEFT_ALIGNMENT
+                                panel.add(homepage)
+                            }
+
+                            gitHubLink.link?.star?.let {
+                                val starLabel =
+                                    JBLabel("Star $it, Fork ${gitHubLink.forkCount}, Watch ${gitHubLink.watchCount}")
+                                starLabel.icon = AkIcons.STAR
+                                starLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
+                                starLabel.alignmentX = Component.LEFT_ALIGNMENT
+                                panel.add(starLabel)
+                            }
+
+                            gitHubLink.link?.update?.let {
+                                val updateLabel = JBLabel("Updated on $it", SwingConstants.LEFT)
+                                updateLabel.icon = AkIcons.CHANGES
+                                updateLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
+                                updateLabel.alignmentX = Component.LEFT_ALIGNMENT
+                                panel.add(updateLabel)
+                            }
+
+                            if (gitHubLink.createdAt.isNotBlank()) {
+                                val createLabel = JBLabel("Created on ${gitHubLink.createdAt}", SwingConstants.LEFT)
+                                createLabel.icon = AkIcons.CREATED
+                                createLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
+                                createLabel.alignmentX = Component.LEFT_ALIGNMENT
+                                panel.add(createLabel)
+                            }
+
+                            if (panel.componentCount > 0) {
+                                myDetailPanel.add(panel)
+                                myDetailPanel.repaint()
+                                myDetailPanel.revalidate()
+                            }
+                        }, ModalityState.stateForComponent(myDetailPanel))
+                    } catch (ex: RuntimeException) {
+                        AkIntelliJUtil.errorNotification(project, ex.message.orEmpty())
                     }
 
-                    gitHubLink.link?.star?.let {
-                        val starLabel =
-                            JBLabel("Star $it, Fork ${gitHubLink.forkCount}, Watch ${gitHubLink.watchCount}")
-                        starLabel.icon = AkIcons.STAR
-                        starLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
-                        starLabel.alignmentX = Component.LEFT_ALIGNMENT
-                        panel.add(starLabel)
-                    }
+                }
+            })
 
-                    gitHubLink.link?.update?.let {
-                        val updateLabel = JBLabel("Updated on $it", SwingConstants.LEFT)
-                        updateLabel.icon = AkIcons.CHANGES
-                        updateLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
-                        updateLabel.alignmentX = Component.LEFT_ALIGNMENT
-                        panel.add(updateLabel)
-                    }
-
-                    if (gitHubLink.createdAt.isNotBlank()) {
-                        val createLabel = JBLabel("Created on ${gitHubLink.createdAt}", SwingConstants.LEFT)
-                        createLabel.icon = AkIcons.CREATED
-                        createLabel.foreground = UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)
-                        createLabel.alignmentX = Component.LEFT_ALIGNMENT
-                        panel.add(createLabel)
-                    }
-
-                    if (panel.componentCount > 0) {
-                        myDetailPanel.add(panel)
-                        myDetailPanel.repaint()
-                        myDetailPanel.revalidate()
-                    }
-                }, ModalityState.stateForComponent(myDetailPanel))
-            }
         } else {
             val hrefLabel = HyperlinkLabel(link.href.trim())
             hrefLabel.setHyperlinkTarget(link.href.trim())
@@ -250,15 +261,18 @@ class AkToolWindowContent(val project: Project) : DataProvider {
 
         object : DoubleClickListener() {
             override fun onDoubleClick(event: MouseEvent): Boolean {
-                val action = ViewReadmeAction()
-                action.actionPerformed(
-                    AnActionEvent.createFromAnAction(
-                        action,
-                        event,
-                        ActionPlaces.UNKNOWN,
-                        DataManager.getInstance().getDataContext(myTree)
+                val item = (myTree.lastSelectedPathComponent as? DefaultMutableTreeNode)?.userObject
+                if (item is Link) {
+                    val action = ViewReadmeAction()
+                    action.actionPerformed(
+                        AnActionEvent.createFromAnAction(
+                            action,
+                            event,
+                            ActionPlaces.UNKNOWN,
+                            DataManager.getInstance().getDataContext(myTree)
+                        )
                     )
-                )
+                }
                 return true
             }
         }.installOn(myTree)

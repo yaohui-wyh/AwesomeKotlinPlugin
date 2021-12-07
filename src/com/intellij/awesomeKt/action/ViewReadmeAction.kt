@@ -19,7 +19,7 @@ import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.openapi.vfs.LocalFileSystem
 import link.kotlin.scripts.LinkType
-import link.kotlin.scripts.ProjectLinks
+import com.intellij.awesomeKt.util.ProjectLinks
 import org.apache.commons.codec.binary.Base64
 import java.io.File
 import java.nio.charset.Charset
