@@ -2,20 +2,23 @@
     <id>AwesomeKotlin</id>
     <name>Awesome Kotlin</name>
     <version>1.1.0</version>
-    <idea-version since-build="162.0"/>
     <vendor email="alex.yh99@gmail.com" url="https://github.com/yaohui-wyh">Yaohui Wang</vendor>
 
     <description><![CDATA[
       <b>Awesome Kotlin</b> - A Collection of awesome Kotlin related stuff<br/>
       <ul>
-          <li>Show content from <a href="https://github.com/KotlinBy/awesome-kotlin">Awesome Kotlin</a> inside IDE ToolWindow</li>
+          <li>Show content from <a href="https://github.com/KotlinBy/awesome-kotlin">Awesome Kotlin</a> in IDE</li>
           <li>Search / checkout projects from GitHub repo</li>
-          <li>Custom content sources & dynamic KotlinScript loading is supported</li>
       </ul>
       <p>More Info: <a href="https://plugins.jetbrains.com/plugin/11357-awesome-kotlin">Plugin</a> | <a href="https://github.com/roger-yh99/AwesomeKotlinPlugin/issues">Issues</a></p>
     ]]></description>
 
     <change-notes><![CDATA[
+      <p>1.1.0</p>
+      <ul>
+          <li>Remove embedded Kotlin compiler for Kts compilation</li>
+          <li>Remove usage of deprecated intellij platform API</li>
+      </ul>
       <p>1.0.2</p>
       <ul>
           <li>Show number of stars & folks and recent activities for a GitHub repo</li>
