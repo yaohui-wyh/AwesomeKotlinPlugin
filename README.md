@@ -43,6 +43,8 @@ https://plugins.jetbrains.com/plugin/11357-awesome-kotlin
 ./gradlew clean buildPlugin
 ```
 
+> Or use IDEA's Run Configuration config files, see `.run/*.run.xml`
+
 ## Thanks
 
 - [Awesome Kotlin](https://kotlin.link/)
