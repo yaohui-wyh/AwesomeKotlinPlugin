@@ -10,3 +10,4 @@ target/
 
 idea-sandbox/
 .gradle/
+.qodana/
