@@ -83,6 +83,13 @@ tasks {
             }.toHTML()
         })
     }
+
+    publishPlugin {
+        dependsOn("patchChangelog")
+        token.set(System.getenv("PUBLISH_TOKEN"))
+        channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
+    }
+
     runIde {
         systemProperty("AwesomeKotlin.is.internal", "true")
     }
