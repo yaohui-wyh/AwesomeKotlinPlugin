@@ -1,3 +1,4 @@
+import org.jetbrains.changelog.date
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun properties(key: String) = project.findProperty(key).toString()
@@ -6,6 +7,7 @@ plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.6.0"
     id("org.jetbrains.intellij") version "1.3.0"
+    id("org.jetbrains.changelog") version "1.3.1"
     id("org.jetbrains.qodana") version "0.1.13"
 }
 
@@ -39,6 +41,15 @@ sourceSets {
     }
 }
 
+changelog {
+    headerParserRegex.set("\\[?v(\\d(?:\\.\\d+)+)\\]?.*".toRegex())
+    header.set(provider {
+        "[v${version.get()}] (https://github.com/yaohui-wyh/AwesomeKotlinPlugin/tree/v${version.get()}) (${date()})"
+    })
+    version.set(properties("pluginVersion"))
+    groups.set(emptyList())
+}
+
 qodana {
     cachePath.set(projectDir.resolve(".qodana").canonicalPath)
     reportPath.set(projectDir.resolve("build/reports/inspections").canonicalPath)
@@ -64,6 +75,13 @@ tasks {
         version.set(properties("pluginVersion"))
         sinceBuild.set(properties("pluginSinceBuild"))
         untilBuild.set(properties("pluginUntilBuild"))
+
+        // Get the latest available change notes from the changelog file
+        changeNotes.set(provider {
+            changelog.run {
+                getOrNull(properties("pluginVersion")) ?: getLatest()
+            }.toHTML()
+        })
     }
     runIde {
         systemProperty("AwesomeKotlin.is.internal", "true")
