@@ -1,7 +1,7 @@
 package com.intellij.awesomeKt.app
 
 import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.ServiceManager
+import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 
@@ -9,13 +9,9 @@ import com.intellij.openapi.components.Storage
  * Created by Roger™
  */
 @State(name = "AwesomeKotlinSettings", storages = [(Storage("awesome-kotlin/settings.xml"))])
+@Service(Service.Level.APP)
 class AkSettings : PersistentStateComponent<AkSettings.State> {
     private var myState = State()
-
-    companion object {
-        val instance: AkSettings
-            get() = ServiceManager.getService(AkSettings::class.java)
-    }
 
     var lang: LanguageItem
         get() = myState.lang

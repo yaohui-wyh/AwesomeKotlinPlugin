@@ -6,6 +6,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl
 import com.intellij.openapi.progress.PerformInBackgroundOption
@@ -33,14 +34,14 @@ class ViewReadmeAction : LanguageAwareAction(
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         val link = e.getData(AkDataKeys.tableItem) ?: return
-        if ((link.github.isNullOrBlank() && link.bitbucket.isNullOrBlank()) || link.href.isNullOrBlank()) return
+        if (link.github.isNullOrBlank()) return
 
         val prop = PropertiesComponent.getInstance()
         ProgressManager.getInstance().run(object :
             Task.Backgroundable(project, "Fetching README...", false, PerformInBackgroundOption.ALWAYS_BACKGROUND) {
             override fun run(indicator: ProgressIndicator) {
                 prop.setValue(viewReadmeBtnBusyKey, true)
-                val readme = ProjectLinks.instance.getGithubReadme(link)
+                val readme = service<ProjectLinks>().getGithubReadme(link)
                 if (!readme.isValid()) {
                     prop.setValue(viewReadmeBtnBusyKey, false)
                     AkIntelliJUtil.errorNotification(project, "Invalid README for ${link.name}")
@@ -92,8 +93,6 @@ class ViewReadmeAction : LanguageAwareAction(
         e.presentation.isEnabledAndVisible = false
         val link = e.getData(AkDataKeys.tableItem) ?: return
         val prop = PropertiesComponent.getInstance().getBoolean(viewReadmeBtnBusyKey, false)
-        if (!link.github.isNullOrBlank() && !link.href.isNullOrBlank() && !prop) {
-            e.presentation.isEnabledAndVisible = true
-        }
+        e.presentation.isEnabledAndVisible = !link.github.isNullOrBlank()
     }
 }

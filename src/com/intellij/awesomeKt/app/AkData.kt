@@ -1,18 +1,13 @@
 package com.intellij.awesomeKt.app
 
-import com.intellij.openapi.components.ServiceManager
-import link.kotlin.scripts.dsl.Category
 import com.intellij.awesomeKt.util.pluginBundleLinks
+import com.intellij.openapi.components.Service
+import link.kotlin.scripts.dsl.Category
 
 /**
  * Created by Roger™
  */
+@Service(Service.Level.APP)
 class AkData {
-
     var links: List<Category> = pluginBundleLinks
-
-    companion object {
-        val instance: AkData
-            get() = ServiceManager.getService(AkData::class.java)
-    }
 }

@@ -2,7 +2,8 @@ package com.intellij.awesomeKt.util
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.intellij.awesomeKt.app.AkData
-import com.intellij.openapi.components.ServiceManager
+import com.intellij.openapi.components.Service
+import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.Logger
 import link.kotlin.scripts.dsl.Category
 import link.kotlin.scripts.dsl.Subcategory
@@ -21,6 +22,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.concurrent.TimeUnit
 
+@Service(Service.Level.APP)
 class ProjectLinks {
 
     private val logger = Logger.getInstance(this::class.java)
@@ -47,7 +49,7 @@ class ProjectLinks {
         .build()
 
     fun search(text: String): List<Category> {
-        return AkData.instance.links.mapNotNull { category ->
+        return service<AkData>().links.mapNotNull { category ->
             if (category.name.contains(text, true)) {
                 category
             } else {
@@ -97,9 +99,10 @@ class ProjectLinks {
                 throw RuntimeException(response.message)
             }
 
-            githubLink.link = Link(
+            githubLink.link = link.copy(
                 star = json["stargazers_count"]?.asInt(0),
-                update = parseDate(json["pushed_at"]?.textValue())
+                update = parseDate(json["pushed_at"]?.textValue()),
+                href = json["clone_url"]?.textValue()
             )
             githubLink.createdAt = parseDate(json["created_at"]?.textValue())
             githubLink.forkCount = json["forks"]?.asInt(0) ?: 0
@@ -132,10 +135,6 @@ class ProjectLinks {
             logger.d("Error while getting Github info for ${link.name}", ex)
         }
         return ret
-    }
-
-    companion object {
-        val instance: ProjectLinks = ServiceManager.getService(ProjectLinks::class.java)
     }
 }
 

@@ -1,8 +1,7 @@
 <idea-plugin>
     <id>AwesomeKotlin</id>
     <name>Awesome Kotlin</name>
-    <version>1.1.0</version>
-    <vendor email="alex.yh99@gmail.com" url="https://github.com/yaohui-wyh">Yaohui Wang</vendor>
+    <vendor>Yaohui Wang</vendor>
 
     <description><![CDATA[
       <b>Awesome Kotlin</b> - A Collection of awesome Kotlin related stuff<br/>
@@ -13,29 +12,13 @@
       <p>More Info: <a href="https://plugins.jetbrains.com/plugin/11357-awesome-kotlin">Plugin</a> | <a href="https://github.com/roger-yh99/AwesomeKotlinPlugin/issues">Issues</a></p>
     ]]></description>
 
-    <change-notes><![CDATA[
-      <p>1.1.0</p>
-      <ul>
-          <li>Remove embedded Kotlin compiler for Kts compilation</li>
-          <li>Remove usage of deprecated intellij platform API</li>
-      </ul>
-      <p>1.0.2</p>
-      <ul>
-          <li>Show number of stars & folks and recent activities for a GitHub repo</li>
-          <li>Show README content for selected GitHub repo</li>
-          <li>Fix compatibility issues with IDEA 2018.3</li>
-      </ul>
-    ]]>
-    </change-notes>
-
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="AwesomeKotlin" icon="/images/kotlinToolWindow.png" anchor="right" factoryClass="com.intellij.awesomeKt.view.AkToolWindow"/>
-        <applicationService serviceImplementation="com.intellij.awesomeKt.app.AkData"/>
-        <applicationService serviceImplementation="com.intellij.awesomeKt.app.AkSettings"/>
-        <applicationService serviceImplementation="com.intellij.awesomeKt.util.ProjectLinks"/>
+        <toolWindow id="AwesomeKotlin" icon="/images/kotlinToolWindow.png" anchor="right"
+                    factoryClass="com.intellij.awesomeKt.view.AkToolWindow"/>
         <applicationConfigurable id="AwesomeKotlin.Configurable" provider="com.intellij.awesomeKt.app.AwesomeKtConfProvider"/>
+        <notificationGroup displayType="TOOL_WINDOW" id="Awesome Kotlin" isLogByDefault="false" icon="/images/kotlin.png"/>
     </extensions>
 
     <actions>

@@ -3,11 +3,9 @@ package com.intellij.awesomeKt.util
 import com.intellij.CommonBundle
 import com.intellij.awesomeKt.app.AkSettings
 import com.intellij.awesomeKt.util.Constants.Plugins.name
-import com.intellij.awesomeKt.view.AkIcons
-import com.intellij.notification.NotificationDisplayType
-import com.intellij.notification.NotificationGroup
-import com.intellij.notification.NotificationListener
+import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
+import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import java.io.IOException
 import java.io.InputStream
@@ -21,22 +19,18 @@ class AkIntelliJUtil {
 
     companion object {
 
-        private val notificationGroup = NotificationGroup(name, NotificationDisplayType.TOOL_WINDOW, false, "", AkIcons.KOTLIN)
+        private val notificationGroup = NotificationGroupManager.getInstance().getNotificationGroup(name)
 
-        fun successNotification(project: Project?, content: String, listener: NotificationListener? = null, title: String = name) {
-            notificationGroup.createNotification(title, content, NotificationType.INFORMATION, listener).notify(project)
+        fun successNotification(project: Project?, content: String, title: String = name) {
+            notificationGroup.createNotification(title, content, NotificationType.INFORMATION).notify(project)
         }
 
-        fun warnNotification(project: Project?, content: String, listener: NotificationListener? = null, title: String = name) {
-            notificationGroup.createNotification(title, content, NotificationType.WARNING, listener).notify(project)
-        }
-
-        fun errorNotification(project: Project?, content: String, listener: NotificationListener? = null, title: String = name) {
-            notificationGroup.createNotification(title, content, NotificationType.ERROR, listener).notify(project)
+        fun errorNotification(project: Project?, content: String, title: String = name) {
+            notificationGroup.createNotification(title, content, NotificationType.ERROR).notify(project)
         }
 
         fun message(key: String, vararg params: Any): String {
-            val filename = "messages.lang-${AkSettings.instance.lang.locale}"
+            val filename = "messages.lang-${service<AkSettings>().lang.locale}"
             return CommonBundle.messageOrNull(
                 ResourceBundle.getBundle(filename, UTF8Control()),
                 key,

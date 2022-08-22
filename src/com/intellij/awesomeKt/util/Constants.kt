@@ -6,12 +6,7 @@ package com.intellij.awesomeKt.util
 object Constants {
 
     object Plugins {
-        const val id = "AwesomeKotlin"
         const val name = "Awesome Kotlin"
-    }
-
-    object ToolWindows {
-        const val toolWindowId = "AwesomeKotlin"
     }
 
     object Urls {

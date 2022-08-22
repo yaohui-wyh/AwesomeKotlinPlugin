@@ -20,13 +20,12 @@ class VcsCheckoutAction : LanguageAwareAction(
 ) {
     override fun actionPerformed(e: AnActionEvent) {
         e.getData(AkDataKeys.tableItem)?.let { link ->
-            if ((link.github.isNullOrBlank() && link.bitbucket.isNullOrBlank()) || link.href.isNullOrBlank()) return
             CheckoutProvider.EXTENSION_POINT_NAME.extensions.forEach { provider ->
                 if (provider is CheckoutProviderEx && provider.vcsId.equals("git", true)) {
                     val project = ProjectManager.getInstance().defaultProject
                     val listener = ProjectLevelVcsManager.getInstance(project).compositeCheckoutListener
                     AppIcon.getInstance().requestAttention(null, true)
-                    provider.doCheckout(project, listener, link.href)
+                    provider.doCheckout(project, listener, "https://github.com/${link.github}")
                     return
                 }
             }
@@ -37,9 +36,7 @@ class VcsCheckoutAction : LanguageAwareAction(
         super.update(e)
         e.presentation.isEnabledAndVisible = false
         e.getData(AkDataKeys.tableItem)?.let {
-            if ((!it.github.isNullOrBlank() || !it.bitbucket.isNullOrBlank()) && !it.href.isNullOrBlank()) {
-                e.presentation.isEnabledAndVisible = true
-            }
+            e.presentation.isEnabledAndVisible = !it.github.isNullOrBlank()
         }
     }
 }

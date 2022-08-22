@@ -22,6 +22,7 @@ import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
+import com.intellij.openapi.components.service
 import com.intellij.openapi.progress.PerformInBackgroundOption
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
@@ -112,20 +113,20 @@ class AkToolWindowContent(val project: Project) : DataProvider {
                     override fun run(indicator: ProgressIndicator) {
                         indicator.fraction = 0.1
                         indicator.text = "Fetching links..."
-                        val results = ProjectLinks.instance.linksFromPlugin().toMutableList()
-                        AkData.instance.links = results.mapNotNull { it.category }
+                        val results = service<ProjectLinks>().linksFromPlugin().toMutableList()
+                        service<AkData>().links = results.mapNotNull { it.category }
                         ApplicationManager.getApplication().invokeLater {
                             if (results.all { it.success }) {
-                                AkIntelliJUtil.successNotification(project, "Update Success", null)
+                                AkIntelliJUtil.successNotification(project, "Update Success")
                             } else {
                                 val title =
                                     "Update Finished: ${results.count { it.success }} success, ${results.count { !it.success }} fail"
                                 val errorContent = results.filter { !it.success }.joinToString("\n") {
                                     "${it.url} : ${it.errMessage}"
                                 }
-                                AkIntelliJUtil.errorNotification(project, errorContent, null, title)
+                                AkIntelliJUtil.errorNotification(project, errorContent, title)
                             }
-                            myTree.model = setTreeModel(AkData.instance.links)
+                            myTree.model = setTreeModel(service<AkData>().links)
                             myTree.setPaintBusy(false)
                             PropertiesComponent.getInstance().setValue(Constants.Properties.refreshBtnBusyKey, false)
                         }
@@ -158,8 +159,8 @@ class AkToolWindowContent(val project: Project) : DataProvider {
             ) {
                 override fun run(indicator: ProgressIndicator) {
                     try {
-                        val gitHubLink = ProjectLinks.instance.getGithubStarCount(link)
-                        if (gitHubLink.link != currentLink) return
+                        val gitHubLink = service<ProjectLinks>().getGithubStarCount(link)
+                        if (gitHubLink.link?.name != currentLink?.name && gitHubLink.link?.github != currentLink?.github) return
 
                         ApplicationManager.getApplication().invokeAndWait({
                             panel.remove(hintLabel)
@@ -235,7 +236,7 @@ class AkToolWindowContent(val project: Project) : DataProvider {
     }
 
     private fun setTreeView() {
-        val model = setTreeModel(AkData.instance.links)
+        val model = setTreeModel(service<AkData>().links)
         myTree.model = model
         myTree.isRootVisible = false
         myTree.selectionModel.selectionMode = TreeSelectionModel.SINGLE_TREE_SELECTION
@@ -255,7 +256,7 @@ class AkToolWindowContent(val project: Project) : DataProvider {
         val actionGroups = DefaultActionGroup()
         actionGroups.addAction(VcsCheckoutAction())
         actionGroups.addAction(ViewReadmeAction())
-        PopupHandler.installPopupHandler(myTree, actionGroups, ActionPlaces.UNKNOWN, ActionManager.getInstance())
+        PopupHandler.installPopupMenu(myTree, actionGroups, ActionPlaces.UNKNOWN)
 
         object : DoubleClickListener() {
             override fun onDoubleClick(event: MouseEvent): Boolean {
@@ -327,7 +328,7 @@ class AkToolWindowContent(val project: Project) : DataProvider {
             override fun textChanged(e: DocumentEvent) {
                 val searchText = getText(e)
                 val selectedNode = myTree.selectionPath?.lastPathComponent as? DefaultMutableTreeNode
-                myTree.model = setTreeModel(ProjectLinks.instance.search(searchText))
+                myTree.model = setTreeModel(service<ProjectLinks>().search(searchText))
                 if (searchText.isNotBlank()) {
                     TreeUtil.expandAll(myTree)
                 } else {

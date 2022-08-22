@@ -6,8 +6,11 @@ import com.intellij.awesomeKt.app.LanguageItem
 import com.intellij.awesomeKt.messages.AWESOME_KOTLIN_REFRESH_TOPIC
 import com.intellij.awesomeKt.util.AkIntelliJUtil
 import com.intellij.awesomeKt.util.Constants
+import com.intellij.awesomeKt.util.githubContentList
+import com.intellij.awesomeKt.util.githubPrefix
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.components.service
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.VerticalFlowLayout
 import com.intellij.openapi.ui.ex.MultiLineLabel
@@ -18,8 +21,6 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBRadioButton
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
-import com.intellij.awesomeKt.util.githubContentList
-import com.intellij.awesomeKt.util.githubPrefix
 import java.awt.FlowLayout
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
@@ -104,7 +105,7 @@ class AkConfigComponent {
         languagePanel.add(languageLabel)
         languagePanel.add(comboBox)
 
-        comboBox.selectedItem = AkSettings.instance.lang
+        comboBox.selectedItem = service<AkSettings>().lang
         comboBox.renderer = object : SimpleListCellRenderer<LanguageItem>() {
             override fun customize(
                 list: JList<out LanguageItem>,
@@ -273,7 +274,7 @@ class AkConfigComponent {
             )
         }
         if (fromCustomUrlBtn.isSelected) {
-            contentListPanel.items = AkSettings.instance.customContentSourceList
+            contentListPanel.items = service<AkSettings>().customContentSourceList
             contentListPanel.toggleEditable(true)
             contentHintPanel.text = AkIntelliJUtil.message("Config.updateContent.fromCustomUrl.hint")
         }
@@ -281,24 +282,24 @@ class AkConfigComponent {
 
     fun isModified(): Boolean {
         val contentSrcSelection = getContentSrc(radioBtnGroup.selection)
-        return comboBox.selectedItem != AkSettings.instance.lang ||
-                contentSrcSelection != AkSettings.instance.contentSource ||
-                (contentSrcSelection == ContentSource.CUSTOM && contentListPanel.items != AkSettings.instance.customContentSourceList)
+        return comboBox.selectedItem != service<AkSettings>().lang ||
+                contentSrcSelection != service<AkSettings>().contentSource ||
+                (contentSrcSelection == ContentSource.CUSTOM && contentListPanel.items != service<AkSettings>().customContentSourceList)
     }
 
     // Reset will be called at init
     fun reset() {
-        comboBox.selectedItem = AkSettings.instance.lang
-        radioBtnGroup.setSelected(getContentBtn(AkSettings.instance.contentSource).model, true)
+        comboBox.selectedItem = service<AkSettings>().lang
+        radioBtnGroup.setSelected(getContentBtn(service<AkSettings>().contentSource).model, true)
         toggleRadioSelection()
     }
 
     fun apply() {
         val contentSrcSelection = getContentSrc(radioBtnGroup.selection)
-        AkSettings.instance.lang = comboBox.selectedItem as LanguageItem
-        AkSettings.instance.contentSource = getContentSrc(radioBtnGroup.selection)
+        service<AkSettings>().lang = comboBox.selectedItem as LanguageItem
+        service<AkSettings>().contentSource = getContentSrc(radioBtnGroup.selection)
         if (contentSrcSelection == ContentSource.CUSTOM) {
-            AkSettings.instance.customContentSourceList = contentListPanel.items.toMutableList()
+            service<AkSettings>().customContentSourceList = contentListPanel.items.toMutableList()
         }
         // Trigger refresh
         ApplicationManager.getApplication().messageBus.syncPublisher(AWESOME_KOTLIN_REFRESH_TOPIC).onRefresh()
